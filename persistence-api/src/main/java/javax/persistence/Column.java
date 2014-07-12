@@ -114,4 +114,18 @@ public @interface Column {
      * (Applies only if a decimal column is used.)
      */
     int scale() default 0;
+    
+    /**
+	 * The key to be used to store the field inside the document.
+	 * 
+	 * @return
+	 */
+	String value() default "";
+
+	/**
+	 * The order in which various fields shall be stored. Has to be a positive integer.
+	 * 
+	 * @return the order the field shall have in the document or -1 if undefined.
+	 */
+	int order() default Integer.MAX_VALUE;
 }

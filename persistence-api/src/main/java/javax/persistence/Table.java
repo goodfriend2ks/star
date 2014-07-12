@@ -75,4 +75,12 @@ public @interface Table {
 	 * @return The indexes
 	 */
 	Index[] indexes() default {};
+	
+	/**
+	 * Defines the default language to be used with this document.
+	 * 
+	 * @since 1.6
+	 * @return
+	 */
+	String language() default "";
 }

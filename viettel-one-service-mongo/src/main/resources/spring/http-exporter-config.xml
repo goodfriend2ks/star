@@ -1,0 +1,88 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+        
+    <bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter"/>
+    
+	<bean name="/AttributeService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+		<property name="service" ref="attributeService" />
+		<property name="serviceInterface" value="com.viettel.backend.service.AttributeService" />
+	</bean>
+
+    <bean name="/CommonService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+        <property name="service" ref="commonService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.CommonService" />
+    </bean>
+    
+    <bean name="/UserService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+        <property name="service" ref="userService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.UserService" />
+    </bean>
+
+    <bean name="/AppService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+        <property name="service" ref="appService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.AppService" />
+    </bean>
+
+	<bean name="/AppFileService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+        <property name="service" ref="appFileService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.AppFileService" />
+    </bean>
+    
+    <bean name="/RoleService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+        <property name="service" ref="roleService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.RoleService" />
+    </bean>
+    
+    <bean name="/ViewService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+        <property name="service" ref="viewService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.ViewService" />
+    </bean>
+    
+    <bean name="/ReportService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+        <property name="service" ref="reportService" />
+        <property name="serviceInterface"
+            value="com.viettel.backend.service.ReportService" />
+    </bean>
+    
+	<bean name="/ClientService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+        <property name="service" ref="clientService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.ClientService" />
+    </bean>
+    
+     <bean name="/CacheManagerService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+        <property name="service" ref="cacheManagerService" />
+        <property name="serviceInterface"
+            value="com.viettel.backend.service.CacheManagerService" />
+    </bean>
+    
+    <bean name="/ConfigService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+        <property name="service" ref="configService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.ConfigService" />
+    </bean>
+    
+    <bean name="/PartnerService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+		<property name="service" ref="partnerService" />
+		<property name="serviceInterface" value="com.viettel.backend.service.PartnerService" />
+	</bean>
+	
+    <!-- DMS.Lite Services -->
+    <bean name="/ProductService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+		<property name="service" ref="productService" />
+		<property name="serviceInterface" value="com.viettel.backend.service.dms.ProductService" />
+	</bean>
+	
+	<bean name="/EmployeeService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+		<property name="service" ref="employeeService" />
+		<property name="serviceInterface" value="com.viettel.backend.service.dms.EmployeeService" />
+	</bean>
+	
+	<bean name="/RouteService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+		<property name="service" ref="routeService" />
+		<property name="serviceInterface" value="com.viettel.backend.service.dms.RouteService" />
+	</bean>
+</beans>
