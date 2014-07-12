@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:sec="http://www.springframework.org/schema/security" 
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                      http://www.springframework.org/schema/beans/spring-beans.xsd
+					  http://www.springframework.org/schema/security
+					  http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+	
+	<!-- HTTP Filter -->
+	<http pattern="/login.jsp**" security="none" 
+		xmlns="http://www.springframework.org/schema/security" />
+	
+	<http pattern="/register.jsp**" security="none" 
+		xmlns="http://www.springframework.org/schema/security" />
+	
+	<!-- <http pattern="/icons/**" security="none" 
+		xmlns="http://www.springframework.org/schema/security" />
+	
+	<http pattern="/images/**" security="none" 
+		xmlns="http://www.springframework.org/schema/security" />
+	
+	<http pattern="/img/**" security="none" 
+		xmlns="http://www.springframework.org/schema/security" />
+	
+	<http pattern="/js/**" security="none" 
+		xmlns="http://www.springframework.org/schema/security" />
+	
+	<http pattern="/styles/**" security="none" 
+		xmlns="http://www.springframework.org/schema/security" /> -->
+	
+	<http pattern="/oauth/token" create-session="stateless"
+		authentication-manager-ref="clientAuthenticationManager"
+		xmlns="http://www.springframework.org/schema/security" > 
+		<intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" />
+		<anonymous enabled="false" />
+		<http-basic entry-point-ref="clientAuthenticationEntryPoint" />
+		<custom-filter ref="clientCredentialsTokenEndpointFilter" before="BASIC_AUTH_FILTER" /> 
+		<access-denied-handler ref="oauthAccessDeniedHandler" />
+	</http>
+	
+	<http pattern="/logout" create-session="never" 
+		entry-point-ref="oauthAuthenticationEntryPoint"
+	 	xmlns="http://www.springframework.org/schema/security">
+		<anonymous enabled="false" />
+		<intercept-url pattern="/logout" method="GET" />
+		<sec:logout invalidate-session="true" logout-url="/logout" success-handler-ref="logoutSuccessHandler"   />
+		<custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
+		<access-denied-handler ref="oauthAccessDeniedHandler" />
+	</http>
+	
+	<http pattern="/**/api/**" create-session="never"
+		entry-point-ref="oauthAuthenticationEntryPoint"
+		xmlns="http://www.springframework.org/schema/security">
+		<anonymous enabled="false" />
+		<intercept-url pattern="/**/api/**" access="ROLE_LOGGEDIN" />
+		<custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
+		<access-denied-handler ref="oauthAccessDeniedHandler" />
+		<form-login login-page="/login.jsp"/>
+	</http>
+	
+    <!-- <http pattern="/v1.0/users" create-session="stateless" authentication-manager-ref="clientAuthenticationManager"
+          xmlns="http://www.springframework.org/schema/security">
+        <intercept-url pattern="/v1.0/users" method="POST" access="IS_AUTHENTICATED_FULLY"/>
+        <anonymous enabled="false"/>
+        <http-basic entry-point-ref="clientAuthenticationEntryPoint"/>
+        <access-denied-handler ref="oauthAccessDeniedHandler"/>
+    </http>
+
+    REST API Endpoints
+    <http pattern="/v1.0/**" create-session="never" entry-point-ref="oauthAuthenticationEntryPoint"
+          xmlns="http://www.springframework.org/schema/security">
+        <custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER"/>
+        <access-denied-handler ref="oauthAccessDeniedHandler"/>
+    </http> -->
+</beans>

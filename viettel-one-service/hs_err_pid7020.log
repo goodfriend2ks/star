@@ -1,0 +1,549 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x0000000067288746, pid=7020, tid=4744
+#
+# JRE version: Java(TM) SE Runtime Environment (7.0_45-b18) (build 1.7.0_45-b18)
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (24.45-b08 mixed mode windows-amd64 compressed oops)
+# Problematic frame:
+# V  [jvm.dll+0x1e8746]
+#
+# Failed to write core dump. Minidumps are not enabled by default on client versions of Windows
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.sun.com/bugreport/crash.jsp
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x0000000008631000):  VMThread [stack: 0x00000000096c0000,0x00000000097c0000] [id=4744]
+
+siginfo: ExceptionCode=0xc0000005, reading address 0x000000000000000a
+
+Registers:
+RAX=0x0000000000000000, RBX=0x00000000097bf240, RCX=0x00000000097bf240, RDX=0x0000000000000028
+RSP=0x00000000097bef70, RBP=0x0000000000000016, RSI=0x0000000000000000, RDI=0x00000000097bf8c0
+R8 =0x0000000000000000, R9 =0x0000000000000000, R10=0x00000000bbf45e88, R11=0x000000006761b6c8
+R12=0x0000000000000370, R13=0x0000000008631001, R14=0x0000000000000000, R15=0x6666666666666667
+RIP=0x0000000067288746, EFLAGS=0x0000000000010202
+
+Top of Stack: (sp=0x00000000097bef70)
+0x00000000097bef70:   00000000bb6e4a00 00000000ec02e740
+0x00000000097bef80:   00000000bb50d920 00000000ec13c148
+0x00000000097bef90:   00000000bbabc620 00000000ec1392f0
+0x00000000097befa0:   00000000bb9ef1a8 00000000ec02c680
+0x00000000097befb0:   00000000026ef758 00000000026ef758
+0x00000000097befc0:   00000000bb7ef950 00000000ec170820
+0x00000000097befd0:   00000000bbd7ed40 00000000ec134420
+0x00000000097befe0:   00000000bba46270 00000000ec120500
+0x00000000097beff0:   00000000bb80cd08 00000000ec142d78
+0x00000000097bf000:   00000000bbb5f110 00000000ec046b00
+0x00000000097bf010:   00000000bb8874c0 00000000ec1353f8
+0x00000000097bf020:   00000000bbab9af8 00000000ec0c3da8
+0x00000000097bf030:   00000000bb613a30 00000000ec0c0448
+0x00000000097bf040:   00000000bb5de270 00000000ebf9f830
+0x00000000097bf050:   00000000bb471030 00000000eb34ce00
+0x00000000097bf060:   00000000bbef9830 00000000eb136a58 
+
+Instructions: (pc=0x0000000067288746)
+0x0000000067288726:   01 00 00 48 8b 05 b0 41 54 00 48 33 c4 48 89 84
+0x0000000067288736:   24 30 01 00 00 4c 63 41 10 48 8b 41 08 48 8b d9
+0x0000000067288746:   42 38 54 00 0a 74 33 44 0f be c2 48 8d 4c 24 20
+0x0000000067288756:   48 8d 15 93 85 3a 00 e8 8e 54 e3 ff 48 8d 0d 27 
+
+
+Register to memory mapping:
+
+RAX=0x0000000000000000 is an unknown value
+RBX=0x00000000097bf240 is an unknown value
+RCX=0x00000000097bf240 is an unknown value
+RDX=0x0000000000000028 is an unknown value
+RSP=0x00000000097bef70 is an unknown value
+RBP=0x0000000000000016 is an unknown value
+RSI=0x0000000000000000 is an unknown value
+RDI=0x00000000097bf8c0 is an unknown value
+R8 =0x0000000000000000 is an unknown value
+R9 =0x0000000000000000 is an unknown value
+R10=0x00000000bbf45e88 is an oop
+{constant pool} 
+ - klass: {other class}
+ - holder: 0x00000000bbf34cc0
+ - cache: 0x00000000bbf46788
+ -   1 :  : 'com/impetus/kundera/metadata/processor/relation/ManyToManyRelationMetadataProcessor'
+ -   2 :  : 'com/impetus/kundera/metadata/processor/relation/ManyToManyRelationMetadataProcessor'
+ -   3 :  : 'com/impetus/kundera/metadata/processor/AbstractEntityFieldProcessor'
+ -   4 :  : 'com/impetus/kundera/metadata/processor/AbstractEntityFieldProcessor'
+ -   5 :  : 'com/impetus/kundera/metadata/processor/relation/RelationMetadataProcessor'
+ -   6 :  : 'com/impetus/kundera/metadata/processor/relation/RelationMetadataProcessor'
+ -   7 :  : '<init>'
+ -   8 :  : '(Lcom/impetus/kundera/persistence/EntityManagerFactoryImpl$KunderaMetadata;)V'
+ -   9 :  : 'Code'
+ -  10 :  : klass_index=3 name_and_type_index=11
+ -  11 :  : name_index=7 signature_index=8
+ -  12 :  : 'com/impetus/kundera/metadata/validator/EntityValidatorImpl'
+ -  13 :  : 'com/impetus/kundera/metadata/validator/EntityValidatorImpl'
+ -  14 :  : klass_index=12 name_and_type_index=15
+ -  15 :  : name_index=7 signature_index=16
+ -  16 :  : '()V'
+ -  17 :  : klass_index=1 name_and_type_index=18
+ -  18 :  : name_index=19 signature_index=20
+ -  19 :  : 'validator'
+ -  20 :  : 'Lcom/impetus/kundera/metadata/validator/EntityValidator;'
+ -  21 :  : 'LineNumberTable'
+ -  22 :  : 'LocalVariableTable'
+ -  23 :  : 'this'
+ -  24 :  : 'Lcom/impetus/kundera/metadata/processor/relation/ManyToManyRelationMetadataProcessor;'
+ -  25 :  : 'kunderaMetadata'
+ -  26 :  : 'Lcom/impetus/kundera/persistence/EntityManagerFactoryImpl$KunderaMetadata;'
+ -  27 :  : 'addRelationIntoMetadata'
+ -  28 :  : '(Ljava/lang/reflect/Field;Lcom/impetus/kundera/metadata/model/EntityMetadata;)V'
+ -  29 :  : 'javax/persistence/ManyToMany'
+ -  30 :  : 'javax/persistence/ManyToMany'
+ -  31 :  : klass_index=32 name_and_type_index=34
+ -  32 :  : 'java/lang/reflect/Field'
+ -  33 :  : 'java/lang/reflect/Field'
+ -  34 :  : name_index=35 signature_index=36
+ -  35 :  : 'getAnnotation'
+ -  36 :  : '(Ljava/lang/Class;)Ljava/lang/annotation/Annotation;'
+ -  37 :  : 'javax/persistence/JoinTable'
+ -  38 :  : 'javax/persistence/JoinTable'
+ -  39 :  : klass_index=32 name_and_type_index=40
+ -  40 :  : name_index=41 signature_index=42
+ -  41 :  : 'isAnnotationPresent'
+ -  42 :  : '(Ljava/lang/Class;)Z'
+ -  43 :  : klass_index=32 name_and_type_index=44
+ -  44 :  : name_index=45 signature_index=46
+ -  45 :  : 'getType'
+ -  46 :  : '()Ljava/lang/Class;'
+ -  47 :  : 'java/util/Map'
+ -  48 :  : 'java/util/Map'
+ -  49 :  : klass_index=50 name_and_type_index=52
+ -  50 :  : 'java/lang/Class'
+ -  51 :  : 'java/lang/Class'
+ -  52 :  : name_index=53 signature_index=42
+ -  53 :  : 'isAssignableFrom'
+ -  54 :  : klass_index=55 name_and_type_index=57
+ -  55 :  : 'com/impetus/kundera/property/PropertyAccessorHelper'
+ -  56 :  : 'com/impetus/kundera/property/PropertyAccessorHelper'
+ -  57 :  : name_index=58 signature_index=59
+ -  58 :  : 'getGenericClass'
+ -  59 :  : '(Ljava/lang/reflect/Field;)Ljava/lang/Class;'
+ -  60 :  : klass_index=55 name_and_type_index=61
+ -  61 :  : name_index=62 signature_index=63
+ -  62 :  : 'getGenericClasses'
+ -  63 :  : '(Ljava/lang/reflect/Field;)Ljava/util/List;'
+ -  64 :  : klass_index=65 name_and_type_index=67
+ -  65 :  : 'java/util/List'
+ -  66 :  : 'java/util/List'
+ -  67 :  : name_index=68 signature_index=69
+ -  68 :  : 'isEmpty'
+ -  69 :  : '()Z'
+ -  70 :  : klass_index=65 name_and_type_index=71
+ -  71 :  : name_index=72 signature_index=73
+ -  72 :  : 'size'
+ -  73 :  : '()I'
+ -  74 :  : klass_index=65 name_and_type_index=75
+ -  75 :  : name_index=76 signature_index=77
+ -  76 :  : 'get'
+ -  77 :  : '(I)Ljava/lang/Object;'
+ -  78 :  : 'javax/persistence/MapKeyClass'
+ -  79 :  : 'javax/persistence/MapKeyClass'
+ -  80 :  : klass_index=78 name_and_type_index=81
+ -  81 :  : name_index=82 signature_index=46
+ -  82 :  : 'value'
+ -  83 :  : klass_index=50 name_and_type_index=84
+ -  84 :  : name_index=85 signature_index=86
+ -  85 :  : 'getSimpleName'
+ -  86 :  : '()Ljava/lang/String;'
+ -  87 :  : "void" {0xebff00b8}
+ -  88 :  : 'void'
+ -  89 :  : klass_index=90 name_and_type_index=92
+ -  90 :  : 'java/lang/String'
+ -  91 :  : 'java/lang/String'
+ -  92 :  : name_index=93 signature_index=94
+ -  93 :  : 'equals'
+ -  94 :  : '(Ljava/lang/Object;)Z'
+ -  95 :  : klass_index=29 name_and_type_index=96
+ -  96 :  : name_index=97 signature_index=86
+ -  97 :  : 'mappedBy'
+ -  98 :  : klass_index=55 name_and_type_index=99
+ -  99 :  : name_index=100 signature_index=101
+ - 100 :  : 'getDeclaredFields'
+ - 101 :  : '(Ljava/lang/reflect/Field;)[Ljava/lang/reflect/Field;'
+ - 102 :  : klass_index=29 name_and_type_index=103
+ - 103 :  : name_index=104 signature_index=46
+ - 104 :  : 'targetEntity'
+ - 105 :  : 'com/impetus/kundera/metadata/model/Relation'
+ - 106 :  : 'com/impetus/kundera/metadata/model/Relation'
+ - 107 :  : klass_index=29 name_and_type_index=108
+ - 108 :  : name_index=109 signature_index=110
+ - 109 :  : 'fetch'
+ - 110 :  : '()Ljavax/persistence/FetchType;'
+ - 111 :  : klass_index=29 name_and_type_index=112
+ - 112 :  : name_index=113 signature_index=114
+ - 113 :  : 'cascade'
+ - 114 :  : '()[Ljavax/persistence/CascadeType;'
+ - 115 :  : klass_index=116 name_and_type_index=118
+ - 116 :  : 'java/util/Arrays'
+ - 117 :  : 'java/util/Arrays'
+ - 118 :  : name_index=119 signature_index=120
+ - 119 :  : 'asList'
+ - 120 :  : '([Ljava/lang/Object;)Ljava/util/List;'
+ - 121 :  : klass_index=122 name_and_type_index=124
+ - 122 :  : 'java/lang/Boolean'
+ - 123 :  : 'java/lang/Boolean'
+ - 124 :  : name_index=125 signature_index=126
+ - 125 :  : 'TRUE'
+ - 126 :  : 'Ljava/lang/Boolean;'
+ - 127 :  : klass_index=122 name_and_type_index=128
+ - 128 :  : name_index=129 signature_index=69
+ - 129 :  : 'booleanValue'
+ - 130 :  : klass_index=131 name_and_type_index=133
+ - 131 :  : 'com/impetus/kundera/metadata/model/Relation$ForeignKey'
+ - 132 :  : 'com/impetus/kundera/metadata/model/Relation$ForeignKey'
+ - 133 :  : name_index=134 signature_index=135
+ - 134 :  : 'MANY_TO_MANY'
+ - 135 :  : 'Lcom/impetus/kundera/metadata/model/Relation$ForeignKey;'
+ - 136 :  : klass_index=105 name_and_type_index=137
+ - 137 :  : name_index=7 signature_index=138
+ - 138 :  : '(Ljava/lang/reflect/Field;Ljava/lang/Class;Ljava/lang/Class;Ljavax/persistence/FetchType;Ljava/util/List;ZLjava/lang/String;Lcom/impetus/kundera/metadata/model/Relation$ForeignKey;)V'
+ - 139 :  : 'com/impetus/kundera/metadata/model/JoinTableMetadata'
+ - 140 :  : 'com/impetus/kundera/metadata/model/JoinTableMetadata'
+ - 141 :  : klass_index=139 name_and_type_index=142
+ - 142 :  : name_index=7 signature_index=143
+ - 143 :  : '(Ljava/lang/reflect/Field;)V'
+ - 144 :  : klass_index=105 name_and_type_index=145
+ - 145 :  : name_index=146 signature_index=147
+ - 146 :  : 'setRelatedViaJoinTable'
+ - 147 :  : '(Z)V'
+ - 148 :  : klass_index=105 name_and_type_index=149
+ - 149 :  : name_index=150 signature_index=151
+ - 150 :  : 'setJoinTableMetadata'
+ - 151 :  : '(Lcom/impetus/kundera/metadata/model/JoinTableMetadata;)V'
+ - 152 :  : klass_index=105 name_and_type_index=153
+ - 153 :  : name_index=154 signature_index=155
+ - 154 :  : 'setMapKeyJoinClass'
+ - 155 :  : '(Ljava/lang/Class;)V'
+ - 156 :  : 'javax/persistence/MapKeyJoinColumn'
+ - 157 :  : 'javax/persistence/MapKeyJoinColumn'
+ - 158 :  : klass_index=156 name_and_type_index=159
+ - 159 :  : name_index=160 signature_index=86
+ - 160 :  : 'name'
+ - 161 :  : klass_index=105 name_and_type_index=162
+ - 162 :  : name_index=163 signature_index=164
+ - 163 :  : 'setJoinColumnName'
+ - 164 :  : '(Ljava/lang/String;)V'
+ - 165 :  : klass_index=166 name_and_type_index=168
+ - 166 :  : 'com/impetus/kundera/metadata/model/EntityMetadata'
+ - 167 :  : 'com/impetus/kundera/metadata/model/EntityMetadata'
+ - 168 :  : name_index=169 signature_index=46
+ - 169 :  : 'getEntityClazz'
+ - 170 :  : klass_index=105 name_and_type_index=171
+ - 171 :  : name_index=172 signature_index=155
+ - 172 :  : 'setBiDirectionalField'
+ - 173 :  : klass_index=32 name_and_type_index=174
+ - 174 :  : name_index=175 signature_index=86
+ - 175 :  : 'getName'
+ - 176 :  : klass_index=166 name_and_type_index=177
+ - 177 :  : name_index=178 signature_index=179
+ - 178 :  : 'addRelation'
+ - 179 :  : '(Ljava/lang/String;Lcom/impetus/kundera/metadata/model/Relation;)V'
+ - 180 :  : klass_index=166 name_and_type_index=181
+ - 181 :  : name_index=182 signature_index=69
+ - 182 :  : 'isRelationViaJoinTable'
+ - 183 :  : klass_index=105 name_and_type_index=184
+ - 184 :  : name_index=185 signature_index=69
+ - 185 :  : 'isRelatedViaJoinTable'
+ - 186 :  : klass_index=166 name_and_type_index=187
+ - 187 :  : name_index=188 signature_index=147
+ - 188 :  : 'setRelationViaJoinTable'
+ - 189 :  : 'relationField'
+ - 190 :  : 'Ljava/lang/reflect/Field;'
+ - 191 :  : 'metadata'
+ - 192 :  : 'Lcom/impetus/kundera/metadata/model/EntityMetadata;'
+ - 193 :  : 'm2mAnnotation'
+ - 194 :  : 'Ljavax/persistence/ManyToMany;'
+ - 195 :  : 'isJoinedByTable'
+ - 196 :  : 'Z'
+ - 197 :  : 'isJoinedByMap'
+ - 198 :  : 'Ljava/lang/Class;'
+ - 199 :  : 'mapKeyClass'
+ - 200 :  : 'genericClasses'
+ - 201 :  : 'Ljava/util/List;'
+ - 202 :  : 'mapKeyClassAnn'
+ - 203 :  : 'Ljavax/persistence/MapKeyClass;'
+ - 204 :  : 'mapped'
+ - 205 :  : 'Ljava/lang/String;'
+ - 206 :  : 'relation'
+ - 207 :  : 'Lcom/impetus/kundera/metadata/model/Relation;'
+ - 208 :  : 'jtMetadata'
+ - 209 :  : 'Lcom/impetus/kundera/metadata/model/JoinTableMetadata;'
+ - 210 :  : 'mapKeyJoinColumnAnn'
+ - 211 :  : 'Ljavax/persistence/MapKeyJoinColumn;'
+ - 212 :  : 'mapKeyJoinColumnName'
+ - 213 :  : 'LocalVariableTypeTable'
+ - 214 :  : 'Ljava/lang/Class<*>;'
+ - 215 :  : 'Ljava/util/List<Ljava/lang/Class<*>;>;'
+ - 216 :  : 'StackMapTable'
+ - 217 :  : 'process'
+ - 218 :  : '(Ljava/lang/Class;Lcom/impetus/kundera/metadata/model/EntityMetadata;)V'
+ - 219 :  : 'Signature'
+ - 220 :  : '(Ljava/lang/Class<*>;Lcom/impetus/kundera/metadata/model/EntityMetadata;)V'
+ - 221 :  : 'com/impetus/kundera/loader/MetamodelLoaderException'
+ - 222 :  : 'com/impetus/kundera/loader/MetamodelLoaderException'
+ - 223 :  : "Method call not applicable for Relation processors" {0xeb835570}
+ - 224 :  : 'Method call not applicable for Relation processors'
+ - 225 :  : klass_index=221 name_and_type_index=226
+ - 226 :  : name_index=7 signature_index=164
+ - 227 :  : 'clazz'
+ - 228 :  : 'SourceFile'
+ - 229 :  : 'ManyToManyRelationMetadataProcessor.java'
+ - 230 :  : 'InnerClasses'
+ - 231 :  : 'ForeignKey'
+ - 232 :  : 'com/impetus/kundera/persistence/EntityManagerFactoryImpl$KunderaMetadata'
+ - 233 :  : 'com/impetus/kundera/persistence/EntityManagerFactoryImpl$KunderaMetadata'
+ - 234 :  : 'com/impetus/kundera/persistence/EntityManagerFactoryImpl'
+ - 235 :  : 'com/impetus/kundera/persistence/EntityManagerFactoryImpl'
+ - 236 :  : 'KunderaMetadata'
+ - 237 :  : 'mappedFields'
+ - 238 :  : '[Ljava/lang/reflect/Field;'
+ - 239 :  : 'getField'
+ - 240 :  : '(Ljava/lang/String;)Ljava/lang/reflect/Field;'
+ - 241 :  : name_index=239 signature_index=240
+ - 242 :  : klass_index=50 name_and_type_index=241
+ - 243 :  : 'java/lang/NoSuchFieldException'
+ - 244 :  : 'java/lang/NoSuchFieldException'
+ - 245 :  : 'java/lang/SecurityException'
+ - 246 :  : 'java/lang/SecurityException'
+
+R11=0x000000006761b6c8 is an unknown value
+R12=0x0000000000000370 is an unknown value
+R13=0x0000000008631001 is an unknown value
+R14=0x0000000000000000 is an unknown value
+R15=0x6666666666666667 is an unknown value
+
+
+Stack: [0x00000000096c0000,0x00000000097c0000],  sp=0x00000000097bef70,  free space=1019k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x1e8746]
+
+VM_Operation (0x0000000009f9f530): GetOrSetLocal, mode: safepoint, requested by thread 0x0000000008665800
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x000000000869d800 JavaThread "Service Thread" daemon [_thread_blocked, id=5824, stack(0x000000000a3a0000,0x000000000a4a0000)]
+  0x0000000008691000 JavaThread "C2 CompilerThread1" daemon [_thread_blocked, id=5552, stack(0x000000000a2a0000,0x000000000a3a0000)]
+  0x000000000868a800 JavaThread "C2 CompilerThread0" daemon [_thread_blocked, id=688, stack(0x000000000a1a0000,0x000000000a2a0000)]
+  0x0000000008675000 JavaThread "JDWP Command Reader" daemon [_thread_in_native, id=4856, stack(0x000000000a0a0000,0x000000000a1a0000)]
+  0x0000000008672000 JavaThread "JDWP Event Helper Thread" daemon [_thread_blocked, id=5732, stack(0x0000000009fa0000,0x000000000a0a0000)]
+  0x0000000008665800 JavaThread "JDWP Transport Listener: dt_socket" daemon [_thread_blocked, id=1040, stack(0x0000000009ea0000,0x0000000009fa0000)]
+  0x000000000865b800 JavaThread "Attach Listener" daemon [_thread_blocked, id=396, stack(0x0000000009ac0000,0x0000000009bc0000)]
+  0x0000000008658000 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=704, stack(0x00000000099c0000,0x0000000009ac0000)]
+  0x00000000027de800 JavaThread "Finalizer" daemon [_thread_blocked, id=2148, stack(0x00000000098c0000,0x00000000099c0000)]
+  0x0000000008633800 JavaThread "Reference Handler" daemon [_thread_blocked, id=960, stack(0x00000000097c0000,0x00000000098c0000)]
+  0x00000000026f8000 JavaThread "main" [_thread_blocked, id=4432, stack(0x00000000025f0000,0x00000000026f0000)]
+
+Other Threads:
+=>0x0000000008631000 VMThread [stack: 0x00000000096c0000,0x00000000097c0000] [id=4744]
+  0x000000000a4c8800 WatcherThread [stack: 0x000000000a8a0000,0x000000000a9a0000] [id=4556]
+
+VM state:at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x00000000026f5560] Threads_lock - owner thread: 0x0000000008631000
+
+Heap
+ PSYoungGen      total 19456K, used 14346K [0x00000000eac80000, 0x00000000ec200000, 0x0000000100000000)
+  eden space 16896K, 70% used [0x00000000eac80000,0x00000000eb835600,0x00000000ebd00000)
+  from space 2560K, 92% used [0x00000000ebf80000,0x00000000ec1cd528,0x00000000ec200000)
+  to   space 2560K, 0% used [0x00000000ebd00000,0x00000000ebd00000,0x00000000ebf80000)
+ ParOldGen       total 43008K, used 225K [0x00000000c0600000, 0x00000000c3000000, 0x00000000eac80000)
+  object space 43008K, 0% used [0x00000000c0600000,0x00000000c0638698,0x00000000c3000000)
+ PSPermGen       total 21504K, used 11547K [0x00000000bb400000, 0x00000000bc900000, 0x00000000c0600000)
+  object space 21504K, 53% used [0x00000000bb400000,0x00000000bbf46ca8,0x00000000bc900000)
+
+Card table byte_map: [0x00000000058b0000,0x0000000005ae0000] byte_map_base: 0x00000000052d6000
+
+Polling page: 0x0000000002540000
+
+Code Cache  [0x00000000027f0000, 0x0000000002a60000, 0x00000000057f0000)
+ total_blobs=417 nmethods=129 adapters=248 free_code_cache=48311Kb largest_free_block=49449920
+
+Compilation events (10 events):
+Event: 10.011 Thread 0x000000000868a800 nmethod 124 0x00000000028bb290 code [0x00000000028bb3c0, 0x00000000028bb458]
+Event: 10.011 Thread 0x000000000868a800  126             java.lang.CharacterDataLatin1::isWhitespace (23 bytes)
+Event: 10.011 Thread 0x0000000008691000 nmethod 125 0x00000000028be050 code [0x00000000028be1a0, 0x00000000028be2b8]
+Event: 10.011 Thread 0x0000000008691000  127             sun.reflect.generics.parser.SignatureParser::parseIdentifier (115 bytes)
+Event: 10.012 Thread 0x000000000868a800 nmethod 126 0x00000000028bddd0 code [0x00000000028bdf00, 0x00000000028bdf98]
+Event: 10.036 Thread 0x000000000868a800  128             sun.reflect.ClassFileAssembler::emitByte (11 bytes)
+Event: 10.039 Thread 0x000000000868a800 nmethod 128 0x00000000028bd890 code [0x00000000028bd9e0, 0x00000000028bdbe8]
+Event: 10.039 Thread 0x000000000868a800  129             sun.reflect.ByteVectorImpl::add (38 bytes)
+Event: 10.040 Thread 0x000000000868a800 nmethod 129 0x00000000028bd4d0 code [0x00000000028bd620, 0x00000000028bd748]
+Event: 10.042 Thread 0x0000000008691000 nmethod 127 0x00000000028c1d90 code [0x00000000028c1f40, 0x00000000028c2a28]
+
+GC Heap History (4 events):
+Event: 0.768 GC heap before
+{Heap before GC invocations=1 (full 0):
+ PSYoungGen      total 19456K, used 16896K [0x00000000eac80000, 0x00000000ec200000, 0x0000000100000000)
+  eden space 16896K, 100% used [0x00000000eac80000,0x00000000ebd00000,0x00000000ebd00000)
+  from space 2560K, 0% used [0x00000000ebf80000,0x00000000ebf80000,0x00000000ec200000)
+  to   space 2560K, 0% used [0x00000000ebd00000,0x00000000ebd00000,0x00000000ebf80000)
+ ParOldGen       total 43008K, used 0K [0x00000000c0600000, 0x00000000c3000000, 0x00000000eac80000)
+  object space 43008K, 0% used [0x00000000c0600000,0x00000000c0600000,0x00000000c3000000)
+ PSPermGen       total 21504K, used 6851K [0x00000000bb400000, 0x00000000bc900000, 0x00000000c0600000)
+  object space 21504K, 31% used [0x00000000bb400000,0x00000000bbab0db8,0x00000000bc900000)
+Event: 0.772 GC heap after
+Heap after GC invocations=1 (full 0):
+ PSYoungGen      total 19456K, used 2529K [0x00000000eac80000, 0x00000000ec200000, 0x0000000100000000)
+  eden space 16896K, 0% used [0x00000000eac80000,0x00000000eac80000,0x00000000ebd00000)
+  from space 2560K, 98% used [0x00000000ebd00000,0x00000000ebf78550,0x00000000ebf80000)
+  to   space 2560K, 0% used [0x00000000ebf80000,0x00000000ebf80000,0x00000000ec200000)
+ ParOldGen       total 43008K, used 153K [0x00000000c0600000, 0x00000000c3000000, 0x00000000eac80000)
+  object space 43008K, 0% used [0x00000000c0600000,0x00000000c0626688,0x00000000c3000000)
+ PSPermGen       total 21504K, used 6851K [0x00000000bb400000, 0x00000000bc900000, 0x00000000c0600000)
+  object space 21504K, 31% used [0x00000000bb400000,0x00000000bbab0db8,0x00000000bc900000)
+}
+Event: 1.171 GC heap before
+{Heap before GC invocations=2 (full 0):
+ PSYoungGen      total 19456K, used 19425K [0x00000000eac80000, 0x00000000ec200000, 0x0000000100000000)
+  eden space 16896K, 100% used [0x00000000eac80000,0x00000000ebd00000,0x00000000ebd00000)
+  from space 2560K, 98% used [0x00000000ebd00000,0x00000000ebf78550,0x00000000ebf80000)
+  to   space 2560K, 0% used [0x00000000ebf80000,0x00000000ebf80000,0x00000000ec200000)
+ ParOldGen       total 43008K, used 153K [0x00000000c0600000, 0x00000000c3000000, 0x00000000eac80000)
+  object space 43008K, 0% used [0x00000000c0600000,0x00000000c0626688,0x00000000c3000000)
+ PSPermGen       total 21504K, used 10334K [0x00000000bb400000, 0x00000000bc900000, 0x00000000c0600000)
+  object space 21504K, 48% used [0x00000000bb400000,0x00000000bbe17b20,0x00000000bc900000)
+Event: 1.175 GC heap after
+Heap after GC invocations=2 (full 0):
+ PSYoungGen      total 19456K, used 2357K [0x00000000eac80000, 0x00000000ec200000, 0x0000000100000000)
+  eden space 16896K, 0% used [0x00000000eac80000,0x00000000eac80000,0x00000000ebd00000)
+  from space 2560K, 92% used [0x00000000ebf80000,0x00000000ec1cd528,0x00000000ec200000)
+  to   space 2560K, 0% used [0x00000000ebd00000,0x00000000ebd00000,0x00000000ebf80000)
+ ParOldGen       total 43008K, used 225K [0x00000000c0600000, 0x00000000c3000000, 0x00000000eac80000)
+  object space 43008K, 0% used [0x00000000c0600000,0x00000000c0638698,0x00000000c3000000)
+ PSPermGen       total 21504K, used 10334K [0x00000000bb400000, 0x00000000bc900000, 0x00000000c0600000)
+  object space 21504K, 48% used [0x00000000bb400000,0x00000000bbe17b20,0x00000000bc900000)
+}
+
+Deoptimization events (10 events):
+Event: 1.359 Thread 0x00000000026f8000 Uncommon trap: reason=range_check action=none pc=0x00000000028bb0cc method=sun.reflect.generics.parser.SignatureParser.current()C @ 34
+Event: 1.359 Thread 0x00000000026f8000 Uncommon trap: reason=range_check action=none pc=0x00000000028bb0cc method=sun.reflect.generics.parser.SignatureParser.current()C @ 34
+Event: 1.396 Thread 0x00000000026f8000 Uncommon trap: reason=range_check action=none pc=0x00000000028bb0cc method=sun.reflect.generics.parser.SignatureParser.current()C @ 34
+Event: 1.396 Thread 0x00000000026f8000 Uncommon trap: reason=range_check action=none pc=0x00000000028bb0cc method=sun.reflect.generics.parser.SignatureParser.current()C @ 34
+Event: 1.396 Thread 0x00000000026f8000 Uncommon trap: reason=range_check action=none pc=0x00000000028bb0cc method=sun.reflect.generics.parser.SignatureParser.current()C @ 34
+Event: 10.043 Thread 0x00000000026f8000 Uncommon trap: reason=range_check action=none pc=0x00000000028bb0cc method=sun.reflect.generics.parser.SignatureParser.current()C @ 34
+Event: 10.043 Thread 0x00000000026f8000 Uncommon trap: reason=range_check action=none pc=0x00000000028bb0cc method=sun.reflect.generics.parser.SignatureParser.current()C @ 34
+Event: 10.043 Thread 0x00000000026f8000 Uncommon trap: reason=range_check action=none pc=0x00000000028bb0cc method=sun.reflect.generics.parser.SignatureParser.current()C @ 34
+Event: 10.043 Thread 0x00000000026f8000 Uncommon trap: reason=range_check action=none pc=0x00000000028bb0cc method=sun.reflect.generics.parser.SignatureParser.current()C @ 34
+Event: 10.043 Thread 0x00000000026f8000 Uncommon trap: reason=range_check action=none pc=0x00000000028bb0cc method=sun.reflect.generics.parser.SignatureParser.current()C @ 34
+
+Internal exceptions (10 events):
+Event: 10.042 Thread 0x00000000026f8000 Threw 0x00000000eb786160 at C:\re\jdk7u45\229\hotspot\src\share\vm\prims\jvm.cpp:1244
+Event: 10.042 Thread 0x00000000026f8000 Threw 0x00000000eb7866f0 at C:\re\jdk7u45\229\hotspot\src\share\vm\prims\jvm.cpp:1244
+Event: 10.042 Thread 0x00000000026f8000 Threw 0x00000000eb7a0160 at C:\re\jdk7u45\229\hotspot\src\share\vm\prims\jvm.cpp:1244
+Event: 10.042 Thread 0x00000000026f8000 Threw 0x00000000eb7a0308 at C:\re\jdk7u45\229\hotspot\src\share\vm\classfile\systemDictionary.cpp:185
+Event: 10.043 Thread 0x00000000026f8000 Threw 0x00000000eb7a3928 at C:\re\jdk7u45\229\hotspot\src\share\vm\interpreter\interpreterRuntime.cpp:347
+Event: 10.043 Thread 0x00000000026f8000 Threw 0x00000000eb7a5880 at C:\re\jdk7u45\229\hotspot\src\share\vm\interpreter\interpreterRuntime.cpp:347
+Event: 10.043 Thread 0x00000000026f8000 Threw 0x00000000eb7a6700 at C:\re\jdk7u45\229\hotspot\src\share\vm\interpreter\interpreterRuntime.cpp:347
+Event: 10.043 Thread 0x00000000026f8000 Threw 0x00000000eb7a79a8 at C:\re\jdk7u45\229\hotspot\src\share\vm\interpreter\interpreterRuntime.cpp:347
+Event: 10.043 Thread 0x00000000026f8000 Threw 0x00000000eb7a8698 at C:\re\jdk7u45\229\hotspot\src\share\vm\interpreter\interpreterRuntime.cpp:347
+Event: 10.043 Thread 0x00000000026f8000 Threw 0x00000000eb7a9070 at C:\re\jdk7u45\229\hotspot\src\share\vm\prims\jvm.cpp:1244
+
+Events (10 events):
+Event: 160.138 Executing VM operation: ChangeBreakpoints done
+Event: 160.160 Executing VM operation: EnterInterpOnlyMode
+Event: 160.160 Executing VM operation: EnterInterpOnlyMode done
+Event: 160.160 Executing VM operation: GetCurrentLocation
+Event: 160.160 Executing VM operation: GetCurrentLocation done
+Event: 160.160 Executing VM operation: ChangeSingleStep
+Event: 160.160 Executing VM operation: ChangeSingleStep done
+Event: 160.160 Executing VM operation: ChangeSingleStep
+Event: 160.160 Executing VM operation: ChangeSingleStep done
+Event: 160.176 Executing VM operation: GetOrSetLocal
+
+
+Dynamic libraries:
+0x00007ff6f4b00000 - 0x00007ff6f4b33000 	C:\Program Files\Java\jre7\bin\javaw.exe
+0x00007ff829c70000 - 0x00007ff829e19000 	C:\Windows\SYSTEM32\ntdll.dll
+0x00007ff827ea0000 - 0x00007ff827fd9000 	C:\Windows\system32\KERNEL32.DLL
+0x00007ff8272f0000 - 0x00007ff8273ff000 	C:\Windows\system32\KERNELBASE.dll
+0x00007ff823bd0000 - 0x00007ff823c5b000 	C:\Windows\system32\apphelp.dll
+0x00007ff8229c0000 - 0x00007ff822a0f000 	C:\Windows\AppPatch\AppPatch64\AcGenral.DLL
+0x00007ff827c00000 - 0x00007ff827ca7000 	C:\Windows\system32\msvcrt.dll
+0x00007ff826e30000 - 0x00007ff826e5b000 	C:\Windows\SYSTEM32\SspiCli.dll
+0x00007ff827960000 - 0x00007ff8279b1000 	C:\Windows\system32\SHLWAPI.dll
+0x00007ff828140000 - 0x00007ff8282b1000 	C:\Windows\system32\USER32.dll
+0x00007ff8277e0000 - 0x00007ff827956000 	C:\Windows\system32\ole32.dll
+0x00007ff8282c0000 - 0x00007ff8296cf000 	C:\Windows\system32\SHELL32.dll
+0x00007ff826600000 - 0x00007ff82661f000 	C:\Windows\SYSTEM32\USERENV.dll
+0x00007ff827500000 - 0x00007ff8275a5000 	C:\Windows\system32\ADVAPI32.dll
+0x00007ff81bc30000 - 0x00007ff81bc4b000 	C:\Windows\SYSTEM32\MPR.dll
+0x00007ff8279c0000 - 0x00007ff827af6000 	C:\Windows\system32\RPCRT4.dll
+0x00007ff827ba0000 - 0x00007ff827bf7000 	C:\Windows\SYSTEM32\sechost.dll
+0x00007ff829a90000 - 0x00007ff829c67000 	C:\Windows\SYSTEM32\combase.dll
+0x00007ff8275b0000 - 0x00007ff8276f5000 	C:\Windows\system32\GDI32.dll
+0x00007ff826ff0000 - 0x00007ff827004000 	C:\Windows\SYSTEM32\profapi.dll
+0x00007ff825be0000 - 0x00007ff825c81000 	C:\Windows\SYSTEM32\SHCORE.dll
+0x00007ff827b00000 - 0x00007ff827b34000 	C:\Windows\system32\IMM32.DLL
+0x00007ff8296e0000 - 0x00007ff829818000 	C:\Windows\system32\MSCTF.dll
+0x00007ff825510000 - 0x00007ff82576a000 	C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.9600.16384_none_62475f7becb72503\COMCTL32.dll
+0x0000000067870000 - 0x0000000067942000 	C:\Program Files\Java\jre7\bin\msvcr100.dll
+0x00000000670a0000 - 0x0000000067869000 	C:\Program Files\Java\jre7\bin\server\jvm.dll
+0x00007ff8252e0000 - 0x00007ff8252e9000 	C:\Windows\SYSTEM32\WSOCK32.dll
+0x00007ff8251a0000 - 0x00007ff8251bf000 	C:\Windows\SYSTEM32\WINMM.dll
+0x00007ff8296d0000 - 0x00007ff8296d7000 	C:\Windows\system32\PSAPI.DLL
+0x00007ff827780000 - 0x00007ff8277d8000 	C:\Windows\system32\WS2_32.dll
+0x00007ff825170000 - 0x00007ff82519a000 	C:\Windows\SYSTEM32\WINMMBASE.dll
+0x00007ff8299c0000 - 0x00007ff8299c9000 	C:\Windows\system32\NSI.dll
+0x00007ff8272a0000 - 0x00007ff8272ea000 	C:\Windows\SYSTEM32\cfgmgr32.dll
+0x00007ff825e70000 - 0x00007ff825e96000 	C:\Windows\SYSTEM32\DEVOBJ.dll
+0x0000000067c10000 - 0x0000000067c1f000 	C:\Program Files\Java\jre7\bin\verify.dll
+0x0000000067be0000 - 0x0000000067c08000 	C:\Program Files\Java\jre7\bin\java.dll
+0x00000000665d0000 - 0x0000000066605000 	C:\Program Files\Java\jre7\bin\jdwp.dll
+0x00000000665c0000 - 0x00000000665c8000 	C:\Program Files\Java\jre7\bin\npt.dll
+0x0000000067bc0000 - 0x0000000067bd5000 	C:\Program Files\Java\jre7\bin\zip.dll
+0x00000000665b0000 - 0x00000000665b9000 	C:\Program Files\Java\jre7\bin\dt_socket.dll
+0x00007ff81f740000 - 0x00007ff81f754000 	C:\Windows\system32\napinsp.dll
+0x00007ff81f760000 - 0x00007ff81f779000 	C:\Windows\system32\pnrpnsp.dll
+0x00007ff821e60000 - 0x00007ff821e79000 	C:\Windows\system32\NLAapi.dll
+0x00007ff826850000 - 0x00007ff8268a8000 	C:\Windows\System32\mswsock.dll
+0x00007ff826660000 - 0x00007ff826703000 	C:\Windows\SYSTEM32\DNSAPI.dll
+0x00007ff81f780000 - 0x00007ff81f78c000 	C:\Windows\System32\winrnr.dll
+0x00007ff821030000 - 0x00007ff821097000 	C:\Windows\System32\fwpuclnt.dll
+0x00007ff820170000 - 0x00007ff820179000 	C:\Windows\System32\rasadhlp.dll
+0x0000000067ba0000 - 0x0000000067bb9000 	C:\Program Files\Java\jre7\bin\net.dll
+0x00007ff8211e0000 - 0x00007ff821209000 	C:\Windows\SYSTEM32\IPHLPAPI.DLL
+0x00007ff8211c0000 - 0x00007ff8211ca000 	C:\Windows\SYSTEM32\WINNSI.DLL
+0x00000000665a0000 - 0x00000000665ab000 	C:\Program Files\Java\jre7\bin\management.dll
+0x0000000067b80000 - 0x0000000067b91000 	C:\Program Files\Java\jre7\bin\nio.dll
+0x00007ff81f490000 - 0x00007ff81f618000 	C:\Windows\SYSTEM32\dbghelp.dll
+
+VM Arguments:
+jvm_args: -agentlib:jdwp=transport=dt_socket,suspend=y,address=localhost:60753 -Dfile.encoding=UTF-8 
+java_command: com.viettel.backend.init.InitDB
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=C:\Java\jdk1.7.0_45
+PATH=C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\TortoiseSVN\bin;C:\Program Files (x86)\Common Files\Acronis\SnapAPI\;C:\Java\jdk1.7.0_45\bin;F:\Developer\apache-maven-3.1.1\bin;F:\Developer\apache-ant-1.8.2\bin;F:\Developer\axis2-1.6.2\bin;C:\Program Files (x86)\Git\cmd
+USERNAME=phatpq
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 42 Stepping 7, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 8 , 64 bit Build 9200 
+
+CPU:total 4 (2 cores per cpu, 2 threads per core) family 6 model 42 stepping 7, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, ht, tsc, tscinvbit
+
+Memory: 4k page, physical 4166712k(1000412k free), swap 7967800k(2599344k free)
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (24.45-b08) for windows-amd64 JRE (1.7.0_45-b18), built on Oct  8 2013 05:47:22 by "java_re" with unknown MS VC++:1600
+
+time: Tue Apr 22 11:21:44 2014
+elapsed time: 160 seconds
+

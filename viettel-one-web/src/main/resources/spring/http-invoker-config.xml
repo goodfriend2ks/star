@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       		http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context.xsd
+			http://www.springframework.org/schema/tx
+			http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<bean id="commonService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${remoting.http_invoker.host}/CommonService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.CommonService" />
+    </bean>
+    
+    <bean id="userService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${remoting.http_invoker.host}/UserService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.UserService" />
+    </bean>
+    
+	 <bean id="attributeService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${remoting.http_invoker.host}/AttributeService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.AttributeService" />
+    </bean>
+	
+    <bean id="appService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${remoting.http_invoker.host}/AppService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.AppService" />
+    </bean>
+	
+	<bean id="appFileService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${remoting.http_invoker.host}/AppFileService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.AppFileService" />
+    </bean>
+    
+    <bean id="roleService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${remoting.http_invoker.host}/RoleService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.RoleService" />
+    </bean>
+	
+    <bean id="viewService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${remoting.http_invoker.host}/ViewService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.ViewService" />
+    </bean>
+        
+    <bean id="reportService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${remoting.http_invoker.host}/ReportService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.ReportService" />
+    </bean>
+	
+	<bean id="clientService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${remoting.http_invoker.host}/ClientService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.ClientService" />
+    </bean>
+    
+    <bean id="cacheManagerService"  class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${remoting.http_invoker.host}/CacheManagerService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.CacheManagerService" />
+    </bean>
+    
+    <bean id="configService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${remoting.http_invoker.host}/ConfigService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.ConfigService" />
+    </bean>
+    
+    <!-- DMS.Lite Services -->
+    <bean id="productService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${remoting.http_invoker.host}/ProductService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.dms.ProductService" />
+    </bean>
+</beans>

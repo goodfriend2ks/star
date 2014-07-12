@@ -1,0 +1,95 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+	http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0">
+	<persistence-unit name="ViettelOne">
+		<provider>com.impetus.kundera.KunderaPersistence</provider>
+
+		<!-- <jta-data-source>jdbc/MyOrderDB</jta-data-source> -->
+		<!-- <jar-file>target/dependency/base-model.jar</jar-file> -->
+
+		<!-- Hang san xuat -->
+		<class>com.viettel.backend.domain.common.MManufacturer</class>
+		<class>com.viettel.backend.domain.common.MCountry</class>
+		<class>com.viettel.backend.domain.common.MAttribute</class>
+		
+		<!-- DMS.LITE -->
+		<class>com.viettel.backend.domain.dms.MProductGroup</class>
+		<class>com.viettel.backend.domain.dms.MProduct</class>
+		<class>com.viettel.backend.domain.dms.MProductCategory</class>
+		<class>com.viettel.backend.domain.dms.MProductFile</class>
+		<class>com.viettel.backend.domain.dms.MProductPrice</class>
+		<class>com.viettel.backend.domain.dms.MProductType</class>
+
+		<class>com.viettel.backend.domain.MClient</class>
+		<class>com.viettel.backend.domain.MOrg</class>
+
+		<class>com.viettel.backend.domain.MApp</class>
+		<class>com.viettel.backend.domain.MPopup</class>
+		<class>com.viettel.backend.domain.MRole</class>
+		<class>com.viettel.backend.domain.MUser</class>
+		<class>com.viettel.backend.domain.MView</class>
+		<class>com.viettel.backend.domain.MWebService</class>
+
+		<class>com.viettel.backend.domain.MUserRole</class>
+		<class>com.viettel.backend.domain.MViewPopup</class>
+		<class>com.viettel.backend.domain.MViewRole</class>
+
+		<class>com.viettel.backend.domain.MCondition</class>
+		<class>com.viettel.backend.domain.MConfig</class>
+		<class>com.viettel.backend.domain.MGateway</class>
+		<class>com.viettel.backend.domain.MMailTemplate</class>
+
+		<class>com.viettel.backend.domain.MReport</class>
+		<class>com.viettel.backend.domain.MReportPara</class>
+
+		<class>com.viettel.backend.domain.MTask</class>
+		<class>com.viettel.backend.domain.MWorkflow</class>
+		<class>com.viettel.backend.domain.common.MUnit</class>
+
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
+
+		<properties>
+			<property name="jboss.as.jpa.managed" value="false" />
+			<property name="kundera.nodes" value="10.60.15.174" />
+			<!-- <property name="kundera.nodes" value="localhost" /> -->
+			<property name="kundera.port" value="9160" />
+			<property name="kundera.keyspace" value="ViettelOne" />
+			<property name="kundera.dialect" value="cassandra" />
+			<property name="kundera.ddl.auto.prepare" value="update" />
+
+			<!-- <property name="kundera.client" value="com.impetus.kundera.client.PelopsClient" 
+				/> <property name="kundera.client.lookup.class" value="com.impetus.client.cassandra.pelops.PelopsClientFactory" 
+				/> -->
+			<property name="kundera.client" value="thrift" />
+			<property name="kundera.client.lookup.class"
+				value="com.impetus.client.cassandra.thrift.ThriftClientFactory" />
+			<!-- <property name="kundera.client.lookup.class" value="com.impetus.kundera.client.cassandra.dsdriver.DSClientFactory" 
+				/> -->
+
+			<property name="kundera.cache.provider.class"
+				value="com.impetus.kundera.cache.ehcache.EhCacheProvider" />
+			<property name="kundera.cache.config.resource" value="/ehcache-test.xml" />
+
+			<property name="kundera.client.property" value="kundera.xml" />
+
+			<!-- <property name="kundera.nodes" value="localhost" /> <property name="kundera.port" 
+				value="9160" /> <property name="kundera.keyspace" value="ViettelOne" /> <property 
+				name="kundera.dialect" value="cassandra" /> <property name="kundera.client.lookup.class" 
+				value="com.impetus.client.cassandra.pelops.PelopsClientFactory" /> -->
+
+			<!-- <property name="kundera.cache.provider.class" value="com.impetus.kundera.cache.ehcache.EhCacheProvider" 
+				/> <property name="kundera.cache.config.resource" value="/ehcache-test.xml" 
+				/> -->
+
+			<!-- <property name="index_home_dir" value="$LUCENE_DIR_PATH"/> -->
+
+			<!-- configure insert/update batch size -->
+			<!-- <property name="kundera.batch.size" value="5000" /> -->
+			<!-- <property name="socket.timeout" value="120000" /> -->
+
+			<!-- <property name="sessionless" value="false" /> -->
+		</properties>
+	</persistence-unit>
+</persistence>

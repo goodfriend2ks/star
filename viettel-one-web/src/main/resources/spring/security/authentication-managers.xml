@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                      http://www.springframework.org/schema/beans/spring-beans.xsd
+					  http://www.springframework.org/schema/security
+					  http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+	
+	<!-- User Authentication Manager -->
+	<bean id="userAuthenticationSaltSource" 
+		class="com.viettel.api.security.UserSaltSourceProvider" scope="singleton" />
+	
+	<bean id="userAuthenticationEncoder" 
+		class="org.springframework.security.authentication.encoding.Md5PasswordEncoder"/>
+	
+	<bean id="userAuthenticationService"
+		class="com.viettel.api.security.UserAuthenticationService">
+	</bean>
+	
+	<sec:authentication-manager id="userAuthenticationManager">
+		<sec:authentication-provider user-service-ref="userAuthenticationService">
+			<sec:password-encoder ref="userAuthenticationEncoder">
+				<sec:salt-source ref="userAuthenticationSaltSource" />
+			</sec:password-encoder>
+		</sec:authentication-provider>
+	</sec:authentication-manager>
+	
+	<!-- Client Authentication Manager -->
+	<sec:authentication-manager alias="clientAuthenticationManager">
+		<sec:authentication-provider user-service-ref="clientDetailsUserService" />
+	</sec:authentication-manager>
+	
+	<bean id="clientDetailsUserService"
+		class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
+		<constructor-arg ref="clientDetailsService" />
+	</bean>
+	
+	<!-- Thay bang file client-detail.xml -->
+	<!-- <bean id="clientDetailsService" class="com.viettel.api.security.ClientDetailsServiceImpl"/> -->
+</beans>

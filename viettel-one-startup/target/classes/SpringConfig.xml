@@ -1,0 +1,78 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context-3.0.xsd
+          http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<context:component-scan base-package="org.javabahia.cassandra.spring" />
+	
+	<bean id="clusterInformation" class="org.easycassandra.persistence.cassandra.ClusterInformation">
+		<property name="keySpace" value="ViettelOne" />
+		<property name="hosts">
+			<list>
+				<value>localhost</value>
+				<!-- <value>10.60.15.174</value> -->
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="cassandraFactory" class="org.easycassandra.persistence.cassandra.spring.CassandraFactoryAnnotation">
+		<constructor-arg name="clusterInformation" ref="clusterInformation" />
+		<property name="annotatedClasses">
+			<list>
+				<value>com.viettel.backend.domain.MClient</value>
+				<value>com.viettel.backend.domain.MOrg</value>
+				 
+				<value>com.viettel.backend.domain.MApp</value>
+				<value>com.viettel.backend.domain.MAppFile</value>
+				<value>com.viettel.backend.domain.MPopup</value>
+				<value>com.viettel.backend.domain.MRole</value>
+				<value>com.viettel.backend.domain.MUser</value>
+				<value>com.viettel.backend.domain.MView</value>
+				<value>com.viettel.backend.domain.MWebService</value>
+				
+				<value>com.viettel.backend.domain.MUserRole</value>
+				<value>com.viettel.backend.domain.MViewPopup</value>
+				<value>com.viettel.backend.domain.MViewRole</value>
+				
+				<value>com.viettel.backend.domain.MCondition</value>
+				<value>com.viettel.backend.domain.MConfig</value>
+				<value>com.viettel.backend.domain.MGateway</value>
+				<value>com.viettel.backend.domain.MMailTemplate</value>
+				
+				<value>com.viettel.backend.domain.MReport</value>
+				<value>com.viettel.backend.domain.MReportPara</value>
+				
+				<value>com.viettel.backend.domain.MTask</value>
+				<value>com.viettel.backend.domain.MWorkflow</value>
+				
+				<value>com.viettel.backend.domain.common.MAttribute</value>
+				<value>com.viettel.backend.domain.common.MUnit</value>
+				<value>com.viettel.backend.domain.common.MManufacturer</value>
+				<value>com.viettel.backend.domain.common.MCountry</value>
+				<value>com.viettel.backend.domain.common.MCurrency</value>
+				<value>com.viettel.backend.domain.common.MLanguage</value>
+				<value>com.viettel.backend.domain.common.MPartner</value>
+				<value>com.viettel.backend.domain.common.MPartnerGroup</value>
+				
+				<!-- DMS.LITE -->
+				<value>com.viettel.backend.domain.dms.MProductGroup</value>
+				<value>com.viettel.backend.domain.dms.MProduct</value>
+				<value>com.viettel.backend.domain.dms.MProductCategory</value>
+				<value>com.viettel.backend.domain.dms.MProductFile</value>
+				<value>com.viettel.backend.domain.dms.MProductPrice</value>
+				<value>com.viettel.backend.domain.dms.MProductType</value>
+				<value>com.viettel.backend.domain.dms.MArea</value>
+				<value>com.viettel.backend.domain.dms.MEmployee</value>
+				<value>com.viettel.backend.domain.dms.MRoute</value>
+				<value>com.viettel.backend.domain.dms.MRouteHistory</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="cassandraTemplate" class="org.easycassandra.persistence.cassandra.spring.SimpleCassandraTemplateImpl" >
+		<constructor-arg name="factory" ref="cassandraFactory" />
+	</bean>
+</beans>

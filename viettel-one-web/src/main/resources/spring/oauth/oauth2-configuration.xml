@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
+	xmlns:sec="http://www.springframework.org/schema/security" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/security/oauth2 
+		http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/security 
+		http://www.springframework.org/schema/security/spring-security-3.2.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<!-- <context:component-scan base-package="org.springframework.security.oauth2.provider" />
+	
+	<bean id="inMemoryAuthorizationCodeServices" class="org.springframework.security.oauth2.provider.code.InMemoryAuthorizationCodeServices"></bean>
+	
+	<bean id="customCompositeTokenGranter"
+                class="org.springframework.security.oauth2.provider.CompositeTokenGranter">
+        <constructor-arg>
+            <list>
+            	<bean class="org.springframework.security.oauth2.provider.code.AuthorizationCodeTokenGranter" autowire="constructor">
+            		<property name="authorizationCodeServices" ref="inMemoryAuthorizationCodeServices" />
+            	</bean>
+            	<bean class="org.springframework.security.oauth2.provider.implicit.ImplicitTokenGranter" autowire="constructor"/>
+            	<bean class="org.springframework.security.oauth2.provider.refresh.RefreshTokenGranter" autowire="constructor"/>
+                <bean class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenGranter" autowire="constructor"/>
+                <bean class="org.springframework.security.oauth2.provider.password.ResourceOwnerPasswordTokenGranter" autowire="constructor">
+                	<property name="authenticationManager" ref="userAuthenticationManager" />
+                </bean>
+                <bean class="com.viettel.api.security.ReloginTokenGranter" autowire="constructor"/>
+            </list>
+        </constructor-arg>
+    </bean> -->
+    
+    <bean id="reloginTokenGranter" class="com.viettel.api.security.ReloginTokenGranter">
+    	<constructor-arg name="authenticationManager" ref="userAuthenticationManager" />
+    	<constructor-arg name="tokenServices" ref="tokenServices" />
+    	<constructor-arg name="clientDetailsService" ref="clientDetailsService" />
+    </bean>
+    
+	<!-- OAuth 2.0 Security --> <!-- token-granter-ref="customCompositeTokenGranter" -->
+	<oauth:authorization-server client-details-service-ref="clientDetailsService" 
+			token-services-ref="tokenServices">
+		<oauth:authorization-code />
+		<oauth:implicit/>
+		<oauth:refresh-token/>
+		<oauth:client-credentials />
+		<oauth:password authentication-manager-ref="userAuthenticationManager"/>
+		<oauth:custom-grant token-granter-ref="reloginTokenGranter" />
+	</oauth:authorization-server>
+
+	<oauth:resource-server id="resourceServerFilter"
+		resource-id="springsec" token-services-ref="tokenServices" />
+	
+	<!-- Client Authentication Manager -->
+	<bean id="clientCredentialsTokenEndpointFilter"
+		class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter">
+		<property name="authenticationManager" ref="clientAuthenticationManager" />
+	</bean>
+	
+	<bean id="clientAuthenticationEntryPoint"
+		class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
+		<property name="realmName" value="springsec/client" />
+		<property name="typeName" value="Basic" />
+	</bean>
+	
+	<!-- User Authentication Manager -->
+	<bean id="logoutSuccessHandler" class="com.viettel.api.security.LogoutServiceImpl" >
+		<property name="tokenstore" ref="tokenStore" />
+	</bean>
+	
+	<bean id="oauthAuthenticationEntryPoint"
+		class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
+	</bean>
+
+	<bean id="oauthAccessDeniedHandler"
+		class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler">
+	</bean>
+	
+	<!-- User Token Services -->
+	<!-- <bean id="tokenServices" 
+		class="org.springframework.security.oauth2.provider.token.DefaultTokenServices"> -->
+	<bean id="tokenServices" class="com.viettel.api.security.VOUserTokenServices">
+		<property name="tokenStore" ref="tokenStore" />
+		<property name="supportRefreshToken" value="true" />
+		<property name="clientDetailsService" ref="clientDetailsService" />
+		<!-- <property name="accessTokenValiditySeconds" value="600" /> -->
+	</bean>
+</beans>

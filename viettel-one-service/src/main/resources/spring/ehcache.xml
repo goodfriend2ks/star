@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="ehcache.xsd" 
+    updateCheck="true"
+    monitoring="autodetect" 
+    dynamicConfig="true">
+        
+    <diskStore path="java.io.tmpdir"/>
+    <cache name="cachetest"
+       maxElementsInMemory="100"
+            eternal="false"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="120"
+            overflowToDisk="true"
+            maxElementsOnDisk="10000000"
+            diskPersistent="false"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"/>
+	
+	<!-- ViewService.getListByApp(UUID AD_App_ID) -->
+	<cache name="allViewInApp"
+       		maxElementsInMemory="100"
+            eternal="false"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="120"
+            overflowToDisk="true"
+            maxElementsOnDisk="10000000"
+            diskPersistent="false"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"/>
+	
+	<!-- ViewService.getViewMenu(UUID AD_Client_ID, UUID AD_App_ID, UUID AD_Role_ID) -->
+	<cache name="viewMenu"
+       		maxElementsInMemory="100"
+            eternal="false"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="120"
+            overflowToDisk="true"
+            maxElementsOnDisk="10000000"
+            diskPersistent="false"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"/>
+	
+	<!-- ViewService.getAllPopups(UUID AD_App_ID) -->
+	<cache name="allViewPopups"
+       		maxElementsInMemory="100"
+            eternal="false"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="120"
+            overflowToDisk="true"
+            maxElementsOnDisk="10000000"
+            diskPersistent="false"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"/>
+            
+<!--     <defaultCache  -->
+<!--         maxEntriesLocalHeap="10000"  -->
+<!--         eternal="false" -->
+<!--         timeToIdleSeconds="6000"  -->
+<!--         timeToLiveSeconds="0"  -->
+<!--         diskSpoolBufferSizeMB="30" -->
+<!--         maxEntriesLocalDisk="10000000"  -->
+<!--         diskExpiryThreadIntervalSeconds="120" -->
+<!--         memoryStoreEvictionPolicy="LRU"  -->
+<!--         statistics="false"> -->
+<!--         <persistence strategy="localTempSwap" /> -->
+<!--     </defaultCache> -->
+</ehcache>
