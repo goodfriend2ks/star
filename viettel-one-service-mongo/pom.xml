@@ -21,6 +21,7 @@
         <spring-framework.version>4.0.5.RELEASE</spring-framework.version>
         <!-- <spring-framework.version>3.2.7.RELEASE</spring-framework.version> -->
 		<!-- <spring.data.version>1.4.1.RELEASE</spring.data.version> -->
+		<spring-data-mongodb.version>1.5.1.RELEASE</spring-data-mongodb.version>
 		<spring.sec.version>3.1.3.RELEASE</spring.sec.version>
 		<spring.oauth2.version>1.0.5.RELEASE</spring.oauth2.version>
 		<spring.integration.version>4.0.2.RELEASE</spring.integration.version>
@@ -115,6 +116,12 @@
             <version>${spring-framework.version}</version>
         </dependency>
         
+        <dependency>
+  			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<version>${spring-data-mongodb.version}</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>viettel.one</groupId>
 			<artifactId>viettel-one-common-mongo</artifactId>

@@ -5,8 +5,8 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.persistence.criteria.Clause;
-import javax.persistence.criteria.ClauseOp;
+//import javax.persistence.criteria.Clause;
+//import javax.persistence.criteria.ClauseOp;
 
 public class ClauseUtil {
 	private static final String GROUP_PATTERN = "(\\w+)\\s*([=<>]+)(((?!\\bAND\\b).)+)";
@@ -14,7 +14,7 @@ public class ClauseUtil {
 	
 	private static final Pattern regex = Pattern.compile(GROUP_PATTERN);
 	
-	public static ArrayList<Clause> split(String clause) {
+	/*public static ArrayList<Clause> split(String clause) {
 		ArrayList<Clause> clauses = new ArrayList<>();
 		
 		Matcher regexMatcher = regex.matcher(clause);
@@ -70,5 +70,5 @@ public class ClauseUtil {
 		}
 		
 		return clauses;
-	}
+	}*/
 }

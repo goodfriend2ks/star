@@ -18,8 +18,6 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import com.viettel.annotation.Caption;
 import com.viettel.annotation.CommonCaption;
 import com.viettel.annotation.Description;
@@ -31,7 +29,6 @@ import com.viettel.backend.common.EO;
 /**
  * Application domain object
  */
-@Document
 @Entity(name = MApp.APP_TABLE_NAME)
 @Table(name = MApp.APP_TABLE_NAME)
 @Description("With MApp, AD_Client_ID, AD_Org_ID and AD_Org_ID always is root")

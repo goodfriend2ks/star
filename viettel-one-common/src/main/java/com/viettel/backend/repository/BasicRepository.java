@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.criteria.Clause;
+import javax.persistence.criteria.GenericCriteria;
+import javax.persistence.criteria.GenericQuery;
 
 import com.viettel.backend.common.EO;
 import com.viettel.backend.common.EOKey;
@@ -17,6 +18,11 @@ public interface BasicRepository extends Serializable {
 	public boolean rolebackTransaction(String trxName);
 	
 	public boolean commitTransaction(String trxName);
+	
+	/********** Query constructor *********/
+	public GenericQuery query();
+	
+	public GenericCriteria criteria();
 	
 	/**** Find By ID *****/
 	public <T extends EO<KT, PK>, KT extends EOKey<PK>, PK extends Serializable> 
@@ -34,7 +40,7 @@ public interface BasicRepository extends Serializable {
     public <T extends EO<KT, PK>, KT extends EOKey<PK>, PK extends Serializable> 
 		long getCount(Class<T> typeClazz, Class<KT> keyClazz, Class<PK> pkClazz,
 				UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID,
-				Clause...clauses);
+				GenericQuery query);
     
     /** Get First **/
 //    public <T extends EO<KT, PK>, KT extends EOKey<PK>, PK extends Serializable> 
@@ -44,7 +50,7 @@ public interface BasicRepository extends Serializable {
     public <T extends EO<KT, PK>, KT extends EOKey<PK>, PK extends Serializable> 
 		T getFirst(Class<T> typeClazz, Class<KT> keyClazz, Class<PK> pkClazz, 
 				UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, 
-				Clause...clauses);
+				GenericQuery query);
     
     /**** Get List *****/
 //    public <T extends EO<KT, PK>, KT extends EOKey<PK>, PK extends Serializable> 
@@ -54,7 +60,7 @@ public interface BasicRepository extends Serializable {
     public <T extends EO<KT, PK>, KT extends EOKey<PK>, PK extends Serializable> 
 		List<T> getList(Class<T> typeClazz, Class<KT> keyClazz, Class<PK> pkClazz, 
 				UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, 
-				Clause...clauses);
+				GenericQuery query);
     
 //	public <T extends EO<KT, PK>, KT extends EOKey<PK>, PK extends Serializable> 
 //		List<T> getList(Class<T> typeClazz, Class<KT> keyClazz, Class<PK> pkClazz, 
@@ -64,23 +70,23 @@ public interface BasicRepository extends Serializable {
 	public <T extends EO<KT, PK>, KT extends EOKey<PK>, PK extends Serializable> 
 		List<T> getList(Class<T> typeClazz, Class<KT> keyClazz, Class<PK> pkClazz, 
 				UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, 
-				int firstResult, int maxResults, Clause...clauses);
+				int firstResult, int maxResults, GenericQuery query);
 	
 	/** Get Generic Count **/
     public long getGenericCount(Class<?> typeClazz, Class<?> keyClazz, Class<?> pkClazz, 
-			UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, Clause...clauses);
+			UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, GenericQuery query);
     
     /** Get Generic First **/
     public Object getGenericFirst(Class<?> typeClazz, Class<?> keyClazz, Class<?> pkClazz, 
-			UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, Clause...clauses);
+			UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, GenericQuery query);
     
     /** Get Generic List **/
     public List<?> getGenericList(Class<?> typeClazz, Class<?> keyClazz, Class<?> pkClazz, 
-			UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, Clause...clauses);
+			UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, GenericQuery query);
     
     public List<?> getGenericList(Class<?> typeClazz, Class<?> keyClazz, Class<?> pkClazz, 
     			UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, 
-    			int firstResult, int maxResults, Clause...clauses);
+    			int firstResult, int maxResults, GenericQuery query);
     
     /**** Save *****/
     public <T extends EO<KT, PK>, KT extends EOKey<PK>, PK extends Serializable> 
@@ -110,7 +116,7 @@ public interface BasicRepository extends Serializable {
     
     public <T extends EO<KT, PK>, KT extends EOKey<PK>, PK extends Serializable>
 		int delete(Class<T> typeClazz, Class<KT> keyClazz, Class<PK> pkClazz, 
-				UUID ad_Client_ID, boolean localTrx, Clause...clauses);
+				UUID ad_Client_ID, boolean localTrx, GenericQuery query);
     
     /** Set Active **/
     public <T extends EO<KT, PK>, KT extends EOKey<PK>, PK extends Serializable>
@@ -127,5 +133,5 @@ public interface BasicRepository extends Serializable {
     
     public <T extends EO<KT, PK>, KT extends EOKey<PK>, PK extends Serializable>
 		int setActive(Class<T> typeClazz, Class<KT> keyClazz, Class<PK> pkClazz, 
-				UUID ad_Client_ID, boolean isActive, boolean localTrx, Clause...clauses);
+				UUID ad_Client_ID, boolean isActive, boolean localTrx, GenericQuery query);
 }

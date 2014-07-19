@@ -57,11 +57,11 @@
 			<version>2.0</version>
 		</dependency>
     	
-    	<dependency>
+    	<!-- <dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-mongodb</artifactId>
 			<version>${spring.data.mongodb.version}</version>
-		</dependency>
+		</dependency> -->
 
     	<!-- Bean Property Util -->
       	<dependency>

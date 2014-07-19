@@ -7,12 +7,11 @@ import java.util.UUID;
 import javax.persistence.criteria.GenericQuery;
 
 import com.viettel.backend.common.EO;
-import com.viettel.backend.common.EOKey;
 
-public interface GenericRepository<T extends EO<KT, PK>, KT extends EOKey<PK>, PK extends Serializable> extends BasicRepository {
+public interface GenericRepository<T extends EO<PK>, PK extends Serializable> extends BasicRepository {
 	
 	/**** Find By ID *****/
-	public T findById(KT key);
+	public T findById(PK key);
 	
 	public T findById(UUID ad_Client_ID, PK id);
 	
@@ -34,7 +33,7 @@ public interface GenericRepository<T extends EO<KT, PK>, KT extends EOKey<PK>, P
     /**** Delete *****/
     public boolean delete(T entity, boolean localTrx);
 
-    public boolean delete(KT key, boolean localTrx);
+    public boolean delete(PK key, boolean localTrx);
     
     public boolean delete(UUID ad_Client_ID, PK id, boolean localTrx);
     
@@ -43,7 +42,7 @@ public interface GenericRepository<T extends EO<KT, PK>, KT extends EOKey<PK>, P
     public int delete(UUID ad_Client_ID, boolean localTrx, GenericQuery query);
     
     /** Set Active **/
-    public boolean setActive(KT key, boolean isActive, boolean localTrx);
+    public boolean setActive(PK key, boolean isActive, boolean localTrx);
     
     public boolean setActive(UUID ad_Client_ID, PK id, boolean isActive, boolean localTrx);
     

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.criteria.Clause;
+import javax.persistence.criteria.GenericQuery;
 
 import com.viettel.backend.common.BaseEO;
 import com.viettel.backend.common.EO;
@@ -22,7 +22,7 @@ public interface BaseService {
 	/**** Get Count *****/
 	public <T extends EO<KT, PK>, KT extends EOKey<PK>, PK extends Serializable> 
 			long getCount(Class<T> typeClazz, Class<KT> keyClazz, Class<PK> pkClazz, 
-					UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, Clause...clauses);
+					UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, GenericQuery query);
 	
 //	public <T extends EO<KT, PK>, KT extends EOKey<PK>, PK extends Serializable>
 //			long getCount(Class<T> typeClazz, Class<KT> keyClazz, Class<PK> pkClazz, 
@@ -32,7 +32,7 @@ public interface BaseService {
 	/** Get First **/
 	public <T extends EO<KT, PK>, KT extends EOKey<PK>, PK extends Serializable> 
 			T getFirst(Class<T> typeClazz, Class<KT> keyClazz, Class<PK> pkClazz, 
-					UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, Clause...clauses);
+					UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, GenericQuery query);
 	
 //	public <T extends EO<KT, PK>, KT extends EOKey<PK>, PK extends Serializable>
 //			T getFirst(Class<T> typeClazz, Class<KT> keyClazz, Class<PK> pkClazz, 
@@ -45,12 +45,12 @@ public interface BaseService {
 	
 	public <T extends EO<KT, PK>, KT extends EOKey<PK>, PK extends Serializable> 
 			List<T> getList(Class<T> typeClazz, Class<KT> keyClazz, Class<PK> pkClazz, 
-					UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, Clause...clauses);
+					UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, GenericQuery query);
 			
     public <T extends EO<KT, PK>, KT extends EOKey<PK>, PK extends Serializable> 
     		List<T> getList(Class<T> typeClazz, Class<KT> keyClazz, Class<PK> pkClazz, 
     				UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, 
-    				int firstResult, int maxResults, Clause...clauses);
+    				int firstResult, int maxResults, GenericQuery query);
 
 //    public <T extends EO<KT, PK>, KT extends EOKey<PK>, PK extends Serializable>
 //    		List<T> getList(Class<T> typeClazz, Class<KT> keyClazz, Class<PK> pkClazz, 
@@ -65,7 +65,7 @@ public interface BaseService {
     
     /**** Get Generic First *****/
     public Object getGenericFirst(Class<?> typeClazz, Class<?> keyClazz, Class<?> pkClazz, 
-    		UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, Clause...clauses);
+    		UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, GenericQuery query);
     
 //    public Object getGenericFirst(Class<?> typeClazz, Class<?> keyClazz, Class<?> pkClazz,
 //    		UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID,
@@ -73,11 +73,11 @@ public interface BaseService {
     
     /**** Get Generic List *****/
     public List<?> getGenericList(Class<?> typeClazz, Class<?> keyClazz, Class<?> pkClazz, 
-    		UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, Clause...clauses);
+    		UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, GenericQuery query);
     
     public List<?> getGenericList(Class<?> typeClazz, Class<?> keyClazz, Class<?> pkClazz, 
     		UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID,
-    		int firstResult, int maxResults, Clause...clauses);
+    		int firstResult, int maxResults, GenericQuery query);
     
 //    public List<?> getGenericList(Class<?> typeClazz, Class<?> keyClazz, Class<?> pkClazz,
 //    		UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID,
@@ -116,7 +116,7 @@ public interface BaseService {
     
     public <T extends EO<KT, PK>, KT extends EOKey<PK>, PK extends Serializable> 
 			int delete(Class<T> typeClazz, Class<KT> keyClazz, Class<PK> pkClazz,
-					UUID ad_Client_ID, boolean localTrx, Clause...clauses);
+					UUID ad_Client_ID, boolean localTrx, GenericQuery query);
     
     /** Set Active **/
     public <T extends BaseEO<KT, PK>, KT extends EOKey<PK>, PK extends Serializable>
@@ -133,5 +133,5 @@ public interface BaseService {
     
     public <T extends BaseEO<KT, PK>, KT extends EOKey<PK>, PK extends Serializable>
 			int setActive(Class<T> typeClazz, Class<KT> keyClazz, Class<PK> pkClazz, 
-					UUID ad_Client_ID, boolean isActive, boolean localTrx, Clause...clauses);
+					UUID ad_Client_ID, boolean isActive, boolean localTrx, GenericQuery query);
 }

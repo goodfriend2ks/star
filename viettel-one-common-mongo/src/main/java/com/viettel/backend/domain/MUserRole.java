@@ -59,11 +59,11 @@ public class MUserRole extends LinkedEO<UUID> {
 	
 	@Index
 	@Column(name = MRole.KEYCOLUMN_NAME, nullable = false)
-	private UUID ad_Role_ID;
+	private UUID role_ID;
 	
 	@Index
 	@Column(name = MUser.KEYCOLUMN_NAME, nullable = false)
-	private UUID ad_User_ID;
+	private UUID user_ID;
 	
     public MUserRole() {
     	super();
@@ -77,12 +77,11 @@ public class MUserRole extends LinkedEO<UUID> {
 //        this.role = role;
 //    }
 
-	public MUserRole(/*UUID ad_App_ID,*/ UUID ad_Role_ID, UUID ad_User_ID) {
+	public MUserRole(/*UUID ad_App_ID,*/ UUID role_ID, UUID user_ID) {
 		this();
 		
-//		this.ad_App_ID = ad_App_ID;
-		this.ad_User_ID = ad_User_ID;
-		this.ad_Role_ID = ad_Role_ID;
+		this.user_ID = user_ID;
+		this.role_ID = role_ID;
 	}
 
 //	public UUID getAd_UserRole_ID() {
@@ -135,20 +134,20 @@ public class MUserRole extends LinkedEO<UUID> {
 //		this.ad_App_ID = ad_App_ID;
 //	}
 
-	public UUID getAd_Role_ID() {
-		return ad_Role_ID;
+	public UUID getRole_ID() {
+		return role_ID;
 	}
 
-	public void setAd_Role_ID(UUID ad_Role_ID) {
-		this.ad_Role_ID = ad_Role_ID;
+	public void setRole_ID(UUID role_ID) {
+		this.role_ID = role_ID;
 	}
 
-	public UUID getAd_User_ID() {
-		return ad_User_ID;
+	public UUID getUser_ID() {
+		return user_ID;
 	}
 
-	public void setAd_User_ID(UUID ad_User_ID) {
-		this.ad_User_ID = ad_User_ID;
+	public void setUser_ID(UUID user_ID) {
+		this.user_ID = user_ID;
 	}
 
 	@Override
@@ -156,7 +155,7 @@ public class MUserRole extends LinkedEO<UUID> {
 	public String getTableName() {
 		return TABLE_NAME;
 	}
-
+	
 	@Override
 	@Transient
 	public String getKeyColumn() {
