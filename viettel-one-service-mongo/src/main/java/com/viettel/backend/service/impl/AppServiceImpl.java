@@ -1,28 +1,17 @@
 package com.viettel.backend.service.impl;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.viettel.backend.domain.MApp;
-import com.viettel.backend.domain.MPopup;
-import com.viettel.backend.domain.MView;
-import com.viettel.backend.domain.MWebService;
-import com.viettel.backend.domain.key.MAppKey;
-import com.viettel.backend.domain.key.MPopupKey;
-import com.viettel.backend.domain.key.MViewKey;
-import com.viettel.backend.domain.key.MWebServiceKey;
 import com.viettel.backend.repository.AppRepository;
 import com.viettel.backend.repository.RoleRepository;
 import com.viettel.backend.service.AppService;
-import com.viettel.backend.service.external.jaxws.WebServiceProxyFactory;
-import com.viettel.util.DataTypeUtil;
 
 @Service(value="appService")
-public class AppServiceImpl extends DaoBaseService<MApp, MAppKey, UUID> implements AppService {
+public class AppServiceImpl extends DaoBaseService<MApp, UUID> implements AppService {
 	
     private AppRepository appRepo;
     
@@ -32,8 +21,8 @@ public class AppServiceImpl extends DaoBaseService<MApp, MAppKey, UUID> implemen
     @Autowired
     private RoleRepository roleRepo;
     
-    @Autowired
-    private WebServiceProxyFactory serviceProxyFactory;
+//    @Autowired
+//    private WebServiceProxyFactory serviceProxyFactory;
     
     @Autowired
 	public AppServiceImpl(AppRepository appRepo) {
@@ -51,7 +40,7 @@ public class AppServiceImpl extends DaoBaseService<MApp, MAppKey, UUID> implemen
 		
 		appRepo.save(application, true);
 		
-		return application.getID();
+		return application.getId();
 	}
 
 	@Override
@@ -60,14 +49,14 @@ public class AppServiceImpl extends DaoBaseService<MApp, MAppKey, UUID> implemen
 	}
 /*
 	@Override
-    public List<com.viettel.ws.model.Role> getRoles(UUID AD_Client_ID, UUID AD_App_ID) {
-        RoleWS roleService = serviceProxyFactory.getService(RoleWS.class, AD_App_ID);
-        return roleService.getAllRole(AD_Client_ID, AD_App_ID);
+    public List<com.viettel.ws.model.Role> getRoles(UUID tenant_ID, UUID app_ID) {
+        RoleWS roleService = serviceProxyFactory.getService(RoleWS.class, app_ID);
+        return roleService.getAllRole(tenant_ID, app_ID);
     }
 
     @Override
-    public List<com.viettel.ws.model.Role> getRoles(UUID AD_Client_ID, MApp app) {
-        return getRoles(AD_Client_ID, app.getID());
+    public List<com.viettel.ws.model.Role> getRoles(UUID tenant_ID, MApp app) {
+        return getRoles(tenant_ID, app.getID());
     }*/
 
     @Override
@@ -75,7 +64,7 @@ public class AppServiceImpl extends DaoBaseService<MApp, MAppKey, UUID> implemen
         return applicationCode;
     }
 
-	@Override
+	/*@Override
 	public UUID save(MApp app, 
 			Collection<MWebService> addServices, Collection<MWebService> removeServices, 
 			Collection<MView> addViews, Collection<MView> removeViews,
@@ -188,7 +177,7 @@ public class AppServiceImpl extends DaoBaseService<MApp, MAppKey, UUID> implemen
 		}
 		
 		return null;
-	}
+	}*/
 
 	@Override
 	public MApp getCurrentApp() {
@@ -196,28 +185,28 @@ public class AppServiceImpl extends DaoBaseService<MApp, MAppKey, UUID> implemen
 	}
 //
 //	@Override
-//	public List<MView> getViews(UUID AD_App_ID) {
+//	public List<MView> getViews(UUID app_ID) {
 //		return applicationDao.getViews(applicationId);
 //	}
 
 	/** Popup **/
-	@Override
-	public List<MPopup> getPopups(UUID AD_App_ID) {
-		return appRepo.getPopups(AD_App_ID);
+	/*@Override
+	public List<MPopup> getPopups(UUID app_ID) {
+		return appRepo.getPopups(app_ID);
 	}
 
 	@Override
-	public MPopup getPopup(UUID AD_App_ID, UUID AD_Popup_ID) {
-		return appRepo.getPopup(AD_App_ID, AD_Popup_ID);
+	public MPopup getPopup(UUID app_ID, UUID AD_Popup_ID) {
+		return appRepo.getPopup(app_ID, AD_Popup_ID);
 	}
 
 	@Override
 	public UUID savePopup(MPopup popup, boolean localTrx) {
 		return appRepo.save(MPopup.class, MPopupKey.class, UUID.class, popup, localTrx);
-	}
+	}*/
 
 	/** Web Service **/
-	@Override
+	/*@Override
     public List<MWebService> getServices(UUID appId) {
         return appRepo.getWebServices(appId);
     }
@@ -233,12 +222,12 @@ public class AppServiceImpl extends DaoBaseService<MApp, MAppKey, UUID> implemen
     }
     
 	@Override
-	public MWebService getService(UUID AD_App_ID, UUID AD_WebService_ID) {
-		return appRepo.getWebService(AD_App_ID, AD_WebService_ID);
+	public MWebService getService(UUID app_ID, UUID AD_WebService_ID) {
+		return appRepo.getWebService(app_ID, AD_WebService_ID);
 	}
 
 	@Override
 	public UUID saveWebService(MWebService webService, boolean localTrx) {
 		return appRepo.save(MWebService.class, MWebServiceKey.class, UUID.class, webService, localTrx);
-	}
+	}*/
 }

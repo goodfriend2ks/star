@@ -85,7 +85,7 @@
 			<artifactId>spring-data-commons</artifactId>
 			<version>${spring-data-commons.version}</version>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>com.mysema.querydsl</groupId>
 			<artifactId>querydsl-mongodb</artifactId>

@@ -1,10 +1,5 @@
 package com.viettel.backend.domain;
 
-/* 
- * Viettel.One Project Model Classes
- * Generated Feb 18, 2014 1:52:24 PM by Hibernate Tools 3.4.0.CR1 
- */
-
 import java.util.Date;
 import java.util.UUID;
 
@@ -22,7 +17,9 @@ import org.joda.time.DateTime;
 
 import com.viettel.annotation.Caption;
 import com.viettel.annotation.Description;
+import com.viettel.annotation.EntityLinked;
 import com.viettel.annotation.EntityType;
+import com.viettel.annotation.LinkedType;
 import com.viettel.annotation.Password;
 import com.viettel.backend.common.BaseEO;
 import com.viettel.backend.common.EO;
@@ -46,6 +43,10 @@ public class MUser extends BaseEO<UUID> {
 	public static final String TABLE_NAME = "AD_User";
 	@Transient
 	public static final String KEYCOLUMN_NAME = TABLE_NAME + "_ID";
+	@Transient
+	public static final String KEY_PROPERTY = "id";
+	@Transient
+	public static final String DISPLAY_PROPERTY = "name";
 	
 	@Transient
 	public static final String DEFAULT_PASSWORD = "123456a@";
@@ -80,11 +81,11 @@ public class MUser extends BaseEO<UUID> {
     private String email;
     
 	@Index
-	/*@Column(name = MLanguage.KEYCOLUMN_NAME, nullable = false)
+	@Column(name = MLanguage.KEYCOLUMN_NAME, nullable = false)
 	@EntityLinked(entityClazz = MLanguage.class, pkClazz = UUID.class, 
-			idProperty = MLanguageKey.KEY_NAME, captionProperty = "name", 
-			type = LinkedType.DROPDOWN, canNew = true)*/
-    private UUID c_Language_ID;
+			idProperty = MLanguage.KEY_PROPERTY, captionProperty = MLanguage.DISPLAY_PROPERTY, 
+			type = LinkedType.DROPDOWN, canNew = true)
+    private UUID language_ID;
 	
 	@Column(name = "IsAccountNonExpired")
 	@Description("Account Non Expired")
@@ -191,12 +192,12 @@ public class MUser extends BaseEO<UUID> {
         this.email = email;
     }
     
-	public UUID getC_Language_ID() {
-		return c_Language_ID;
+	public UUID getLanguage_ID() {
+		return language_ID;
 	}
 
-	public void setC_Language_ID(UUID c_Language_ID) {
-		this.c_Language_ID = c_Language_ID;
+	public void setLanguage_ID(UUID language_ID) {
+		this.language_ID = language_ID;
 	}
 
 	public String getBirthPlace() {

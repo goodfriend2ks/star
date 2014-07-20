@@ -11,34 +11,34 @@ import com.viettel.backend.common.EO;
 public interface GenericService<T extends EO<PK>, PK extends Serializable> extends BaseService {
 	
 	/**** Find By ID *****/
-	public T findById(PK key);
+//	public T findById(KT key);
 	
 //	public T findById(PK id);
 	
-    public T findById(UUID ad_Client_ID, PK id);
+	public T findById(UUID tenant_ID, PK id);
     
     /**** Get Count *****/
-    public long getCount(UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, GenericQuery query);
+    public long getCount(UUID tenant_ID, UUID org_ID, UUID app_ID, GenericQuery query);
     
-//    public long getCount(UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, 
+//    public long getCount(UUID tenant_ID, UUID org_ID, UUID app_ID, 
 //    		String whereClause, Object[] params);
     
     /** Get First **/
-    public T getFirst(UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, GenericQuery query);
+    public T getFirst(UUID tenant_ID, UUID org_ID, UUID app_ID, GenericQuery query);
     
-//    public T getFirst(UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, 
+//    public T getFirst(UUID tenant_ID, UUID org_ID, UUID app_ID, 
 //    		String whereClause, Object[] params, String orderBy);
     
     /**** Get List *****/
-    public List<T> getList(UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, GenericQuery query);
+    public List<T> getList(UUID tenant_ID, UUID org_ID, UUID app_ID, GenericQuery query);
     
-    public List<T> getList(UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, 
-    		int firstResult, int maxResults, GenericQuery query);
+    public List<T> getList(UUID tenant_ID, UUID org_ID, UUID app_ID, 
+    		GenericQuery query, int firstResult, int maxResults);
     
-//    public List<T> getList(UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, 
+//    public List<T> getList(UUID tenant_ID, UUID org_ID, UUID app_ID, 
 //    		String whereClause, Object[] params, String orderBy);
 //    
-//    public List<T> getList(UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, 
+//    public List<T> getList(UUID tenant_ID, UUID org_ID, UUID app_ID, 
 //    		String whereClause, Object[] params, String orderBy, 
 //    		int firstResult, int maxResults);
     
@@ -48,20 +48,20 @@ public interface GenericService<T extends EO<PK>, PK extends Serializable> exten
     /**** Delete *****/
     public boolean delete(T entity, boolean localTrx);
     
-    public boolean delete(PK key, boolean localTrx);
+//    public boolean delete(PK key, boolean localTrx);
     
-    public boolean delete(UUID ad_Client_ID, PK id, boolean localTrx);
+    public boolean delete(UUID tenant_ID, PK id, boolean localTrx);
     
-    public int delete(UUID ad_Client_ID, List<PK> ids, boolean localTrx);
+//    public int delete(UUID tenant_ID, List<PK> ids, boolean localTrx);
     
-    public int delete(UUID ad_Client_ID, boolean localTrx, GenericQuery query);
+    public int delete(UUID tenant_ID, GenericQuery query, boolean localTrx);
     
     /** Set Active **/
-    public boolean setActive(PK key, boolean isActive, boolean localTrx);
+//    public boolean setActive(PK key, boolean isActive, boolean localTrx);
     
-    public boolean setActive(UUID ad_Client_ID, PK id, boolean isActive, boolean localTrx);
+    public boolean setActive(UUID tenant_ID, PK id, boolean isActive, boolean localTrx);
     
-    public int setActive(UUID ad_Client_ID, List<PK> ids, boolean isActive, boolean localTrx);
+//    public int setActive(UUID tenant_ID, List<PK> ids, boolean isActive, boolean localTrx);
     
-    public int setActive(UUID ad_Client_ID, boolean isActive, boolean localTrx, GenericQuery query);
+    public int setActive(UUID tenant_ID, GenericQuery query, boolean isActive, boolean localTrx);
 }

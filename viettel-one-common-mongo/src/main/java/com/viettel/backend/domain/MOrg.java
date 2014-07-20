@@ -35,7 +35,9 @@ public class MOrg extends EO<UUID> {
 	private static final long serialVersionUID = -1551741934939695342L;
 	
 	@Transient
-	public static final String KEY_NAME = "id";
+	public static final String KEY_PROPERTY = "id";
+	@Transient
+	public static final String DISPLAY_PROPERTY = "name";
 	
 	@Id
 	private UUID id;
@@ -98,21 +100,22 @@ public class MOrg extends EO<UUID> {
 	@Index
 	@Column(name = MOrg.PARENT_COLUMN_NAME, nullable = true)
 	@EntityLinked(entityClazz = MOrg.class, pkClazz = UUID.class, 
-			idProperty = MOrg.KEY_NAME, captionProperty = "name", emptyValue = DEFAULT_PARENT_STRING_VALUE, 
+			idProperty = MOrg.KEY_PROPERTY, captionProperty = MOrg.DISPLAY_PROPERTY, 
+			emptyValue = DEFAULT_PARENT_STRING_VALUE, 
 			type = LinkedType.DROPDOWN, canNew = true)
 	private UUID parent_ID = DEFAULT_PARENT_VALUE;
 	
 	@Index
 	@Column(name = TENANT_KEYCOLUMN_NAME, nullable = false)
 	@EntityLinked(entityClazz = MTenant.class, pkClazz = UUID.class,
-			idProperty = MTenant.KEY_NAME, captionProperty = "name", 
+			idProperty = MTenant.KEY_PROPERTY, captionProperty = MTenant.DISPLAY_PROPERTY, 
 			type = LinkedType.DROPDOWN, canNew = false)
 	private UUID tenant_ID;
 	
 	@Index
 	@Column(name = APP_KEYCOLUMN_NAME, nullable = false)
 	@EntityLinked(entityClazz = MApp.class, pkClazz = UUID.class, 
-			idProperty = MApp.KEY_NAME, captionProperty = "name",  
+			idProperty = MApp.KEY_PROPERTY, captionProperty = MApp.DISPLAY_PROPERTY,  
 			type = LinkedType.DROPDOWN, canNew = false)
 	private UUID app_ID;
 	

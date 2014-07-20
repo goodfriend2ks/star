@@ -12,21 +12,21 @@ public interface UserService extends GenericService<MUser, UUID> {
 
 	public MUser getByUserName(String userName);
 	
-//	public long getCount(UUID AD_App_ID);
+//	public long getCount(UUID app_ID);
 	
-	public long getCount(UUID AD_Client_ID, boolean includeInactive);
+	public long getCount(UUID tenant_ID, boolean includeInactive);
 	
 //	public long getCount(String txt, Date dob);
 	
-	public List<MUser> getUserWithRoleByApplication(UUID AD_App_ID, int start, int count);
+	public List<MUser> getUserWithRoleByApplication(UUID app_ID, int start, int count);
 	
 	public List<MUser> getUserWithRoleAndApplication(int start, int count);
 	
 //	public List<MUser> getList(int firstResult, int maxResults, String orderBy, String txt, Date dob);
 	
-	public List<MApp> getAccessedApplications(UUID AD_User_ID);
+	public List<MApp> getAccessedApplications(UUID user_ID);
 	
-	public List<MUserRole> getUserRoles(UUID AD_Client_ID, UUID AD_App_ID, UUID AD_User_ID);
+	public List<MUserRole> getUserRoles(UUID tenant_ID, UUID app_ID, UUID user_ID);
 	
 	public UUID addRole(MApp app, MRole role, MUser user);
 	

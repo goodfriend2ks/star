@@ -32,8 +32,8 @@
     </bean>
 	
 	<bean id="appFileService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
-        <property name="serviceUrl" value="${remoting.http_invoker.host}/AppFileService" />
-        <property name="serviceInterface" value="com.viettel.backend.service.AppFileService" />
+        <property name="serviceUrl" value="${remoting.http_invoker.host}/FileService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.FileService" />
     </bean>
     
     <bean id="roleService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
@@ -41,7 +41,7 @@
         <property name="serviceInterface" value="com.viettel.backend.service.RoleService" />
     </bean>
 	
-    <bean id="viewService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+    <!-- <bean id="viewService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
         <property name="serviceUrl" value="${remoting.http_invoker.host}/ViewService" />
         <property name="serviceInterface" value="com.viettel.backend.service.ViewService" />
     </bean>
@@ -49,11 +49,11 @@
     <bean id="reportService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
         <property name="serviceUrl" value="${remoting.http_invoker.host}/ReportService" />
         <property name="serviceInterface" value="com.viettel.backend.service.ReportService" />
-    </bean>
+    </bean> -->
 	
-	<bean id="clientService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
-        <property name="serviceUrl" value="${remoting.http_invoker.host}/ClientService" />
-        <property name="serviceInterface" value="com.viettel.backend.service.ClientService" />
+	<bean id="tenantService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${remoting.http_invoker.host}/TenantService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.TenantService" />
     </bean>
     
     <bean id="cacheManagerService"  class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
@@ -66,9 +66,19 @@
         <property name="serviceInterface" value="com.viettel.backend.service.ConfigService" />
     </bean>
     
-    <!-- DMS.Lite Services -->
     <bean id="productService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
         <property name="serviceUrl" value="${remoting.http_invoker.host}/ProductService" />
-        <property name="serviceInterface" value="com.viettel.backend.service.dms.ProductService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.ProductService" />
+    </bean>
+    
+    <bean id="employeeService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${remoting.http_invoker.host}/EmployeeService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.EmployeeService" />
+    </bean>
+    
+    <!-- DMS.Lite Services -->
+    <bean id="routeService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl" value="${remoting.http_invoker.host}/RouteService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.dms.RouteService" />
     </bean>
 </beans>

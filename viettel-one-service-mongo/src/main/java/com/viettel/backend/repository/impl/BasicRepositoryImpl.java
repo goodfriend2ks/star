@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.criteria.Clause;
 import javax.persistence.criteria.GenericCriteria;
 import javax.persistence.criteria.GenericQuery;
 
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.repository.CrudRepository;
 
 import com.viettel.annotation.EntityType;
 import com.viettel.backend.common.EO;
@@ -22,7 +20,7 @@ import com.viettel.backend.repository.BasicRepository;
 import com.viettel.util.DataTypeUtil;
 
 public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
-		implements CrudRepository<EOT, EOKT>, BasicRepository {
+		implements /*CrudRepository<EOT, EOKT>,*/ BasicRepository {
 	/**
 	 * 
 	 */
@@ -76,32 +74,31 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 	}
 	
 	/**** Find By ID *****/
-	@Override
+	/*@Override
 	public <T extends EO<PK>, PK extends Serializable> 
 			T findById(Class<T> typeClazz, Class<PK> pkClazz, PK key) {
 		
 		Query query = query(criteria("id").is(key));
 		return getDataTemplate().findOne(query, typeClazz);
-	}
-/*
+	}*/
+	
 	@Override
 	public <T extends EO<PK>, PK extends Serializable> 
 			T findById(Class<T> typeClazz, Class<PK> pkClazz, 
-					UUID ad_Client_ID, PK id) {
-		PK key = getKey(keyClazz, pkClazz, ad_Client_ID, id);
-		if (key == null)
-			return null;
+					UUID tenant_ID, PK id) {
 		
-		return this.findById(typeClazz, keyClazz, pkClazz, key);
-	}*/
+		Query query = query(criteria("id").is(id)
+				.and(EO.TENANT_FIELD_NAME).is(tenant_ID));
+		return getDataTemplate().findOne(query, typeClazz);
+	}
 
 	/** Get Count ***/
 	@Override
 	public <T extends EO<PK>, PK extends Serializable> 
 			long getCount(Class<T> typeClazz, Class<PK> pkClazz, 
-					UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, GenericQuery query) {
+					UUID tenant_ID, UUID org_ID, UUID app_ID, GenericQuery query) {
 		return getGenericCount(typeClazz, pkClazz, 
-				AD_Client_ID, AD_Org_ID, AD_App_ID, query);
+				tenant_ID, org_ID, app_ID, query);
 	}
 
 	/** Get First **/
@@ -109,9 +106,9 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 	@SuppressWarnings("unchecked")
 	public <T extends EO<PK>, PK extends Serializable> 
 			T getFirst(Class<T> typeClazz, Class<PK> pkClazz, 
-					UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, GenericQuery query) {
+					UUID tenant_ID, UUID org_ID, UUID app_ID, GenericQuery query) {
 		return (T)getGenericFirst(typeClazz, pkClazz, 
-				AD_Client_ID, AD_Org_ID, AD_App_ID, query);
+				tenant_ID, org_ID, app_ID, query);
 	}
 
 	/** Get List **/
@@ -119,25 +116,25 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 	@SuppressWarnings("unchecked")
 	public <T extends EO<PK>, PK extends Serializable> 
 			List<T> getList(Class<T> typeClazz, Class<PK> pkClazz, 
-					UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, GenericQuery query) {
+					UUID tenant_ID, UUID org_ID, UUID app_ID, GenericQuery query) {
 		return (List<T>)getGenericList(typeClazz, pkClazz, 
-				AD_Client_ID, AD_Org_ID, AD_App_ID, query);
+				tenant_ID, org_ID, app_ID, query);
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T extends EO<PK>, PK extends Serializable> 
 			List<T> getList(Class<T> typeClazz, Class<PK> pkClazz,
-					UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, 
-					int firstResult, int maxResults, GenericQuery query) {
+					UUID tenant_ID, UUID org_ID, UUID app_ID, 
+					GenericQuery query, int firstResult, int maxResults) {
 		return (List<T>)getGenericList(typeClazz, pkClazz, 
-				AD_Client_ID, AD_Org_ID, AD_App_ID, firstResult, maxResults, query);
+				tenant_ID, org_ID, app_ID, query, firstResult, maxResults);
 	}
 
 	/** Get Generic Count **/
 	@Override
-	public long getGenericCount(Class<?> typeClazz, Class<?> keyClazz, Class<?> pkClazz, 
-			UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, GenericQuery query) {
+	public long getGenericCount(Class<?> typeClazz, Class<?> pkClazz, 
+			UUID tenant_ID, UUID org_ID, UUID app_ID, GenericQuery query) {
 		
 		long retValue = 0;
 		
@@ -146,7 +143,7 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 		boolean orgCheck = false;
 		boolean appCheck = false;
 		
-		/*if (AD_Client_ID != null) {
+		/*if (tenant_ID != null) {
 			clientCheck = true;
 			if (clauses != null) {
 				for (Clause clause : clauses) {
@@ -158,10 +155,10 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 			}
 			
 			if (clientCheck && entityType != null && entityType.alwayRootClient())
-				AD_Client_ID = EO.ROOT_ID_VALUE;
+				tenant_ID = EO.ROOT_ID_VALUE;
 		}
 		
-		if (entityType != null && AD_Org_ID != null) {
+		if (entityType != null && org_ID != null) {
 			orgCheck = entityType.hasOrg();
 			if (orgCheck) {
 				if (clauses != null) {
@@ -174,11 +171,11 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 				}
 				
 				if (orgCheck && entityType.alwayRootOrg())
-					AD_Org_ID = EO.ROOT_ID_VALUE;
+					org_ID = EO.ROOT_ID_VALUE;
 			}
 		}
 		
-		if (entityType != null && AD_App_ID != null) {
+		if (entityType != null && app_ID != null) {
 			appCheck = entityType.hasApp();
 			if (appCheck) {
 				if (clauses != null) {
@@ -191,7 +188,7 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 				}
 				
 				if (appCheck && entityType.alwayRootApp())
-					AD_App_ID = EO.ROOT_ID_VALUE;
+					app_ID = EO.ROOT_ID_VALUE;
 			}
 		}
 		
@@ -202,8 +199,8 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 		}
 		
 		if (entityType != null) {
-			if (clientCheck && entityType.withRootClient() && !EO.isRootID(AD_Client_ID, false)) {
-				if (appCheck && entityType.withRootApp() && !EO.isRootID(AD_App_ID, false)) {
+			if (clientCheck && entityType.withRootClient() && !EO.isRootID(tenant_ID, false)) {
+				if (appCheck && entityType.withRootApp() && !EO.isRootID(app_ID, false)) {
 					CountBuilder<?> countQuery = getDataTemplate().countBuilder(typeClazz).allowFiltering();
 					countQuery.eq(EO.CLIENT_FIELD_NAME, EO.ROOT_ID_VALUE);
 					if (orgCheck)
@@ -214,23 +211,23 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 					retValue += countQuery.execute();
 				}
 				
-				if (appCheck && entityType.withRootApp() && !EO.isRootID(AD_App_ID, false)) {
+				if (appCheck && entityType.withRootApp() && !EO.isRootID(app_ID, false)) {
 					CountBuilder<?> countQuery = getDataTemplate().countBuilder(typeClazz).allowFiltering();
 					countQuery.eq(EO.CLIENT_FIELD_NAME, EO.ROOT_ID_VALUE);
 					if (orgCheck)
 						countQuery.eq(EO.ORG_FIELD_NAME, EO.ROOT_ID_VALUE);
-					countQuery.eq(EO.APP_FIELD_NAME, AD_App_ID);
+					countQuery.eq(EO.APP_FIELD_NAME, app_ID);
 					
 					ClauseBuilderUtil.buildClause(countQuery, query);
 					retValue += countQuery.execute();
 				}
 			}
 			
-			if (orgCheck && entityType.withRootOrg() && !EO.isRootID(AD_Org_ID, false)) {
-				if (appCheck && entityType.withRootApp() && !EO.isRootID(AD_App_ID, false)) {
+			if (orgCheck && entityType.withRootOrg() && !EO.isRootID(org_ID, false)) {
+				if (appCheck && entityType.withRootApp() && !EO.isRootID(app_ID, false)) {
 					CountBuilder<?> countQuery = getDataTemplate().countBuilder(typeClazz).allowFiltering();
 					if (clientCheck)
-						countQuery.eq(EO.CLIENT_FIELD_NAME, AD_Client_ID);
+						countQuery.eq(EO.CLIENT_FIELD_NAME, tenant_ID);
 					countQuery.eq(EO.ORG_FIELD_NAME, EO.ROOT_ID_VALUE);
 					countQuery.eq(EO.APP_FIELD_NAME, EO.ROOT_ID_VALUE);
 					
@@ -240,21 +237,21 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 				
 				CountBuilder<?> countQuery = getDataTemplate().countBuilder(typeClazz).allowFiltering();
 				if (clientCheck)
-					countQuery.eq(EO.CLIENT_FIELD_NAME, AD_Client_ID);
+					countQuery.eq(EO.CLIENT_FIELD_NAME, tenant_ID);
 				countQuery.eq(EO.ORG_FIELD_NAME, EO.ROOT_ID_VALUE);
 				if (appCheck)
-					countQuery.eq(EO.APP_FIELD_NAME, AD_App_ID);
+					countQuery.eq(EO.APP_FIELD_NAME, app_ID);
 				
 				ClauseBuilderUtil.buildClause(countQuery, query);
 				retValue += countQuery.execute();
 			}
 			
-			if (appCheck && entityType.withRootApp() && !EO.isRootID(AD_App_ID, false)) {
+			if (appCheck && entityType.withRootApp() && !EO.isRootID(app_ID, false)) {
 				CountBuilder<?> countQuery = getDataTemplate().countBuilder(typeClazz).allowFiltering();
 				if (clientCheck)
-					countQuery.eq(EO.CLIENT_FIELD_NAME, AD_Client_ID);
+					countQuery.eq(EO.CLIENT_FIELD_NAME, tenant_ID);
 				if (orgCheck)
-					countQuery.eq(EO.ORG_FIELD_NAME, AD_Org_ID);
+					countQuery.eq(EO.ORG_FIELD_NAME, org_ID);
 				countQuery.eq(EO.APP_FIELD_NAME, EO.ROOT_ID_VALUE);
 				
 				ClauseBuilderUtil.buildClause(countQuery, query);
@@ -264,11 +261,11 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 		
 		CountBuilder<?> countQuery = getDataTemplate().countBuilder(typeClazz).allowFiltering();
 		if (clientCheck)
-			countQuery.eq(EO.CLIENT_FIELD_NAME, AD_Client_ID);
+			countQuery.eq(EO.CLIENT_FIELD_NAME, tenant_ID);
 		if (orgCheck)
-			countQuery.eq(EO.ORG_FIELD_NAME, AD_Org_ID);
+			countQuery.eq(EO.ORG_FIELD_NAME, org_ID);
 		if (appCheck)
-			countQuery.eq(EO.APP_FIELD_NAME, AD_App_ID);
+			countQuery.eq(EO.APP_FIELD_NAME, app_ID);
 		
 		ClauseBuilderUtil.buildClause(countQuery, query);
 		retValue += countQuery.execute();*/
@@ -278,10 +275,11 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 
 	/** Get Generic First **/
 	@Override
-	public Object getGenericFirst(Class<?> typeClazz, Class<?> keyClazz, Class<?> pkClazz, 
-			UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, GenericQuery query) {
-		List<?> results = getGenericList(typeClazz, keyClazz, pkClazz, 
-    			AD_Client_ID, AD_Org_ID, AD_App_ID, 0, 1, query);
+	public Object getGenericFirst(Class<?> typeClazz, Class<?> pkClazz, 
+			UUID tenant_ID, UUID org_ID, UUID app_ID, GenericQuery query) {
+		
+		List<?> results = getGenericList(typeClazz, pkClazz, 
+    			tenant_ID, org_ID, app_ID, query, 0, 1);
     	if (results == null || results.size() == 0)
     		return null;
     	
@@ -290,17 +288,18 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 
 	/** Get Generic List **/
 	@Override
-	public List<?> getGenericList(Class<?> typeClazz, Class<?> keyClazz, Class<?> pkClazz, 
-			UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, GenericQuery query) {
-		return getGenericList(typeClazz, keyClazz, pkClazz, 
-				AD_Client_ID, AD_Org_ID, AD_App_ID, -1, -1, query);
+	public List<?> getGenericList(Class<?> typeClazz, Class<?> pkClazz, 
+			UUID tenant_ID, UUID org_ID, UUID app_ID, GenericQuery query) {
+		
+		return getGenericList(typeClazz, pkClazz, 
+				tenant_ID, org_ID, app_ID, query, -1, -1);
 	}
 
 	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public List<?> getGenericList(Class<?> typeClazz, Class<?> keyClazz, Class<?> pkClazz, 
-			UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, 
-			int firstResult, int maxResults, GenericQuery query) {
+	public List<?> getGenericList(Class<?> typeClazz, Class<?> pkClazz, 
+			UUID tenant_ID, UUID org_ID, UUID app_ID, 
+			GenericQuery query, int firstResult, int maxResults) {
 		
 		List allResults = new ArrayList<>();
 		
@@ -312,7 +311,7 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 		boolean orgCheck = false;
 		boolean appCheck = false;
 		
-		/*if (AD_Client_ID != null) {
+		/*if (tenant_ID != null) {
 			clientCheck = true;
 			if (clauses != null) {
 				for (Clause clause : clauses) {
@@ -324,10 +323,10 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 			}
 			
 			if (clientCheck && entityType != null && entityType.alwayRootClient())
-				AD_Client_ID = EO.ROOT_ID_VALUE;
+				tenant_ID = EO.ROOT_ID_VALUE;
 		}
 		
-		if (entityType != null && AD_Org_ID != null) {
+		if (entityType != null && org_ID != null) {
 			orgCheck = entityType.hasOrg();
 			if (orgCheck) {
 				if (clauses != null) {
@@ -340,11 +339,11 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 				}
 				
 				if (orgCheck && entityType.alwayRootOrg())
-					AD_Org_ID = EO.ROOT_ID_VALUE;
+					org_ID = EO.ROOT_ID_VALUE;
 			}
 		}
 		
-		if (entityType != null && AD_App_ID != null) {
+		if (entityType != null && app_ID != null) {
 			appCheck = entityType.hasApp();
 			if (appCheck) {
 				if (clauses != null) {
@@ -357,7 +356,7 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 				}
 				
 				if (appCheck && entityType.alwayRootApp())
-					AD_App_ID = EO.ROOT_ID_VALUE;
+					app_ID = EO.ROOT_ID_VALUE;
 			}
 		}
 		
@@ -368,8 +367,8 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 		}
 		
 		if (entityType != null) {
-			if (clientCheck && entityType.withRootClient() && !EO.isRootID(AD_Client_ID, false)) {
-				if (appCheck && entityType.withRootApp() && !EO.isRootID(AD_App_ID, false)) {
+			if (clientCheck && entityType.withRootClient() && !EO.isRootID(tenant_ID, false)) {
+				if (appCheck && entityType.withRootApp() && !EO.isRootID(app_ID, false)) {
 					SelectBuilder<?> selectQuery = getDataTemplate().selectBuilder(typeClazz).allowFiltering();
 					selectQuery.eq(EO.CLIENT_FIELD_NAME, EO.ROOT_ID_VALUE);
 					if (orgCheck)
@@ -387,12 +386,12 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 				}
 				
 				if (notFullSize) {
-					if (appCheck && entityType.withRootApp() && !EO.isRootID(AD_App_ID, false)) {
+					if (appCheck && entityType.withRootApp() && !EO.isRootID(app_ID, false)) {
 						SelectBuilder<?> selectQuery = getDataTemplate().selectBuilder(typeClazz).allowFiltering();
 						selectQuery.eq(EO.CLIENT_FIELD_NAME, EO.ROOT_ID_VALUE);
 						if (orgCheck)
 							selectQuery.eq(EO.ORG_FIELD_NAME, EO.ROOT_ID_VALUE);
-						selectQuery.eq(EO.APP_FIELD_NAME, AD_App_ID);
+						selectQuery.eq(EO.APP_FIELD_NAME, app_ID);
 						
 						ClauseBuilderUtil.buildClause(selectQuery, query);
 						if (checkSize)
@@ -405,11 +404,11 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 				}
 			}
 			
-			if (notFullSize && orgCheck && entityType.withRootOrg() && !EO.isRootID(AD_Org_ID, false)) {
-				if (appCheck && entityType.withRootApp() && !EO.isRootID(AD_App_ID, false)) {
+			if (notFullSize && orgCheck && entityType.withRootOrg() && !EO.isRootID(org_ID, false)) {
+				if (appCheck && entityType.withRootApp() && !EO.isRootID(app_ID, false)) {
 					SelectBuilder<?> selectQuery = getDataTemplate().selectBuilder(typeClazz).allowFiltering();
 					if (clientCheck)
-						selectQuery.eq(EO.CLIENT_FIELD_NAME, AD_Client_ID);
+						selectQuery.eq(EO.CLIENT_FIELD_NAME, tenant_ID);
 					selectQuery.eq(EO.ORG_FIELD_NAME, EO.ROOT_ID_VALUE);
 					selectQuery.eq(EO.APP_FIELD_NAME, EO.ROOT_ID_VALUE);
 					
@@ -425,10 +424,10 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 				if (notFullSize) {
 					SelectBuilder<?> selectQuery = getDataTemplate().selectBuilder(typeClazz).allowFiltering();
 					if (clientCheck)
-						selectQuery.eq(EO.CLIENT_FIELD_NAME, AD_Client_ID);
+						selectQuery.eq(EO.CLIENT_FIELD_NAME, tenant_ID);
 					selectQuery.eq(EO.ORG_FIELD_NAME, EO.ROOT_ID_VALUE);
 					if (appCheck)
-						selectQuery.eq(EO.APP_FIELD_NAME, AD_App_ID);
+						selectQuery.eq(EO.APP_FIELD_NAME, app_ID);
 					
 					ClauseBuilderUtil.buildClause(selectQuery, query);
 					if (checkSize)
@@ -440,12 +439,12 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 				}
 			}
 			
-			if (notFullSize && appCheck && entityType.withRootApp() && !EO.isRootID(AD_App_ID, false)) {
+			if (notFullSize && appCheck && entityType.withRootApp() && !EO.isRootID(app_ID, false)) {
 				SelectBuilder<?> selectQuery = getDataTemplate().selectBuilder(typeClazz).allowFiltering();
 				if (clientCheck)
-					selectQuery.eq(EO.CLIENT_FIELD_NAME, AD_Client_ID);
+					selectQuery.eq(EO.CLIENT_FIELD_NAME, tenant_ID);
 				if (orgCheck)
-					selectQuery.eq(EO.ORG_FIELD_NAME, AD_Org_ID);
+					selectQuery.eq(EO.ORG_FIELD_NAME, org_ID);
 				selectQuery.eq(EO.APP_FIELD_NAME, EO.ROOT_ID_VALUE);
 				
 				ClauseBuilderUtil.buildClause(selectQuery, query);
@@ -461,11 +460,11 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 		if (notFullSize) {
 			SelectBuilder<?> selectQuery = getDataTemplate().selectBuilder(typeClazz).allowFiltering();
 			if (clientCheck)
-				selectQuery.eq(EO.CLIENT_FIELD_NAME, AD_Client_ID);
+				selectQuery.eq(EO.CLIENT_FIELD_NAME, tenant_ID);
 			if (orgCheck)
-				selectQuery.eq(EO.ORG_FIELD_NAME, AD_Org_ID);
+				selectQuery.eq(EO.ORG_FIELD_NAME, org_ID);
 			if (appCheck)
-				selectQuery.eq(EO.APP_FIELD_NAME, AD_App_ID);
+				selectQuery.eq(EO.APP_FIELD_NAME, app_ID);
 			
 			ClauseBuilderUtil.buildClause(selectQuery, query);
 			if (checkSize)
@@ -586,31 +585,32 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 		return false;
 	}
 
-	@Override
+	/*@Override
 	public <T extends EO<PK>, PK extends Serializable> 
 		boolean delete(Class<T> typeClazz, Class<PK> pkClazz, 
 				PK key, boolean localTrx) {
 		try {
-			Query query = new Query();
-			query.addCriteria(Criteria.where("id").is(key));
-			
+			Query query = query(criteria("id").is(key));
+			getDataTemplate().remove(query, typeClazz);
+			return true;
+		} catch (Exception e) {}
+		
+		return false;
+	}*/
+
+	@Override
+	public <T extends EO<PK>, PK extends Serializable> 
+		boolean delete(Class<T> typeClazz, Class<PK> pkClazz, 
+				UUID tenant_ID, PK id, boolean localTrx) {
+		try {
+			Query query = query(criteria("tenant_ID").is(tenant_ID)
+					.and("id").is(id));
 			getDataTemplate().remove(query, typeClazz);
 			return true;
 		} catch (Exception e) {}
 		
 		return false;
 	}
-/*
-	@Override
-	public <T extends EO<PK>, PK extends Serializable> 
-		boolean delete(Class<T> typeClazz, Class<PK> pkClazz, 
-				UUID ad_Client_ID, PK id, boolean localTrx) {
-		KT key = getKey(keyClazz, pkClazz, ad_Client_ID, id);
-		if (key == null)
-			return false;
-		
-		return delete(typeClazz, keyClazz, pkClazz, key, localTrx);
-	}*/
 
 	/*@Override
 	public <T extends EO<PK>, PK extends Serializable> 
@@ -628,11 +628,11 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 		return -1;
 	}*/
 	
-	/*public <T extends EO<PK>, PK extends Serializable>
+	public <T extends EO<PK>, PK extends Serializable>
 		int delete(Class<T> typeClazz, Class<PK> pkClazz, 
-				UUID ad_Client_ID, boolean localTrx, GenericQuery query) {
+				UUID tenant_ID, GenericQuery query, boolean localTrx) {
 		
-		if (clauses == null || clauses.length == 0)
+		/*if (clauses == null || clauses.length == 0)
 			return -1;
 		
 		try {
@@ -649,7 +649,7 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 			}
 			if (clientCheck)
 			{
-				deleteBuilder.whereEq(EO.CLIENT_FIELD_NAME, ad_Client_ID);
+				deleteBuilder.whereEq(EO.CLIENT_FIELD_NAME, tenant_ID);
 			}
 			
 			for (Clause clause : clauses) {
@@ -668,13 +668,13 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 			if (deleteBuilder.execute())
 				return 1;
 			
-		} catch (Exception e) {}
+		} catch (Exception e) {}*/
 		
 		return -1;
-	}*/
+	}
 	
 	/** Set Active **/
-	@Override
+	/*@Override
 	public <T extends EO<PK>, PK extends Serializable>
 		boolean setActive(Class<T> typeClazz, Class<PK> pkClazz, 
 				PK key, boolean isActive, boolean localTrx) {
@@ -689,23 +689,21 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 		} catch (Exception e) {}
 		
 		return false;
-	}
-	/*
+	}*/
+	
 	@Override
 	public <T extends EO<PK>, PK extends Serializable>
 		boolean setActive(Class<T> typeClazz, Class<PK> pkClazz, 
-				UUID ad_Client_ID, PK id, boolean isActive, boolean localTrx) {
-		KT key = getKey(keyClazz, pkClazz, ad_Client_ID, id);
-		if (key == null)
-			return false;
+				UUID tenant_ID, PK id, boolean isActive, boolean localTrx) {
 		
-		return setActive(typeClazz, keyClazz, pkClazz, key, isActive, localTrx);
-	}*/
+		Query query = query(criteria("id").is(id));
+		return setActive(typeClazz, pkClazz, tenant_ID, query, isActive, localTrx) == 1;
+	}
 
 	/*@Override
 	public <T extends EO<PK>, PK extends Serializable> 
 		int setActive(Class<T> typeClazz, Class<PK> pkClazz,
-				UUID ad_Client_ID, List<PK> ids, boolean isActive, boolean localTrx) {
+				UUID tenant_ID, List<PK> ids, boolean isActive, boolean localTrx) {
 		
 		String keyName = null;
 		try {
@@ -716,15 +714,16 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 		}
 		
 		Clause clause = new Clause(keyName, ids);
-		return setActive(typeClazz, keyClazz, pkClazz, ad_Client_ID, isActive, localTrx, clause);
+		return setActive(typeClazz, keyClazz, pkClazz, tenant_ID, isActive, localTrx, clause);
 	}*/
 
-	/*@Override
+	@Override
 	public <T extends EO<PK>, PK extends Serializable> 
-		int setActive(Class<T> typeClazz, Class<PK> pkClazz,
-			UUID ad_Client_ID, boolean isActive, boolean localTrx, Clause... clauses) {
+		int setActive(Class<T> typeClazz, Class<PK> pkClazz, 
+				UUID tenant_ID, GenericQuery query, 
+				boolean isActive, boolean localTrx) {
 		
-		if (clauses == null || clauses.length == 0)
+		/*if (clauses == null || clauses.length == 0)
 			return -1;
 		
 		try {
@@ -742,7 +741,7 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 			}
 			if (clientCheck)
 			{
-				updateBuilder.whereEq(EO.CLIENT_FIELD_NAME, ad_Client_ID);
+				updateBuilder.whereEq(EO.CLIENT_FIELD_NAME, tenant_ID);
 			}
 			
 			for (Clause clause : clauses) {
@@ -760,18 +759,18 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 			
 			if (updateBuilder.execute())
 				return 1;
-		} catch (Exception e) {}
+		} catch (Exception e) {}*/
 		
 		return -1;
-	}*/
-
+	}
+	
 	/** Private Methods **/
 	/*private <KT extends EOKey<PK>, PK extends Serializable> 
-			KT getKey(Class<PK> pkClazz, UUID ad_Client_ID, PK id) {
+			KT getKey(Class<PK> pkClazz, UUID tenant_ID, PK id) {
 		KT key = null;
 		try {
 			key = keyClazz.newInstance();
-			key.setAd_Client_ID(ad_Client_ID);
+			key.setAd_Client_ID(tenant_ID);
 			key.setID(id);
 		} catch (InstantiationException | IllegalAccessException e) {
 			return null;

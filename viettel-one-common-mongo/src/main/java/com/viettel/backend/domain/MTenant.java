@@ -34,7 +34,9 @@ public class MTenant extends EO<UUID> {
 	private static final long serialVersionUID = 4142212916030434607L;
 	
 	@Transient
-	public static final String KEY_NAME = "ad_Tenant_ID";
+	public static final String KEY_PROPERTY = "id";
+	@Transient
+	public static final String DISPLAY_PROPERTY = "name";
 	
 	@Id
 	private UUID id;
@@ -42,14 +44,14 @@ public class MTenant extends EO<UUID> {
 	@Index
 	@Column(name = ORG_KEYCOLUMN_NAME, nullable = false)
 	@EntityLinked(entityClazz = MOrg.class, pkClazz = UUID.class,
-			idProperty = MOrg.KEY_NAME, captionProperty = "name", 
+			idProperty = MOrg.KEY_PROPERTY, captionProperty = MOrg.DISPLAY_PROPERTY, 
 			type = LinkedType.DROPDOWN, canNew = false)
 	private UUID org_ID;
 	
 	@Index
 	@Column(name = APP_KEYCOLUMN_NAME, nullable = false)
 	@EntityLinked(entityClazz = MApp.class, pkClazz = UUID.class, 
-			idProperty = MApp.KEY_NAME, captionProperty = "name",  
+			idProperty = MApp.KEY_PROPERTY, captionProperty = MApp.DISPLAY_PROPERTY,  
 			type = LinkedType.DROPDOWN, canNew = false)
 	private UUID app_ID;
 	

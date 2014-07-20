@@ -7,6 +7,7 @@ import com.viettel.backend.common.IValuePair;
 
 @Caption("orgtype")
 public enum MOrgType implements Serializable, IValuePair<Integer> {
+	ROOT(0, true),
 	DOMAIN(1, true),			// Mien
 	REGION(2, true),			// Vung
 	DISTRIBUTOR(3, true),		// Nha phan phoi

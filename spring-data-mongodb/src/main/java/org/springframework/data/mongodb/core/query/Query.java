@@ -72,7 +72,7 @@ public class Query implements GenericQuery {
 	 * 
 	 * @param criteria must not be {@literal null}.
 	 */
-	public Query(Criteria criteria) {
+	public Query(GenericCriteria criteria) {
 		addCriteria(criteria);
 	}
 

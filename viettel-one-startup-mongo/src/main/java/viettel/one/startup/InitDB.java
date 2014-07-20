@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import com.viettel.backend.common.EO;
 import com.viettel.backend.domain.MApp;
 import com.viettel.backend.domain.MOrg;
+import com.viettel.backend.domain.MOrgType;
 import com.viettel.backend.domain.MRole;
 import com.viettel.backend.domain.MTenant;
 import com.viettel.backend.domain.MUser;
@@ -76,6 +77,7 @@ public class InitDB {
 			systemOrg.setCode("SYSTEM");
 			systemOrg.setName("System");
 			systemOrg.setAddress("HN");
+			systemOrg.setOrgType(MOrgType.ROOT);
 			mongoOperation.save(systemOrg);
 		}
 		

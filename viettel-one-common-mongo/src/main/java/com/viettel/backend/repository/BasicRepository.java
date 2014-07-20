@@ -28,68 +28,51 @@ public interface BasicRepository extends Serializable {
 	public GenericCriteria criteria(String key);
 	
 	/**** Find By ID *****/
-	public <T extends EO<PK>, PK extends Serializable> 
-		T findById(Class<T> typeClazz, Class<PK> pkClazz, PK key);
+//	public <T extends EO<PK>, PK extends Serializable> 
+//		T findById(Class<T> typeClazz, Class<PK> pkClazz, PK key);
 	
 	public <T extends EO<PK>, PK extends Serializable> 
 		T findById(Class<T> typeClazz, Class<PK> pkClazz, 
-				UUID ad_Client_ID, PK id);
+				UUID tenant_ID, PK id);
 	
 	/**** Get Count *****/
-//    public <T extends EO<PK>, PK extends Serializable> 
-//    	long getCount(Class<T> typeClazz, Class<PK> pkClazz, 
-//    			UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID);
-    
     public <T extends EO<PK>, PK extends Serializable> 
 		long getCount(Class<T> typeClazz, Class<PK> pkClazz,
-				UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID,
+				UUID tenant_ID, UUID org_ID, UUID app_ID,
 				GenericQuery query);
     
     /** Get First **/
-//    public <T extends EO<PK>, PK extends Serializable> 
-//		T getFirst(Class<T> typeClazz, Class<PK> pkClazz, 
-//				UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID);
-    
     public <T extends EO<PK>, PK extends Serializable> 
 		T getFirst(Class<T> typeClazz, Class<PK> pkClazz, 
-				UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, 
+				UUID tenant_ID, UUID org_ID, UUID app_ID, 
 				GenericQuery query);
     
     /**** Get List *****/
-//    public <T extends EO<PK>, PK extends Serializable> 
-//		List<T> getList(Class<T> typeClazz, Class<PK> pkClazz, 
-//				UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID);
-	
     public <T extends EO<PK>, PK extends Serializable> 
 		List<T> getList(Class<T> typeClazz, Class<PK> pkClazz, 
-				UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, 
+				UUID tenant_ID, UUID org_ID, UUID app_ID, 
 				GenericQuery query);
     
-//	public <T extends EO<PK>, PK extends Serializable> 
-//		List<T> getList(Class<T> typeClazz, Class<PK> pkClazz, 
-//				UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, 
-//				int firstResult, int maxResults);
-
 	public <T extends EO<PK>, PK extends Serializable> 
 		List<T> getList(Class<T> typeClazz, Class<PK> pkClazz, 
-				UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, 
-				int firstResult, int maxResults, GenericQuery query);
+				UUID tenant_ID, UUID org_ID, UUID app_ID, 
+				GenericQuery query, int firstResult, int maxResults);
 	
 	/** Get Generic Count **/
-    public long getGenericCount(Class<?> typeClazz, Class<?> keyClazz, Class<?> pkClazz, 
-			UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, GenericQuery query);
+    public long getGenericCount(Class<?> typeClazz, Class<?> pkClazz, 
+			UUID tenant_ID, UUID org_ID, UUID app_ID, GenericQuery query);
     
     /** Get Generic First **/
-    public Object getGenericFirst(Class<?> typeClazz, Class<?> keyClazz, Class<?> pkClazz, 
-			UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, GenericQuery query);
+    public Object getGenericFirst(Class<?> typeClazz, Class<?> pkClazz, 
+			UUID tenant_ID, UUID org_ID, UUID app_ID, GenericQuery query);
     
     /** Get Generic List **/
-    public List<?> getGenericList(Class<?> typeClazz, Class<?> keyClazz, Class<?> pkClazz, 
-			UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, GenericQuery query);
+    public List<?> getGenericList(Class<?> typeClazz, Class<?> pkClazz, 
+			UUID tenant_ID, UUID org_ID, UUID app_ID, GenericQuery query);
     
-    public List<?> getGenericList(Class<?> typeClazz, Class<?> keyClazz, Class<?> pkClazz, 
-    			UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, 
-    			int firstResult, int maxResults, GenericQuery query);
+    public List<?> getGenericList(Class<?> typeClazz, Class<?> pkClazz, 
+    			UUID tenant_ID, UUID org_ID, UUID app_ID, 
+    			GenericQuery query, int firstResult, int maxResults);
     
     /**** Save *****/
     public <T extends EO<PK>, PK extends Serializable> 
@@ -107,34 +90,31 @@ public interface BasicRepository extends Serializable {
 
     public <T extends EO<PK>, PK extends Serializable> 
 		boolean delete(Class<T> typeClazz, Class<PK> pkClazz,
-				PK key, boolean localTrx);
+				UUID tenant_ID, PK id, boolean localTrx);
     
-    public <T extends EO<PK>, PK extends Serializable> 
-		boolean delete(Class<T> typeClazz, Class<PK> pkClazz,
-				UUID ad_Client_ID, PK id, boolean localTrx);
-    
-    public <T extends EO<PK>, PK extends Serializable> 
+/*    public <T extends EO<PK>, PK extends Serializable> 
 		int delete(Class<T> typeClazz, Class<PK> pkClazz,
-				UUID ad_Client_ID, List<PK> ids, boolean localTrx);
-    
+				UUID tenant_ID, List<PK> ids, boolean localTrx);
+*/    
     public <T extends EO<PK>, PK extends Serializable>
 		int delete(Class<T> typeClazz, Class<PK> pkClazz, 
-				UUID ad_Client_ID, boolean localTrx, GenericQuery query);
+				UUID tenant_ID, GenericQuery query, boolean localTrx);
     
     /** Set Active **/
-    public <T extends EO<PK>, PK extends Serializable>
+    /*public <T extends EO<PK>, PK extends Serializable>
 		boolean setActive(Class<T> typeClazz, Class<PK> pkClazz, 
-				PK key, boolean isActive, boolean localTrx);
+				PK key, boolean isActive, boolean localTrx);*/
     
     public <T extends EO<PK>, PK extends Serializable>
 		boolean setActive(Class<T> typeClazz, Class<PK> pkClazz, 
-				UUID ad_Client_ID, PK id, boolean isActive, boolean localTrx);
+				UUID tenant_ID, PK id, boolean isActive, boolean localTrx);
+    
+    /*public <T extends EO<PK>, PK extends Serializable>
+		int setActive(Class<T> typeClazz, Class<PK> pkClazz, 
+				UUID tenant_ID, List<PK> ids, boolean isActive, boolean localTrx);*/
     
     public <T extends EO<PK>, PK extends Serializable>
 		int setActive(Class<T> typeClazz, Class<PK> pkClazz, 
-				UUID ad_Client_ID, List<PK> ids, boolean isActive, boolean localTrx);
-    
-    public <T extends EO<PK>, PK extends Serializable>
-		int setActive(Class<T> typeClazz, Class<PK> pkClazz, 
-				UUID ad_Client_ID, boolean isActive, boolean localTrx, GenericQuery query);
+				UUID tenant_ID, GenericQuery query, 
+				boolean isActive, boolean localTrx);
 }

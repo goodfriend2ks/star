@@ -20,20 +20,16 @@
 	</bean>
 	
 	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
-		<!-- does not necessarily have to be the same name as the bean to be exported -->
 		<property name="serviceName" value="UserService" />
 		<property name="service" ref="userService" />
 		<property name="serviceInterface" value="com.viettel.backend.service.UserService" />
-		<!-- defaults to 1099 -->
 		<property name="registryPort" value="${rmi.port}" />
 	</bean>
 
 	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
-		<!-- does not necessarily have to be the same name as the bean to be exported -->
 		<property name="serviceName" value="RoleService" />
 		<property name="service" ref="roleService" />
 		<property name="serviceInterface" value="com.viettel.backend.service.RoleService" />
-		<!-- defaults to 1099 -->
 		<property name="registryPort" value="${rmi.port}" />
 	</bean>
 	
@@ -44,14 +40,12 @@
 		<property name="registryPort" value="${rmi.port}" />
 	</bean> -->
 	
-	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
-		<!-- does not necessarily have to be the same name as the bean to be exported -->
+	<!-- <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
 		<property name="serviceName" value="ViewService" />
 		<property name="service" ref="viewService" />
 		<property name="serviceInterface" value="com.viettel.backend.service.ViewService" />
-		<!-- defaults to 1099 -->
 		<property name="registryPort" value="${rmi.port}" />
-	</bean>
+	</bean> -->
 
 	<!-- <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
 		<property name="serviceName" value="PopupService" />
@@ -60,30 +54,24 @@
 		<property name="registryPort" value="${rmi.port}" />
 	</bean> -->
 	
-	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
-		<!-- does not necessarily have to be the same name as the bean to be exported -->
+	<!-- <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
 		<property name="serviceName" value="ReportService" />
 		<property name="service" ref="reportService" />
 		<property name="serviceInterface" value="com.viettel.backend.service.ReportService" />
-		<!-- defaults to 1099 -->
 		<property name="registryPort" value="${rmi.port}" />
-	</bean>
+	</bean> -->
 	
-	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
-		<!-- does not necessarily have to be the same name as the bean to be exported -->
+	<!-- <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
 		<property name="serviceName" value="ReportParameterService" />
 		<property name="service" ref="reportParameterService" />
 		<property name="serviceInterface" value="com.viettel.backend.service.ReportParameterService" />
-		<!-- defaults to 1099 -->
 		<property name="registryPort" value="${rmi.port}" />
-	</bean>
+	</bean> -->
 	
 	<!-- <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
-		does not necessarily have to be the same name as the bean to be exported
 		<property name="serviceName" value="ClientService" />
 		<property name="service" ref="clientService" />
 		<property name="serviceInterface" value="com.viettel.backend.service.ClientService" />
-		defaults to 1099
 		<property name="registryPort" value="${rmi.port}" />
 	</bean> -->
 </beans>

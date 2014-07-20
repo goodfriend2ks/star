@@ -1,14 +1,20 @@
 /**
  * 
  */
+var DIALOG_CONFIRM_YES 		= "Yes";
+var DIALOG_CONFIRM_NO 		= "No";
+var DIALOG_CONFIRM_OK 		= "OK";
+var DIALOG_CONFIRM_CANCEL 	= "Cancel";
+var DIALOG_CONFIRM_CLOSE 	= "Close";
+
 var beanDatagridId;
 var beanDialogId;
 var beanFormId;
 
-var dialogNewTitle;
-var dialogEditTitle;
-var dialogDeleteTitle;
-var dialogDeleteMsg;
+var dialogNewTitle = "New";
+var dialogEditTitle = "Edit";
+var dialogDeleteTitle = "Confirm";
+var dialogDeleteMsg = "Delete";
 
 var beanRequestMappingUrl;
 var beanCurrentUrl;
@@ -146,6 +152,10 @@ function initForm() {
 /** On Ajax Fail **/
 function onFail(jqXHR, textStatus) {
 	var jsonResponse = JSON.parse(jqXHR.responseText);
+	onResponseFail(jsonResponse);
+}
+
+function onResponseFail(jsonResponse) {
 	var error = jsonResponse.error;
 	if (error == 'unauthorized' || error == 'invalid_token') {
 		if (RELOGIN_WHEN_INVALID_TOKEN && LOGIN_URL) {
@@ -154,20 +164,21 @@ function onFail(jqXHR, textStatus) {
 		}
 	}
 	
-	BootstrapDialog.alert({
-		type: BootstrapDialog.TYPE_ERROR,
-		title: '<span class=\'fa fa-exclamation-triangle\'> ' + error + '</span>',
-		message: jsonResponse.error_description, 
-		draggable: true
-	});
+	showError(error, jsonResponse.error_description);
 }
 
 /** On Javascript exception **/
 function onException(ex) {
+	showError(ex.name, ex.message);
+}
+
+function showError(title, msg) {
 	BootstrapDialog.alert({
 		type: BootstrapDialog.TYPE_ERROR,
-		title: '<span class=\'fa fa-exclamation-triangle\'> ' + ex.name + '</span>',
-		message: ex.message, 
+		title: '<span class=\'fa fa-exclamation-triangle\'> ' + title + '</span>',
+		message: msg, 
+		buttonLabel: DIALOG_CONFIRM_OK, 
+		closeByBackdrop: false,
 		draggable: true
 	});
 }
@@ -238,7 +249,9 @@ function loadSuccess(response) {
 }
 
 /********** FORM FUNCTION ***********/
-function initFormData() {
+function initFormData(callbackOption, callback) {
+	$('#' + beanFormId).trigger('reset');
+	
 	var bootstrapValidator = $('#' + beanFormId).data('bootstrapValidator'); 
     if (bootstrapValidator)
     	bootstrapValidator.resetForm();
@@ -246,34 +259,118 @@ function initFormData() {
 	// chzn-select
     $('#' + beanFormId + ' .chzn-select[ajaxUrl], #' + beanFormId + ' .chzn-select-deselect[ajaxUrl]').each(
     		function(index){
-    			initOption($(this), true, false);
+    			initOption($(this), true, false, callbackOption);
     		}
     );
 	
 	// multiselect
     $('#' + beanFormId + ' .multiselect[ajaxUrl]').each(
     		function(index){
-    			initOption($(this), false, true);
+    			initOption($(this), false, true, callbackOption);
     		}
     );
+    
+    if (callback) {
+    	callback();
+    }
 }
 
-function initOption(jselect, ischosen, ismultiselect) {
+function openBeanDialog(title) {
+	$('#' + beanDialogId).modal('show');
+	$('#' + beanDialogId + '-title').html(title);
+	
+	/*$(document).on('keydown', null, 'alt+s', function() { 
+		saveBean();
+	});*/
+}
+
+function closeBeanDialog(gridReload) {
+	/*$(document).off('keydown');*/
+	
+	//$('#' + beanDialogId).dialog('close');			// close the dialog
+	$('#' + beanDialogId).modal('hide');
+	if (gridReload) {
+		$('#' + beanDatagridId).datagrid('reload');	// reload the user data
+	}
+}
+
+function initOption(jselect, ischosen, ismultiselect, callbackOption) {
 	try {
 		var select = jselect[0]; 
 		var ajaxUrl = jselect.attr('ajaxUrl');
 		var required = jselect.attr('required');
+		var localstorage = jselect.attr('localstorage');
+		var timeout = 0;
+		
+		// minutes
+		if (jselect.attr('timeout')) {
+			try {
+				timeout = parseInt(jselect.attr('timeout'));
+			} catch (e) {}
+		}
 		
 		if (ajaxUrl != '') {
 			jselect.empty();
+			
 			if (!!!required && !ismultiselect)
 				$('<option />').appendTo(select);
 			
-			oauth2.get(ajaxUrl, '', 
-					function (response) {
-						$.each(response, function(){
+			if (localstorage != '') {
+				var localdata = store.get(localstorage);
+				if (localdata) {
+					var datas = null;
+					var json = JSON.parse(localdata);
+					
+					if (timeout <= 0) {
+						if (json['access_token'] == oauth2.cookie.get('authToken')) {
+							datas = json.rows
+						}
+					} else {
+						try {
+							var timeoutDate = new Date(json['timeout']);
+							if (timeoutDate.getTime() > (new Date()).getTime()) {
+								datas = json.rows;
+							}
+						} catch (e) {
+						}
+					}
+					
+					if (datas == null) {
+						store.remove(localstorage);
+					} else {
+						$.each(datas, function(){
 							$('<option />', {value: this.id, text: this.display}).appendTo(select);
 						});
+						
+						if (callbackOption) {
+							callbackOption(jselect, true);
+						}
+						
+						if (ischosen)
+							jselect.trigger("chosen:updated");
+						else if (ismultiselect)
+							jselect.multiselect('rebuild');
+						
+						return;
+					}
+				}
+			}
+			
+			oauth2.get(ajaxUrl, '', 
+					function (response) {
+						if (localstorage != '') {
+							response['timeout'] = timeout <= 0 ? null : new Date((new Date()).getTime() + timeout*60000);
+							response['access_token'] = oauth2.cookie.get('authToken');
+							store.set(localstorage, JSON.stringify(response));
+						}
+						
+						$.each(response.rows, function(){
+							$('<option />', {value: this.id, text: this.display}).appendTo(select);
+						});
+						
+						if (callbackOption) {
+							callbackOption(jselect, true);
+						}
 						
 						if (ischosen)
 							jselect.trigger("chosen:updated");
@@ -282,6 +379,10 @@ function initOption(jselect, ischosen, ismultiselect) {
 					},
 					function(jqXHR, textStatus) {
 						progress(false);
+						
+						if (callbackOption) {
+							callbackOption(jselect, false);
+						}
 					});
 		}
 	} catch (e) {
@@ -293,12 +394,8 @@ function initOption(jselect, ischosen, ismultiselect) {
 /** Open dialog for new bean **/
 function newBean(){
     //$('#' + beanDialogId).dialog('open').dialog('setTitle', dialogNewTitle);
-	/*$('#' + beanDialogId).dynamicDraggable({
-	     handle: ".modal-header"  
-	});*/
 	
-	$('#' + beanDialogId).modal('show');
-    $('#' + beanFormId).trigger('reset');
+	openBeanDialog(dialogNewTitle);
     
     initFormData();
     
@@ -306,26 +403,40 @@ function newBean(){
 }
 
 /** Get selection bean and open dialog for edit **/
-function editBean(){
-	var selectedId = getSelectedId();
-    if (selectedId != null && selectedId != '') {
-        //$('#' + beanDialogId).dialog('open').dialog('setTitle', dialogEditTitle);
-    	//$('#' + beanFormId).form('load', row);
-    	//$('#' + beanFormId).form('load', beanRequestMappingUrl + '/edit/' + selectedId);
-        
-    	beanCurrentUrl = beanRequestMappingUrl + '/savex/' + selectedId;
-    	
-        progress(true);
-        oauth2.get(beanRequestMappingUrl + '/edit/' + selectedId, '', 
+function editBean(selectedId){
+	if (!selectedId)
+		var selectedId = getSelectedId();
+	
+	if (selectedId != null && selectedId != '') {
+	    //$('#' + beanDialogId).dialog('open').dialog('setTitle', dialogEditTitle);
+		//$('#' + beanFormId).form('load', row);
+		//$('#' + beanFormId).form('load', beanRequestMappingUrl + '/edit/' + selectedId);
+	    
+		beanCurrentUrl = beanRequestMappingUrl + '/save/' + selectedId;
+		
+	    progress(true);
+	    oauth2.get(beanRequestMappingUrl + '/edit/' + selectedId, '', 
 				function (response) {
-        			try {
-	        			$('#' + beanDialogId).modal('show');
+	    			try {
+	    				openBeanDialog(dialogEditTitle);
 	        			
-	        			initFormData();
+	        			initFormData(function (jselect, success) {
+	        				if (success) {
+	        					var name = jselect.attr('name');
+	    	        			if (!name)
+	    	        				name = jselect.attr('id');
+	    	        			
+	    	        			if (name) {
+	    	        				var value = response[name];
+	    	        				if (value) {
+	    	        					jselect.val(value);
+	    	        				}
+	    	        			}
+	        				}
+	        			});
 	        			
 	        			$('#' + beanFormId).populate( response, false );
 	        			
-			        	//$('#' + beanFormId + ' input, #' + beanFormId + ' select').each(
 			            // date-picker
 			        	$('#' + beanFormId + ' input.date-picker').each(
 			            		function(index){
@@ -378,23 +489,52 @@ function editBean(){
 			            		}
 			            );
 			            
+			           /* // chosen
+			            $('#' + beanFormId + ' .chzn-select, #' + beanFormId + ' .chzn-select-deselect').each(
+			            		function(index){
+			            			try {
+			            				var input = $(this);
+			    	        			var name = input.attr('name');
+			    	        			if (!name)
+			    	        				name = input.attr('id');
+			    	        			
+			    	        			if (name) {
+			    	        				
+			    	        				var value = response[name];
+			    	        				input.val('0d3992c2-e578-11e3-a5bf-19b777468313');
+			    	        				input.trigger("chosen:updated");
+			    	        				//$(this).trigger("chosen:updated");
+			    	        			}
+			            			} catch (e) {
+			            			}
+			            		}
+			            );
+			            
+			            // multiselect
+			            $('#' + beanFormId + ' .multiselect').each(
+			            		function(index){
+			            			try {
+			            				$(this).multiselect('rebuild');
+			            			} catch (e) {
+			            			}
+			            		}
+			            );*/
+			            
 			            progress(false);
-        			} catch (e) {
-        				progress(false);
-        				onException(e);
+	    			} catch (e) {
+	    				progress(false);
+	    				onException(e);
 					}
 				}, 
 				function(jqXHR, textStatus) {
 					progress(false);
 					onFail(jqXHR, textStatus);
 				});
-    }
-    
-    return row;
+	}
 }
 
 /** Save bean and close dialog if success **/
-function saveBean(){
+function saveBean() {
 	$('#' + beanFormId).bootstrapValidator('validate');
 	var isValid = $('#' + beanFormId).data('bootstrapValidator').isValid();
 	if (isValid) {
@@ -423,7 +563,11 @@ function saveBean(){
 					//$('#' + beanFormId).serialize(), 
 					function (response) {
 						progress(false);
-				    	closeBeanDialog(true);
+						if (response.success && response.success == 'true') {
+					    	closeBeanDialog(true);
+						} else {
+							onResponseFail(response);
+						}
 					}, 
 					function(jqXHR, textStatus) {
 						progress(false);
@@ -455,7 +599,7 @@ function destroyBean() {
             draggable: true,
             buttons: [{
                 icon: 'fa fa-thumbs-up',
-                label: '&nbsp;Yes',
+                label: '&nbsp;' + DIALOG_CONFIRM_YES,
                 cssClass: 'btn-primary',
                 autospin: true,
                 action: function(dialogRef){
@@ -475,21 +619,13 @@ function destroyBean() {
             				});
                 }
             }, {
-                label: 'Close',
+                label: '&nbsp;' + DIALOG_CONFIRM_NO,
                 action: function(dialogRef){
                     dialogRef.close();
                 }
             }]
         });
     }
-}
-
-function closeBeanDialog(gridReload) {
-	//$('#' + beanDialogId).dialog('close');			// close the dialog
-	$('#' + beanDialogId).modal('hide');
-	if (gridReload) {
-		$('#' + beanDatagridId).datagrid('reload');	// reload the user data
-	}
 }
 
 /*var progressDialog = new BootstrapDialog({

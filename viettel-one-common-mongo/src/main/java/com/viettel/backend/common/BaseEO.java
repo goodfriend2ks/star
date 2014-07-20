@@ -38,21 +38,21 @@ public abstract class BaseEO<PK extends Serializable> extends EO<PK>
 	@Index
 	@Column(name = ORG_KEYCOLUMN_NAME, nullable = false)
 	@EntityLinked(entityClazz = MTenant.class, pkClazz = UUID.class,  
-			idProperty = MTenant.KEY_NAME, captionProperty = "name", 
+			idProperty = MTenant.KEY_PROPERTY, captionProperty = MTenant.DISPLAY_PROPERTY, 
 			type = LinkedType.DROPDOWN, checkOrg = false, checkApp = false, canNew = false)
 	private UUID tenant_ID;
 	
 	@Index
 	@Column(name = ORG_KEYCOLUMN_NAME, nullable = false)
 	@EntityLinked(entityClazz = MOrg.class, pkClazz = UUID.class,  
-			idProperty = MOrg.KEY_NAME, captionProperty = "name", 
+			idProperty = MOrg.KEY_PROPERTY, captionProperty = MOrg.DISPLAY_PROPERTY, 
 			type = LinkedType.DROPDOWN, checkOrg = false, checkApp = false, canNew = false)
 	private UUID org_ID;
 	
 	@Index
 	@Column(name = APP_KEYCOLUMN_NAME, nullable = false)
 	@EntityLinked(entityClazz = MApp.class, pkClazz = UUID.class, 
-			idProperty = MApp.KEY_NAME, captionProperty = "name", 
+			idProperty = MApp.KEY_PROPERTY, captionProperty = MApp.DISPLAY_PROPERTY, 
 			type = LinkedType.DROPDOWN, checkApp = false, canNew = false)
 	private UUID app_ID;
 	

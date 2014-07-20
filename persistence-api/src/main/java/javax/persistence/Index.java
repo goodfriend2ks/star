@@ -47,4 +47,48 @@ public @interface Index {
 	 * @return Is the index unique?
 	 */
 	boolean unique() default false;
+	
+	IndexDirection direction() default IndexDirection.ASCENDING;
+	
+	/**
+	 * If set to true index will skip over any document that is missing the indexed field.
+	 * 
+	 * @return
+	 */
+	boolean sparse() default false;
+
+	/**
+	 * @return
+	 */
+	boolean dropDups() default false;
+
+	/**
+	 * If set to {@literal true} then MongoDB will ignore the given index name and instead generate a new name. Defaults
+	 * to {@literal false}.
+	 * 
+	 * @return
+	 * @since 1.5
+	 */
+	boolean useGeneratedName() default false;
+
+	/**
+	 * Schema/Colleciton name for index to be created on.
+	 * 
+	 * @return
+	 */
+	String schema() default "";
+
+	/**
+	 * If {@literal true} the index will be created in the background.
+	 * 
+	 * @return
+	 */
+	boolean background() default false;
+
+	/**
+	 * Configures the number of seconds after which the collection should expire. Defaults to -1 for no expiry.
+	 * 
+	 * @return
+	 */
+	int expireAfterSeconds() default -1;
 }

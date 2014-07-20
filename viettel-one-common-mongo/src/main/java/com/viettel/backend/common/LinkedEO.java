@@ -23,7 +23,7 @@ public abstract class LinkedEO<PK extends Serializable> extends EO<PK> {
 	@Index
 	@Column(name = ORG_KEYCOLUMN_NAME, nullable = false)
 	@EntityLinked(entityClazz = MTenant.class, pkClazz = UUID.class,  
-			idProperty = MTenant.KEY_NAME, captionProperty = "name", 
+			idProperty = MTenant.KEY_PROPERTY, captionProperty = "name", 
 			type = LinkedType.DROPDOWN, checkOrg = false, checkApp = false, canNew = false)
 	private UUID tenant_ID;
 	
@@ -109,9 +109,21 @@ public abstract class LinkedEO<PK extends Serializable> extends EO<PK> {
 
 	@Override
 	@Transient
+	public Date getCreated() {
+		return null;
+	}
+	
+	@Override
+	@Transient
 	public void setCreated(Date created) {
 	}
 
+	@Override
+	@Transient
+	public Date getUpdated() {
+		return null;
+	}
+	
 	@Override
 	@Transient
 	public void setUpdated(Date updated) {

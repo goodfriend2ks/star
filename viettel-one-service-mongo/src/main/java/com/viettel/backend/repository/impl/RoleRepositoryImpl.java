@@ -4,21 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.criteria.Clause;
-import javax.persistence.criteria.ClauseOp;
+import javax.persistence.criteria.GenericQuery;
 
 import org.springframework.stereotype.Repository;
 
 import com.viettel.backend.common.EO;
 import com.viettel.backend.domain.MRole;
 import com.viettel.backend.domain.MUserRole;
-import com.viettel.backend.domain.key.MRoleKey;
-import com.viettel.backend.domain.key.MUserRoleKey;
 import com.viettel.backend.repository.RoleRepository;
 
 @Repository
 public class RoleRepositoryImpl 
-	extends GenericRepositoryImpl<MRole, MRoleKey, UUID> 
+	extends GenericRepositoryImpl<MRole, UUID> 
 	implements RoleRepository {
 
 	/**
@@ -27,26 +24,25 @@ public class RoleRepositoryImpl
 	private static final long serialVersionUID = 2243454900885367536L;
 
 	@Override
-	public MRole getByCode(UUID AD_Client_ID, UUID AD_App_ID, String code) {
-		Clause clause = new Clause("code", ClauseOp.eq, code);
-    	return getFirst(AD_Client_ID, EO.ROOT_ID_VALUE, AD_App_ID, clause);
+	public MRole getByCode(UUID tenant_ID, UUID app_ID, String code) {
+		GenericQuery query = query(criteria("code").is(code));
+    	return getFirst(tenant_ID, EO.ROOT_ID_VALUE, app_ID, query);
 	}
 
 	@Override
-	public List<MRole> getAccessedRoles(UUID AD_Client_ID, UUID AD_User_ID, UUID AD_App_ID) {
-		Clause userRoleClause = new Clause("ad_User_ID", ClauseOp.eq, AD_User_ID);
-		List<MUserRole> userRoles = getList(MUserRole.class, MUserRoleKey.class, UUID.class, 
-				AD_Client_ID, EO.ROOT_ID_VALUE, AD_App_ID, userRoleClause);
+	public List<MRole> getAccessedRoles(UUID tenant_ID, UUID user_ID, UUID app_ID) {
+		GenericQuery query = query(criteria("user_ID").is(user_ID));
+		List<MUserRole> userRoles = getList(MUserRole.class, UUID.class, 
+				tenant_ID, EO.ROOT_ID_VALUE, app_ID, query);
 		if (userRoles == null || userRoles.isEmpty())
 			return null;
 		
 		List<UUID> roleIds = new ArrayList<>();
 		for (MUserRole ur : userRoles)
-			roleIds.add(ur.getAd_Role_ID());
+			roleIds.add(ur.getRole_ID());
 		
-		Clause appClause = new Clause("ad_App_ID", ClauseOp.eq, AD_App_ID);
-		Clause roleClause = new Clause("ad_Role_ID", roleIds);
-		return getList(AD_Client_ID, EO.ROOT_ID_VALUE, AD_App_ID, 
-				appClause, roleClause);
+		query = query(criteria("app_ID").is(app_ID)
+				.and("role_ID").in(roleIds));
+		return getList(tenant_ID, EO.ROOT_ID_VALUE, app_ID, query);
 	}
 }

@@ -5,7 +5,7 @@ oauth2.user = {};
  * Get user info
  * @param {function}
  */
-oauth2.user.current = function (callback) {
+/*oauth2.user.current = function (callback) {
 	
 	oauth2.get(
 			CONTEXT_PATH + '/api/profile/current',
@@ -14,12 +14,12 @@ oauth2.user.current = function (callback) {
 				console.log(response);
 				// If the cached version is the same as the most recent
 				// version, just return. Else, we will run the callback.
-				/*if (store.get('userResponse') === JSON.stringify(response)) {
+				if (store.get('userResponse') === JSON.stringify(response)) {
 					console.log('cached');
 					return false;
 				}
 				
-				store.set('userResponse', JSON.stringify(response));*/
+				store.set('userResponse', JSON.stringify(response));
 				
 				if (callback) {
 					callback();
@@ -32,25 +32,19 @@ oauth2.user.current = function (callback) {
 				}
 			});
 };
-
+*/
 /**
  * Get user info
  * @param {function}
  */
-oauth2.user.get = function (callback) {
+oauth2.user.get = function () {
 	var userResponse = store.get('userResponse');
 	
 	if (userResponse) {
-		var response = JSON.parse(userResponse);
-		oauth2.user.user = response.user;
-		
-		// We still download the latest data in the background to make sure
-		// cache is current. But we return immediately.
-		oauth2.user.current(callback);
-		return callback();
+		return JSON.parse(userResponse);
 	}
 	
-	oauth2.user.current(callback);
+	return null;
 };
 
 /**
@@ -79,9 +73,17 @@ oauth2.user.login = function (username, password, callback) {
      		/*store.remove('authToken');*/
 	        oauth2.cookie.set('authToken', response.access_token);
 	        oauth2.cookie.set('refreshToken', response.refresh_token);
+	        oauth2.cookie.set('lang', response.LangCode);
+	        oauth2.cookie.set('datePattern', response.DatePattern);
+	        oauth2.cookie.set('dateTimePattern', response.DateTimePattern);
+	        oauth2.cookie.set('timePattern', response.TimePattern);
+	        oauth2.cookie.set('decimalPoint', response.DecimalPoint);
 	        //oauth2.cookie.set('userId', response.apiUser.id);
 	        oauth2.cookie.set('username', username);
 	        oauth2.cookie.set('lockscreen', false);
+	        
+	        store.set('userResponse', JSON.stringify(response));
+	        
 	        callback();
 	    },
 	    
@@ -110,11 +112,17 @@ oauth2.user.relogin = function (password, callback) {
 	     	},
 		    
 		    function (response) {
-	     		/*alert(JSON.stringify(response));*/
-	     		/*store.remove('authToken');*/
-		        oauth2.cookie.set('authToken', response.access_token);
+	     		oauth2.cookie.set('authToken', response.access_token);
 		        oauth2.cookie.set('refreshToken', response.refresh_token);
+		        oauth2.cookie.set('lang', response.LangCode);
+		        oauth2.cookie.set('datePattern', response.DatePattern);
+		        oauth2.cookie.set('dateTimePattern', response.DateTimePattern);
+		        oauth2.cookie.set('timePattern', response.TimePattern);
+		        oauth2.cookie.set('decimalPoint', response.DecimalPoint);
 		        oauth2.cookie.set('lockscreen', false);
+		        
+		        store.set('userResponse', JSON.stringify(response));
+		        
 		        callback();
 		    },
 		    
@@ -144,6 +152,7 @@ oauth2.user.logout = function (callback) {
 			oauth2.cookie.remove('username');
 			oauth2.cookie.remove('email');
 			oauth2.cookie.remove('lockscreen');
+			
 			store.clear();
 			
 	        callback();
@@ -157,6 +166,7 @@ oauth2.user.logout = function (callback) {
 				oauth2.cookie.remove('username');
 				oauth2.cookie.remove('email');
 				oauth2.cookie.remove('lockscreen');
+				
 				store.clear();
 				
 	    		callback();

@@ -2,18 +2,16 @@ package com.viettel.backend.repository.impl;
 
 import java.util.UUID;
 
-import javax.persistence.criteria.Clause;
-import javax.persistence.criteria.ClauseOp;
+import javax.persistence.criteria.GenericQuery;
 
 import org.springframework.stereotype.Repository;
 
 import com.viettel.backend.domain.MConfig;
-import com.viettel.backend.domain.key.MConfigKey;
 import com.viettel.backend.repository.ConfigRepository;
 
 @Repository
 public class ConfigRepositoryImpl 
-	extends GenericRepositoryImpl<MConfig, MConfigKey, UUID> 
+	extends GenericRepositoryImpl<MConfig, UUID> 
 	implements ConfigRepository {
 
 	/**
@@ -22,16 +20,14 @@ public class ConfigRepositoryImpl
 	private static final long serialVersionUID = -2246007052747049434L;
 
 	@Override
-	public MConfig getByProperty(UUID AD_Client_ID, UUID AD_Org_ID,
-			UUID AD_App_ID, String property) {
-		Clause clause = new Clause("name", ClauseOp.eq, property);
-    	return getFirst(AD_Client_ID, AD_Org_ID, AD_App_ID, clause);
+	public MConfig getByProperty(UUID tenant_ID, UUID org_ID, UUID app_ID, String property) {
+		GenericQuery query = query(criteria("name").is(property));
+    	return getFirst(tenant_ID, org_ID, app_ID, query);
 	}
 
 	@Override
-	public String getValueByProperty(UUID AD_Client_ID, UUID AD_Org_ID,
-			UUID AD_App_ID, String property) {
-		MConfig config = getByProperty(AD_Client_ID, AD_Org_ID, AD_App_ID, property);
+	public String getValueByProperty(UUID tenant_ID, UUID org_ID, UUID app_ID, String property) {
+		MConfig config = getByProperty(tenant_ID, org_ID, app_ID, property);
     	if (config == null)
     		return null;
     	

@@ -16,6 +16,7 @@
     <oauth:client-details-service id="clientDetailsService">
 
         <!-- Allow access to test clients -->
+        <!-- MzUzYjMwMmM0NDU3NGY1NjUwNDU2ODdlNTM0ZTdkNmE6Mjg2OTI0Njk3ZTYxNWE2NzJhNjQ2YTQ5MzU0NTY0NmM= -->
         <oauth:client
                 client-id="353b302c44574f565045687e534e7d6a"
                 secret="286924697e615a672a646a493545646c"

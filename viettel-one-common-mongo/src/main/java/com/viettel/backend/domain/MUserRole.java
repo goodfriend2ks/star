@@ -1,10 +1,5 @@
 package com.viettel.backend.domain;
 
-/* 
- * Viettel.One Project Model Classes
- * Generated Feb 18, 2014 1:52:24 PM by Hibernate Tools 3.4.0.CR1 
- */
-
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -34,10 +29,8 @@ public class MUserRole extends LinkedEO<UUID> {
 	public static final String TABLE_NAME = "AD_UserRole";
 	@Transient
 	public static final String KEYCOLUMN_NAME = TABLE_NAME + "_ID";
-	
-//	@Id
-//	@Column(name = MUserRole.KEYCOLUMN_NAME, nullable = false)
-//	private UUID ad_UserRole_ID;
+	@Transient
+	public static final String KEY_PROPERTY = "id";
 	
 	@Id
 	private UUID id;
@@ -68,14 +61,6 @@ public class MUserRole extends LinkedEO<UUID> {
     public MUserRole() {
     	super();
     }
-
-//    public MUserRole(MApp app, MUser user, MRole role) {
-//    	this();
-//    	
-//        this.app = app;
-//        this.user = user;
-//        this.role = role;
-//    }
 
 	public MUserRole(/*UUID ad_App_ID,*/ UUID role_ID, UUID user_ID) {
 		this();

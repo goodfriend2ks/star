@@ -7,8 +7,8 @@ import com.viettel.backend.domain.MRole;
 
 public interface RoleService extends GenericService<MRole, UUID> {
 
-	public MRole getByCode(UUID AD_Client_ID, UUID AD_App_ID, String code);
+	public MRole getByCode(UUID tenant_ID, UUID app_ID, String code);
 	
-	public List<MRole> getAccessedRoles(UUID AD_Client_ID, UUID AD_User_ID, UUID AD_App_ID);
+	public List<MRole> getAccessedRoles(UUID tenant_ID, UUID user_ID, UUID app_ID);
 }
 	

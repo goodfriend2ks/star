@@ -4,8 +4,8 @@
 			
     		<div class="modal-header modal-dialog-header">
   				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-  				<div class="modal-title" id="myModalLabel">
-					<i class="fa fa-user-md"></i> New Event
+  				<div class="modal-title">
+					<i class="fa fa-user-md"></i> <span id="dlg-user-title"></span>
 				</div>
 			</div>
 			
@@ -16,25 +16,26 @@
 				   		<div class="row">
 				   			<div class="col-lg-5">
 				   				<div class="form-group">
-									<label for="name">Full Name</label>
+									<label for="name"><spring:message code='label.user.fullname' htmlEscape='false'/></label>
 									<div class="input-group">
 										<div class="input-group-addon">
 											<i class="fa fa-user-md"></i>
 										</div>
 										<input type="text" class="form-control focus" id="name" name="name" 
-											placeholder="Full name" autofocus required>
+											placeholder="<spring:message code='label.user.fullname' htmlEscape='false'/>" 
+											autofocus required>
 									</div>
 								</div>
 				   			</div>
 				   			<div class="col-lg-4">
 				   				<div class="form-group">
-									<label for="userName">UserName</label>
+									<label for="userName"><spring:message code='label.user.username' htmlEscape='false'/></label>
 									<div class="input-group">
 										<div class="input-group-addon">
 											<i class="fa fa-user"></i>
 										</div>
 										<input type="text" class="form-control" id="userName" name="userName" 
-											placeholder="Username"
+											placeholder="<spring:message code='label.user.username' htmlEscape='false'/>"
 											maxlength="30" data-bv-message="The username is not valid" 
 											pattern="[a-zA-Z0-9]+" data-bv-regexp-message="The username can only consist of alphabetical, number"
 											required data-bv-notempty-message="The username is required and cannot be empty">
@@ -49,31 +50,33 @@
 											onclick="onResetPassword()">
 										<i class="fa fa-key"></i> Reset pass
 									</button>
+									<input type="hidden" id="resetPassword" name="resetPassword" value="false" />
 								</div>
 				   			</div>
 				   		</div>
 				   		<div class="row">
 				   			<div class="col-lg-7">
 				   				<div class="form-group">
-									<label for="email">Email</label>
+									<label for="email"><spring:message code='label.user.email' htmlEscape='false'/></label>
 									<div class="input-group">
 										<div class="input-group-addon">
 											<i class="fa fa-envelope"></i>
 										</div>
 										<input type="email" class="form-control" id="email" name="email" 
-											placeholder="Full name" required>
+											placeholder="<spring:message code='label.user.email' htmlEscape='false'/>" 
+											required>
 									</div>
 								</div>
 				   			</div>
 				   			<div class="col-lg-5">
 				   				<div class="form-group">
-									<label for="dob">DOB</label>
+									<label for="dob"><spring:message code='label.user.dob' htmlEscape='false'/></label>
 									<div class="input-group">
 										<div class="input-group-addon">
 											<i class="fa fa-calendar"></i>
 										</div>
 			                           	<input class="form-control date-picker" type="text" id="dob" name="dob" 
-			                           		placeholder="DOB [dd/mm/yyyy]" datatype="date">	<!-- date/datetime/time -->
+			                           		placeholder="<spring:message code='label.user.dob' htmlEscape='false'/>" datatype="date">	<!-- date/datetime/time -->
 			                        </div>
 								</div>
 				   			</div>
@@ -81,14 +84,16 @@
 				   		<div class="row">
 				   			<div class="col-lg-6">
 				   				<div class="form-group">
-									<label for="email">Language</label>
+									<label for="email"><spring:message code='label.user.language' htmlEscape='false'/></label>
 									<div class="input-group">
 										<div class="input-group-addon">
 											<i class="fa fa-calendar"></i>
 										</div>
-				   						<select id="c_Language_ID" name="c_Language_ID" data-placeholder="Select language" 
+				   						<select id="c_Language_ID" name="c_Language_ID" 
+				   								data-placeholder="<spring:message code='label.user.language' htmlEscape='false'/>" 
 				   								class="form-control chzn-select-deselect" required  
-				   								ajaxUrl="${pageContext.request.contextPath}/api/lang/listpair">
+				   								ajaxUrl="${pageContext.request.contextPath}/api/lang/listpair"
+				   								localstorage="language" timeout="0">
 			                            	<option value=""></option>
 			                          	</select>
 									</div>
@@ -172,8 +177,6 @@
         					<tbody class="files"></tbody>
         				</table> -->
         				
-        				
-	   					<!-- <input type="hidden" id="resetPassword" name="resetPassword" value="false" /> -->
 	   					<div id="dlg-buttons-person">
 							<a href="javascript:void(0)" class="btn btn-primary btn-flat" onclick="saveBean()">
 								<i class="fa fa-save"></i>
@@ -183,10 +186,6 @@
 			   					<i class="fa fa-times"></i>
 			   					<spring:message code='label.cancel'/>
 			   				</a>
-			   				
-			   				<a href="javascript:void(0)" class="btn btn-default btn-flat" id="btnUpload">
-			   					<i class="fa fa-times"></i> Upload
-			   				</a>
 						</div>
 					</div>
 	   			</fieldset>
@@ -195,9 +194,12 @@
 	</div>
 </div>
 
+<%-- <script src="${pageContext.request.contextPath}/js/jquery-fileupload/vendor/jquery.ui.widget.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/js/jquery-fileupload/jquery.fileupload.js" type="text/javascript"></script> --%>
+
 <script type="text/javascript">
 	function onResetPassword() {
-		$('#resetPassword').val('true'); 
+		$('#resetPassword').val('Y'); 
 	}
 	
 	$(function(){

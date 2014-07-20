@@ -8,10 +8,10 @@
         
     <bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter"/>
     
-	<bean name="/AttributeService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+	<!-- <bean name="/AttributeService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
 		<property name="service" ref="attributeService" />
 		<property name="serviceInterface" value="com.viettel.backend.service.AttributeService" />
-	</bean>
+	</bean> -->
 
     <bean name="/CommonService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
         <property name="service" ref="commonService" />
@@ -28,9 +28,9 @@
         <property name="serviceInterface" value="com.viettel.backend.service.AppService" />
     </bean>
 
-	<bean name="/AppFileService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+	<bean name="/FileService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
         <property name="service" ref="appFileService" />
-        <property name="serviceInterface" value="com.viettel.backend.service.AppFileService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.FileService" />
     </bean>
     
     <bean name="/RoleService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
@@ -38,20 +38,20 @@
         <property name="serviceInterface" value="com.viettel.backend.service.RoleService" />
     </bean>
     
-    <bean name="/ViewService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+    <!-- <bean name="/ViewService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
         <property name="service" ref="viewService" />
         <property name="serviceInterface" value="com.viettel.backend.service.ViewService" />
-    </bean>
+    </bean> -->
     
-    <bean name="/ReportService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+    <!-- <bean name="/ReportService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
         <property name="service" ref="reportService" />
         <property name="serviceInterface"
             value="com.viettel.backend.service.ReportService" />
-    </bean>
+    </bean> -->
     
-	<bean name="/ClientService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+	<bean name="/TenantService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
         <property name="service" ref="clientService" />
-        <property name="serviceInterface" value="com.viettel.backend.service.ClientService" />
+        <property name="serviceInterface" value="com.viettel.backend.service.TenantService" />
     </bean>
     
      <bean name="/CacheManagerService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
@@ -70,17 +70,17 @@
 		<property name="serviceInterface" value="com.viettel.backend.service.PartnerService" />
 	</bean>
 	
-    <!-- DMS.Lite Services -->
     <bean name="/ProductService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
 		<property name="service" ref="productService" />
-		<property name="serviceInterface" value="com.viettel.backend.service.dms.ProductService" />
+		<property name="serviceInterface" value="com.viettel.backend.service.ProductService" />
 	</bean>
 	
 	<bean name="/EmployeeService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
 		<property name="service" ref="employeeService" />
-		<property name="serviceInterface" value="com.viettel.backend.service.dms.EmployeeService" />
+		<property name="serviceInterface" value="com.viettel.backend.service.EmployeeService" />
 	</bean>
 	
+	<!-- DMS.Lite Services -->
 	<bean name="/RouteService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
 		<property name="service" ref="routeService" />
 		<property name="serviceInterface" value="com.viettel.backend.service.dms.RouteService" />

@@ -3,57 +3,44 @@ package com.viettel.backend.repository.impl;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.criteria.Clause;
-import javax.persistence.criteria.ClauseOp;
+import javax.persistence.criteria.GenericQuery;
 
-import org.easycassandra.persistence.cassandra.spring.CassandraTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.viettel.backend.common.EO;
-import com.viettel.backend.domain.MClient;
 import com.viettel.backend.domain.MOrg;
-import com.viettel.backend.domain.key.MClientKey;
-import com.viettel.backend.domain.key.MOrgKey;
-import com.viettel.backend.repository.ClientRepository;
+import com.viettel.backend.domain.MTenant;
+import com.viettel.backend.repository.TenantRepository;
 
 @Repository
 public class TenantRepositoryImpl 
-	extends GenericRepositoryImpl<MClient, MClientKey, UUID> 
-	implements ClientRepository {
+	extends GenericRepositoryImpl<MTenant, UUID> 
+	implements TenantRepository {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 4467839748910905940L;
 
-	@Autowired
-	private CassandraTemplate cassandraTemplate;
-	
 	@Override
-	public CassandraTemplate getCassandraTemplate() {
-		return cassandraTemplate;
-	}
-	
-	@Override
-	public List<MOrg> getOrgs(UUID ad_Client_ID) {
-		Clause clause = new Clause(EO.CLIENT_FIELD_NAME, ClauseOp.eq, ad_Client_ID);
-		return getList(MOrg.class, MOrgKey.class, UUID.class,
-				ad_Client_ID, null, EO.ROOT_ID_VALUE, clause);
+	public List<MOrg> getOrgs(UUID tenant_ID) {
+		GenericQuery query = query(criteria(EO.TENANT_FIELD_NAME).is(tenant_ID));
+		return getList(MOrg.class, UUID.class,
+				tenant_ID, null, EO.ROOT_ID_VALUE, query);
 	}
 
 	@Override
-	public long getOrgCount(UUID ad_Client_ID) {
-		Clause clause = new Clause(EO.CLIENT_FIELD_NAME, ClauseOp.eq, ad_Client_ID);
-		return getCount(MOrg.class, MOrgKey.class, UUID.class,
-				ad_Client_ID, null, EO.ROOT_ID_VALUE, clause);
+	public long getOrgCount(UUID tenant_ID) {
+		GenericQuery query = query(criteria(EO.TENANT_FIELD_NAME).is(tenant_ID));
+		return getCount(MOrg.class, UUID.class,
+				tenant_ID, null, EO.ROOT_ID_VALUE, query);
 	}
 
 	@Override
-	public MOrg getOrg(UUID ad_Client_ID, UUID ad_Org_ID) {
-		Clause clientClause = new Clause(EO.CLIENT_FIELD_NAME, ClauseOp.eq, ad_Client_ID);
-		Clause orgClause = new Clause(EO.ORG_FIELD_NAME, ClauseOp.eq, ad_Org_ID);
-		return getFirst(MOrg.class, MOrgKey.class, UUID.class,
-				ad_Client_ID, null, EO.ROOT_ID_VALUE, clientClause, orgClause);
+	public MOrg getOrg(UUID tenant_ID, UUID org_ID) {
+		GenericQuery query = query(criteria(EO.TENANT_FIELD_NAME).is(tenant_ID)
+				.and(EO.ORG_FIELD_NAME).is(org_ID));
+		return getFirst(MOrg.class, UUID.class,
+				tenant_ID, null, EO.ROOT_ID_VALUE, query);
 	}
 }

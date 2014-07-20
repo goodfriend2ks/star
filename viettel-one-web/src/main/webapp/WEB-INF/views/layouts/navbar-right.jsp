@@ -191,14 +191,14 @@
 	<li class="dropdown user user-menu">
 	    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 	        <i class="glyphicon glyphicon-user"></i>
-	        <span>Jane Doe <i class="caret"></i></span>
+	        <span><span class="login-name"></span> <i class="caret"></i></span>
 	    </a>
 	    <ul class="dropdown-menu">
 	        <!-- User image -->
 	        <li class="user-header bg-light-blue">
 	            <img src="${pageContext.request.contextPath}/img/avatar3.png" class="img-circle" alt="User Image" />
 	            <p>
-	                Jane Doe - Web Developer
+	                <span class="login-name"></span> - Web Developer
 	                <small>Member since Nov. 2012</small>
 	            </p>
 	        </li>
@@ -218,15 +218,15 @@
             <li class="user-footer">
                 <div class="pull-left">
                     <a href="#" class="btn btn-default btn-flat">
-                    	<i class="fa fa-user"></i>&nbsp;Profile
+                    	<i class="fa fa-user"></i>&nbsp;<spring:message code='label.login.profile'/>
                     </a>
                 </div>
                 <div class="pull-right">
                 	<a href="#" class="btn btn-default btn-flat" onclick="doLockscreen()">
-                		<i class="fa fa-key"></i>&nbsp;Lock
+                		<i class="fa fa-key"></i>&nbsp;<spring:message code='label.login.lock'/>
                 	</a>
                     <a href="#" class="btn btn-default btn-flat" onclick="doSignout()">
-                    	<i class="fa fa-power-off"></i>&nbsp;Sign out
+                    	<i class="fa fa-power-off"></i>&nbsp;<spring:message code='label.login.sign-out'/>
                     </a>
                 </div>
             </li>
@@ -235,26 +235,35 @@
 </ul>
 
 <script type="text/javascript">
+	$(function() {
+		var user = oauth2.user.get();
+		if (user == null) {
+			$('.login-name').text('Anonymous');
+		} else {
+			$('.login-name').text(user.FullName);
+		}
+	});
+	
 	function doLockscreen() {
 		oauth2.cookie.set('wlocation', window.location);
-		
 		oauth2.user.lockscreen();
-		
-		window.location = '${pageContext.request.contextPath}/lockscreen.jsp';
+		window.location = LOCKSCREEN_URL;
 	}
 
 	function doSignout() {
 		oauth2.user.logout(
 				function (result) {
-		        	if (!result) {
-		        		oauth2.cookie.set('wlocation', window.location);
-		          		window.location = '${pageContext.request.contextPath}/login.jsp';
-		        	} else {
-		        		alert(JSON.stringify(result));
-		          		$.messager.show({
-							title: 'Sign-out Error',
-							msg: 'Cannot sign-out.'
+					if (!result) {
+						oauth2.cookie.set('wlocation', window.location);
+						window.location = LOGIN_URL;
+					} else {
+						BootstrapDialog.alert({
+							type: BootstrapDialog.TYPE_ERROR,
+							title: '<span class=\'fa fa-exclamation-triangle\'> Sign-out Error</span>',
+							message: 'Cannot sign-out.', 
+							draggable: true
 						});
+						//alert(JSON.stringify(result));
 		        	}
 		      	}
 		);

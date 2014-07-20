@@ -1,10 +1,5 @@
 package com.viettel.backend.domain;
 
-/* 
- * Viettel.One Project Model Classes
- * Generated Mar 7, 2014 2:44:46 PM by Hibernate Tools 3.4.0.CR1 
- */
-
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -37,6 +32,10 @@ public class MRole extends BaseEO<UUID> {
 	public static final String TABLE_NAME = "AD_Role";
 	@Transient
 	public static final String KEYCOLUMN_NAME = TABLE_NAME + "_ID";
+	@Transient
+	public static final String KEY_PROPERTY = "id";
+	@Transient
+	public static final String DISPLAY_PROPERTY = "name";
 	
 	@Id
 	private UUID id;

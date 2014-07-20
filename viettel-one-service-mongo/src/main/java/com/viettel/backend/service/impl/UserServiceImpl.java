@@ -10,14 +10,12 @@ import com.viettel.backend.domain.MApp;
 import com.viettel.backend.domain.MRole;
 import com.viettel.backend.domain.MUser;
 import com.viettel.backend.domain.MUserRole;
-import com.viettel.backend.domain.key.MUserKey;
-import com.viettel.backend.domain.key.MUserRoleKey;
 import com.viettel.backend.repository.AppRepository;
 import com.viettel.backend.repository.UserRepository;
 import com.viettel.backend.service.UserService;
 
 @Service(value="userService")
-public class UserServiceImpl extends DaoBaseService<MUser, MUserKey, UUID> implements UserService {
+public class UserServiceImpl extends DaoBaseService<MUser, UUID> implements UserService {
 
 	private UserRepository userRepo;
 	
@@ -36,8 +34,8 @@ public class UserServiceImpl extends DaoBaseService<MUser, MUserKey, UUID> imple
     }
 	
     @Override
-	public List<MUser> getUserWithRoleByApplication(UUID applicationId, int start, int count) {
-	    return userRepo.getUserWithRoleByApplication(applicationId, start, count);
+	public List<MUser> getUserWithRoleByApplication(UUID app_ID, int start, int count) {
+	    return userRepo.getUserWithRoleByApplication(app_ID, start, count);
 	}
 	
     @Override
@@ -51,13 +49,13 @@ public class UserServiceImpl extends DaoBaseService<MUser, MUserKey, UUID> imple
 //    }
 //    
 //    @Override
-//	public long getCount(UUID AD_App_ID) {
+//	public long getCount(UUID app_ID) {
 //	    return userDao.getCount(applicationId);
 //	}
 
     @Override
-    public long getCount(UUID AD_Client_ID, boolean includeInactive) {
-        return userRepo.getCount(AD_Client_ID, includeInactive);
+    public long getCount(UUID tenant_ID, boolean includeInactive) {
+        return userRepo.getCount(tenant_ID, includeInactive);
     }
 
 //    @Override
@@ -66,22 +64,22 @@ public class UserServiceImpl extends DaoBaseService<MUser, MUserKey, UUID> imple
 //    }
     
 	@Override
-	public List<MUserRole> getUserRoles(UUID AD_Client_ID, UUID AD_App_ID, UUID AD_User_ID) {
-		return userRepo.getUserRoles(AD_Client_ID, AD_App_ID, AD_User_ID);
+	public List<MUserRole> getUserRoles(UUID tenant_ID, UUID app_ID, UUID user_ID) {
+		return userRepo.getUserRoles(tenant_ID, app_ID, user_ID);
 	}
 	
 	@Override
-    public UUID addRole(MApp application, MRole role, MUser user) {
-        MUserRole userRole = new MUserRole(role.getID(), user.getID());
-        userRole.setID(UUID.randomUUID());
-        userRole.setAd_Client_ID(role.getAd_Client_ID());
+    public UUID addRole(MApp app, MRole role, MUser user) {
+        MUserRole userRole = new MUserRole(role.getId(), user.getId());
+        userRole.setId(UUID.randomUUID());
+        userRole.setTenant_ID(role.getTenant_ID());
         
-        return userRepo.save(MUserRole.class, MUserRoleKey.class, UUID.class, userRole, true);
+        return userRepo.save(MUserRole.class, UUID.class, userRole, true);
     }
     
     @Override
     public void removeRole(MUserRole userRole) {
-        userRepo.delete(MUserRole.class, MUserRoleKey.class, UUID.class, userRole, true);
+        userRepo.delete(MUserRole.class, UUID.class, userRole, true);
     }
     
     @Override

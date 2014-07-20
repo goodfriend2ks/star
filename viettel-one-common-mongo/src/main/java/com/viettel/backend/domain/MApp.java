@@ -1,10 +1,5 @@
 package com.viettel.backend.domain;
 
-/* 
- * Viettel.One Project Model Classes
- * Generated Feb 18, 2014 4:00:18 PM by Hibernate Tools 3.4.0.CR1 
- */
-
 import java.util.Date;
 import java.util.UUID;
 
@@ -40,7 +35,9 @@ public class MApp extends EO<UUID> {
 	private static final long serialVersionUID = 5629134143348918230L;
 	
 	@Transient
-	public static final String KEY_NAME = "ad_App_ID";
+	public static final String KEY_PROPERTY = "id";
+	@Transient
+	public static final String DISPLAY_PROPERTY = "name";
 	
 	@Id
 	private UUID id;
@@ -65,14 +62,14 @@ public class MApp extends EO<UUID> {
 	@Index
 	@Column(name = TENANT_KEYCOLUMN_NAME, nullable = false)
 	@EntityLinked(entityClazz = MTenant.class, pkClazz = UUID.class,
-			idProperty = MTenant.KEY_NAME, captionProperty = "name", 
+			idProperty = MTenant.KEY_PROPERTY, captionProperty = MTenant.DISPLAY_PROPERTY, 
 			type = LinkedType.DROPDOWN, canNew = false)
 	private UUID tenant_ID;
 	
 	@Index
 	@Column(name = ORG_KEYCOLUMN_NAME, nullable = false)
 	@EntityLinked(entityClazz = MOrg.class, pkClazz = UUID.class,
-			idProperty = MOrg.KEY_NAME, captionProperty = "name", 
+			idProperty = MOrg.KEY_PROPERTY, captionProperty = MOrg.DISPLAY_PROPERTY, 
 			type = LinkedType.DROPDOWN, canNew = false)
 	private UUID org_ID;
 

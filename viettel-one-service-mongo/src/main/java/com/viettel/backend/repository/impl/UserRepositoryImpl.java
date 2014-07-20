@@ -3,21 +3,18 @@ package com.viettel.backend.repository.impl;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.criteria.Clause;
-import javax.persistence.criteria.ClauseOp;
+import javax.persistence.criteria.GenericQuery;
 
 import org.springframework.stereotype.Repository;
 
 import com.viettel.backend.common.EO;
 import com.viettel.backend.domain.MUser;
 import com.viettel.backend.domain.MUserRole;
-import com.viettel.backend.domain.key.MUserKey;
-import com.viettel.backend.domain.key.MUserRoleKey;
 import com.viettel.backend.repository.UserRepository;
 
 @Repository
 public class UserRepositoryImpl 
-	extends GenericRepositoryImpl<MUser, MUserKey, UUID> 
+	extends GenericRepositoryImpl<MUser, UUID> 
 	implements UserRepository {
 	/**
 	 * 
@@ -25,23 +22,23 @@ public class UserRepositoryImpl
 	private static final long serialVersionUID = -1746027152695193471L;
 
 	@Override
-	public long getCount(UUID AD_Client_ID, boolean includeInactive) {
+	public long getCount(UUID tenant_ID, boolean includeInactive) {
 		if (includeInactive) {
-	        return getCount(AD_Client_ID, null, null);
+	        return getCount(tenant_ID, null, null, null);
 	    }
 	    
-		Clause clause = new Clause(EO.ACTIVE_FIELD_NAME, ClauseOp.eq, true);
-	    return getCount(AD_Client_ID, null, null, clause);
+		GenericQuery query = query(criteria(EO.ACTIVE_FIELD_NAME).is(true));
+	    return getCount(tenant_ID, null, null, query);
 	}
 
 	@Override
 	public MUser findUsers(String userName) {
-		Clause clause = new Clause("userName", ClauseOp.eq, userName);
-		return getFirst(null, null, null, clause);
+		GenericQuery query = query(criteria("userName").is(userName));
+		return getFirst(null, null, null, query);
 	}
 
 	@Override
-	public List<MUser> getUserWithRoleByApplication(UUID AD_App_ID, int start, int count) {
+	public List<MUser> getUserWithRoleByApplication(UUID app_ID, int start, int count) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -53,9 +50,10 @@ public class UserRepositoryImpl
 	}
 
 	@Override
-	public List<MUserRole> getUserRoles(UUID AD_Client_ID, UUID AD_App_ID, UUID AD_User_ID) {
-		Clause clause = new Clause("ad_User_ID", ClauseOp.eq, AD_User_ID);
-		return getList(MUserRole.class, MUserRoleKey.class, UUID.class, 
-				AD_Client_ID, EO.ROOT_ID_VALUE, AD_App_ID, clause);
+	public List<MUserRole> getUserRoles(UUID tenant_ID, UUID app_ID, UUID user_ID) {
+		GenericQuery query = query(criteria("user_ID").is(user_ID));
+		
+		return getList(MUserRole.class, UUID.class, 
+				tenant_ID, EO.ROOT_ID_VALUE, app_ID, query);
 	}
 }

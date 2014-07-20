@@ -2,13 +2,12 @@
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
-	<h1>Language
+	<h1><spring:message code='label.lang.bean'/>
         <small>Control panel</small>
-        <%-- <a href="user/report" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-print'">PDF <spring:message code="label.report" /></a> --%>
 	</h1>
     <ol class="breadcrumb">
-    	<li><a href="#"><i class="fa fa-user"></i> Home</a></li>
-        <li class="active">Language</li>
+    	<li><a href="#"><i class="fa fa-user"></i> <spring:message code='label.home'/></a></li>
+        <li class="active"><spring:message code='label.lang.bean'/></li>
 	</ol>
 </section>
 
@@ -50,14 +49,28 @@
 				<thead>
 					<tr>
 						<th field="rownum" row-class="rownum" sort="false" class="center" style="width:10px;">&nbsp;</th>
-						<th field="code" row-class="center nowrap" class="center">Code</th>
-						<th field="name" row-class="center nowrap" class="center">Name</th>
-						<th field="datePattern" row-class="center nowrap" class="center">Date Pattern</th>
-						<th field="timePattern" row-class="center nowrap" class="center">Time Pattern</th>
-						<th field="dateTimePattern" row-class="center nowrap" class="center">Date Time Pattern</th>
-						<th field="decimalPoint" sType="boolean" row-class="center nowrap" class="center">Decimal Point</th>
-						<th field="created" formatter="formatDateTime" row-class="right nowrap" class="center">Created</th>
-						<th field="updated" formatter="formatDateTime" row-class="right nowrap" class="center">Updated</th>
+						<th field="code" row-class="center nowrap" class="center">
+							<spring:message code='label.lang.code'/>
+						</th>
+						<th field="name" row-class="center nowrap" class="center">
+							<spring:message code='label.lang.name'/>
+						</th>
+						<th field="datePattern" row-class="center nowrap" class="center">
+							<spring:message code='label.lang.datepattern'/>
+						</th>
+						<th field="timePattern" row-class="center nowrap" class="center">
+							<spring:message code='label.lang.timepattern'/>
+						</th>
+						<!-- <th field="dateTimePattern" row-class="center nowrap" class="center">Date Time Pattern</th> -->
+						<th field="decimalPoint" sType="boolean" row-class="center nowrap" class="center">
+							<spring:message code='label.lang.decimalpoint'/>
+						</th>
+						<th field="created" formatter="formatDateTime" row-class="right nowrap" style="text-align: center;">
+							<spring:message code='label.bean.created' />
+						</th>
+						<th field="updated" formatter="formatDateTime" row-class="right nowrap" style="text-align: center;">
+							<spring:message code='label.bean.updated' />
+						</th>
 					</tr>
 				</thead>
 				<tbody></tbody>
@@ -76,12 +89,14 @@
 	beanDatagridId = "dg-lang";
 	beanDialogId = "dlg-lang";
 	beanFormId = "fm-lang";
-	
-	dialogNewTitle = "<spring:message code='label.new'/> Language";
-	dialogEditTitle = "<spring:message code='label.edit'/> Language";
-	dialogDeleteTitle = "<spring:message code='label.confirm'/>";
-	dialogDeleteMsg = "<spring:message code='label.message.destroy' arguments='language' />";
 
+	<spring:message code="label.lang.bean.lower" var="beanName" />
+	
+	dialogNewTitle = "<spring:message code='label.lang.new'/>";
+	dialogEditTitle = "<spring:message code='label.lang.edit'/>";
+	dialogDeleteTitle = "<spring:message code='label.confirm'/>";
+	dialogDeleteMsg = "<spring:message code='label.message.destroy' arguments='${beanName}' />";
+	
 	$(function(){
 		loadBeans(true);
 		initForm();

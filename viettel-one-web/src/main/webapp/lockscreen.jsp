@@ -3,50 +3,52 @@
 
 <!DOCTYPE html>
 <html style="height: 100%;">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/logo.png">
-        <title>DMS Lite | Lockscreen</title>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<link rel="shortcut icon" href="${pageContext.request.contextPath}/images/logo.png">
+		<title>DMS Lite | Lockscreen</title>
         
-        <%-- <link href="${pageContext.request.contextPath}/styles/themes/bootstrap/easyui.css" rel="stylesheet" type="text/css" media="screen" /> --%>
-        <!-- bootstrap 3.0.2 -->
-        <link href="${pageContext.request.contextPath}/styles/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <!-- font Awesome -->
-        <link href="${pageContext.request.contextPath}/styles/bootstrap/font-awesome.min.css" rel="stylesheet" type="text/css" />
-        <!-- Theme style -->
-        <link href="${pageContext.request.contextPath}/styles/bootstrap/AdminLTE.css" rel="stylesheet" type="text/css" />
+		<!-- bootstrap 3.0.2 -->
+		<link href="${pageContext.request.contextPath}/styles/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<!-- font Awesome -->
+		<link href="${pageContext.request.contextPath}/styles/bootstrap/font-awesome.min.css" rel="stylesheet" type="text/css" />
+		<!-- Theme style -->
+		<link href="${pageContext.request.contextPath}/styles/bootstrap/AdminLTE.css" rel="stylesheet" type="text/css" />
 		
 		<!-- Theme style -->
 		<link href="${pageContext.request.contextPath}/styles/bootstrap/themes/blue.css" rel="stylesheet" type="text/css" />
 		<link href="${pageContext.request.contextPath}/styles/bootstrap/themes/black.css" rel="stylesheet" type="text/css" />
 		
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-          <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-        <![endif]-->
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+		<![endif]-->
+		
+		<script src="${pageContext.request.contextPath}/js/url.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			CONTEXT_PATH = "${pageContext.request.contextPath}";
+		</script>
         
-        <script src="${pageContext.request.contextPath}/js/url.js" type="text/javascript"></script>
-        <script type="text/javascript">
-        	CONTEXT_PATH = "${pageContext.request.contextPath}";
-        </script>
-        
-        <script src="${pageContext.request.contextPath}/js/jquery.min.js" type="text/javascript"></script>
-        <!-- Bootstrap -->
+		<!-- JQuery -->
+		<script src="${pageContext.request.contextPath}/js/jquery.min.js" type="text/javascript"></script>
+		<!-- JQuery Shortcut -->
+		<script src="${pageContext.request.contextPath}/js/bootstrap/jquery.hotkeys.js" type="text/javascript"></script>
+		<!-- Bootstrap -->
 		<script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap.min.js" type="text/javascript"></script>
-        <!-- Bootstrap Dialog -->
+		<!-- Bootstrap Dialog -->
 		<script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap-dialog.js" type="text/javascript"></script>
-        
-        <script src="${pageContext.request.contextPath}/js/store.js" type="text/javascript"></script>
+		
+		<script src="${pageContext.request.contextPath}/js/store.js" type="text/javascript"></script>
 		<script src="${pageContext.request.contextPath}/js/oauth2.js" type="text/javascript"></script>
-	    <script src="${pageContext.request.contextPath}/js/sha256.js" type="text/javascript"></script>
-	    <script src="${pageContext.request.contextPath}/js/enc-base64-min.js" type="text/javascript"></script>
-	    <script src="${pageContext.request.contextPath}/js/cookie.js" type="text/javascript"></script>
-	    <script src="${pageContext.request.contextPath}/js/user.js" type="text/javascript"></script>
+		<script src="${pageContext.request.contextPath}/js/sha256.js" type="text/javascript"></script>
+		<script src="${pageContext.request.contextPath}/js/enc-base64-min.js" type="text/javascript"></script>
+		<script src="${pageContext.request.contextPath}/js/cookie.js" type="text/javascript"></script>
+		<script src="${pageContext.request.contextPath}/js/user.js" type="text/javascript"></script>
     </head>
-    <body class="skin-blue lockscreen">
+    <body class="lockscreen">
         <!-- Automatic element centering using js -->
         <div class="center">            
             <div class="headline text-center" id="time">
@@ -54,7 +56,7 @@
             </div><!-- /.headline -->
             
             <!-- User name -->
-            <div class="lockscreen-name">ssss</div>
+            <div class="lockscreen-name"></div>
             
             <!-- START LOCK SCREEN ITEM -->
             <div class="lockscreen-item">
@@ -86,18 +88,25 @@
 
         <!-- page script -->
         <script type="text/javascript">
-            $(function() {
-                startTime();
-                
-                oauth2.user.current(function(success) {
-                	
-                });
-                
-                $(".center").center();
-                $(window).resize(function() {
-                    $(".center").center();
-                });
-            });
+			$(function() {
+				var user = oauth2.user.get();
+				if (user == null) {
+					$('.lockscreen-name').text('Anonymous');
+				} else {
+					$('.lockscreen-name').text(user.FullName);
+				}
+				
+				startTime();
+				$(".center").center();
+				
+				$(window).resize(function() {
+					$(".center").center();
+				});
+
+				$('#password').bind('keydown', 'return', function(){
+					doReLogin();
+				});
+			});
 
             /*  */
             function startTime()
@@ -144,23 +153,23 @@
                 return this;
             };
 
-            function doReLogin(){
+			function doReLogin(){
 				oauth2.user.relogin($('#password').val(), function (result) {
-		        	if (!result) {
-		        		var wlocation = oauth2.cookie.get('wlocation');
-		        		if (!wlocation || wlocation == '')
-		        			wlocation = '${pageContext.request.contextPath}/start';
-	        			
-		          		window.location = wlocation;
-		        	} else {
+					if (!result) {
+						var wlocation = oauth2.cookie.get('wlocation');
+						if (!wlocation || wlocation == '')
+							wlocation = '${pageContext.request.contextPath}/start';
+						
+						window.location = wlocation;
+					} else {
 						BootstrapDialog.alert({
 							type: BootstrapDialog.TYPE_ERROR,
 							title: '<span class=\'fa fa-exclamation-triangle\'> Sign-in Error</span>',
 							message: 'Username and/or password did not match a user account.', 
 							draggable: true
 						});
-		        	}
-		      	});
+					}
+				});
 			}
         </script>
     </body>

@@ -9,23 +9,21 @@
         <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/logo.png">
         <title>DMS Lite</title>
         
-        <%-- <link href="${pageContext.request.contextPath}/styles/themes/bootstrap/easyui.css" rel="stylesheet" type="text/css" media="screen" /> --%>
-        
-        <link href="${pageContext.request.contextPath}/styles/application.css" rel="stylesheet" type="text/css" media="screen" />
-        <!-- bootstrap 3.0.2 -->
-        <link href="${pageContext.request.contextPath}/styles/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <!-- font Awesome -->
-        <link href="${pageContext.request.contextPath}/styles/bootstrap/font-awesome.min.css" rel="stylesheet" type="text/css" />
-        <!-- Ionicons -->
-        <link href="${pageContext.request.contextPath}/styles/bootstrap/ionicons.css" rel="stylesheet" type="text/css" />
-        <!-- Theme style -->
-        <link href="${pageContext.request.contextPath}/styles/bootstrap/AdminLTE.css" rel="stylesheet" type="text/css" />
+		<link href="${pageContext.request.contextPath}/styles/application.css" rel="stylesheet" type="text/css" media="screen" />
+		<!-- bootstrap 3.0.2 -->
+		<link href="${pageContext.request.contextPath}/styles/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<!-- font Awesome -->
+		<link href="${pageContext.request.contextPath}/styles/bootstrap/font-awesome.min.css" rel="stylesheet" type="text/css" />
+		<!-- Ionicons -->
+		<link href="${pageContext.request.contextPath}/styles/bootstrap/ionicons.css" rel="stylesheet" type="text/css" />
+		<!-- Theme style -->
+		<link href="${pageContext.request.contextPath}/styles/bootstrap/AdminLTE.css" rel="stylesheet" type="text/css" />
 		
-	<!-- Theme style -->
-	<link href="${pageContext.request.contextPath}/styles/bootstrap/themes/blue.css" rel="stylesheet" type="text/css" />
-	<link href="${pageContext.request.contextPath}/styles/bootstrap/themes/black.css" rel="stylesheet" type="text/css" />
-	
-	<link href="${pageContext.request.contextPath}/styles/bootstrap/bootstrap.dialog.css" rel="stylesheet" type="text/css" />
+		<!-- Theme style -->
+		<link href="${pageContext.request.contextPath}/styles/bootstrap/themes/blue.css" rel="stylesheet" type="text/css" />
+		<link href="${pageContext.request.contextPath}/styles/bootstrap/themes/black.css" rel="stylesheet" type="text/css" />
+		
+		<link href="${pageContext.request.contextPath}/styles/bootstrap/bootstrap.dialog.css" rel="stylesheet" type="text/css" />
 		
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -45,8 +43,10 @@
         	PERSONAL_DATE_TIME_FORMAT = "DD/MM/YYYY HH:mm:ss";
         </script>
         
-        <script src="${pageContext.request.contextPath}/js/jquery.min.js" type="text/javascript"></script>
-        <%-- <script src="${pageContext.request.contextPath}/js/jquery.easyui.min.js" type="text/javascript"></script> --%>
+		<!-- JQuery -->
+		<script src="${pageContext.request.contextPath}/js/jquery.min.js" type="text/javascript"></script>
+		<!-- JQuery Shortcut -->
+		<script src="${pageContext.request.contextPath}/js/bootstrap/jquery.hotkeys.js" type="text/javascript"></script>
         
         <script src="${pageContext.request.contextPath}/js/store.js" type="text/javascript"></script>
 		<script src="${pageContext.request.contextPath}/js/oauth2.js" type="text/javascript"></script>
@@ -107,46 +107,42 @@
             </div>
         </div>
 		
-	<!-- Bootstrap -->
-        <script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap.min.js" type="text/javascript"></script>
-	<!-- AdminLTE App -->
-        <script src="${pageContext.request.contextPath}/js/bootstrap/app.js" type="text/javascript"></script>
-        <!-- Bootstrap Dialog -->
-	<script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap-dialog.js" type="text/javascript"></script>
+		<!-- Bootstrap -->
+		<script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap.min.js" type="text/javascript"></script>
+		<!-- AdminLTE App -->
+		<script src="${pageContext.request.contextPath}/js/bootstrap/app.js" type="text/javascript"></script>
+		<!-- Bootstrap Dialog -->
+		<script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap-dialog.js" type="text/javascript"></script>
 		
         <script type="text/javascript">
-			function doLogin(){
+			$(function() {
+				$('#password').bind('keydown', 'return', function(){
+					doLogin();
+				});
+			});
+			
+			function doLogin() {
 				oauth2.user.login($('#username').val(), $('#password').val(), function (result) {
-		        	if (!result) {
-		        		var wlocation = oauth2.cookie.get('wlocation');
-		        		if (!wlocation || wlocation == '')
-		        			wlocation = '${pageContext.request.contextPath}/start';
+					if (!result) {
+						var wlocation = oauth2.cookie.get('wlocation');
+						if (!wlocation || wlocation == '')
+							wlocation = '${pageContext.request.contextPath}/start';
 	        			
-		          		window.location = wlocation;
-		        	} else {
-		          		//console.log(result);
-		          		/* alert(JSON.stringify(result));
-						alert(result.status);
-						var jsonResponse = JSON.parse(result.responseText);
-						alert(jsonResponse.error); */
-						
+						window.location = wlocation;
+					} else {
 						BootstrapDialog.alert({
 							title: 'Sign-in Error',
 							message: 'Username and/or password did not match a user account.',
 							closeByBackdrop: false,
-				            draggable: true
+							draggable: true
 						});
-		        	}
-		      	});
+					}
+				});
 			}
 			
 			function clearForm(){
 			
 			}
-
-			$(function() {
-				//$('#editModal').modal('show');
-            });
 		</script>
     </body>
 </html>

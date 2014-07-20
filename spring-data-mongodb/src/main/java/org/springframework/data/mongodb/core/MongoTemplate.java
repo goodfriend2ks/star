@@ -31,6 +31,8 @@ import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.persistence.Id;
+
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +50,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.dao.support.PersistenceExceptionTranslator;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.authentication.UserCredentials;
 import org.springframework.data.convert.EntityReader;
 import org.springframework.data.geo.Distance;

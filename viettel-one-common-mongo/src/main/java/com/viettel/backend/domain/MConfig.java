@@ -15,8 +15,7 @@ import com.viettel.backend.common.BaseEO;
 
 @Entity(name = MConfig.TABLE_NAME)
 @Table(name = MConfig.TABLE_NAME)
-@EntityType(withRootTenant = true, withRootOrg = true, withRootApp = false, 
-		alwayRootOrg = true)
+@EntityType(withRootTenant = true, withRootOrg = true, withRootApp = false, alwayRootOrg = true)
 @Caption("config")
 public class MConfig extends BaseEO<UUID> {
 
@@ -26,6 +25,10 @@ public class MConfig extends BaseEO<UUID> {
 	public static final String TABLE_NAME = "AD_Config";
 	@Transient
 	public static final String KEYCOLUMN_NAME = TABLE_NAME + "_ID";
+	@Transient
+	public static final String KEY_PROPERTY = "id";
+	@Transient
+	public static final String DISPLAY_PROPERTY = "name";
 	
 	@Id
 	private UUID id;

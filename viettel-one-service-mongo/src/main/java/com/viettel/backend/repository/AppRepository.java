@@ -11,13 +11,13 @@ public interface AppRepository extends GenericRepository<MApp, UUID> {
 
     public List<MApp> getAccessedApplications(UUID user_ID);
 
-//    public List<MWebService> getWebServices(UUID AD_App_ID);
+//    public List<MWebService> getWebServices(UUID app_ID);
 //    
-//    public MWebService getWebServiceByInterface(UUID AD_App_ID, String serviceInterface);
+//    public MWebService getWebServiceByInterface(UUID app_ID, String serviceInterface);
 //    
-//    public MWebService getWebService(UUID AD_App_ID, UUID AD_WebService_ID);
+//    public MWebService getWebService(UUID app_ID, UUID AD_WebService_ID);
 //    
-//    public List<MPopup> getPopups(UUID AD_App_ID);
+//    public List<MPopup> getPopups(UUID app_ID);
 //    
-//    public MPopup getPopup(UUID AD_App_ID, UUID AD_Popup_ID);
+//    public MPopup getPopup(UUID app_ID, UUID AD_Popup_ID);
 }

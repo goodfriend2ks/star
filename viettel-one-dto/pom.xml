@@ -42,9 +42,9 @@
 	
 	<dependencies>
 		<dependency>
-			<groupId>com.viettel</groupId>
-			<artifactId>viettel-one-common</artifactId>
-			<version>1.0</version>
+			<groupId>viettel.one</groupId>
+			<artifactId>viettel-one-common-mongo</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 		
 		<!-- MapStruct -->
@@ -89,10 +89,10 @@
 					<processors>
 						<processor>org.mapstruct.ap.MappingProcessor</processor>
 					</processors>
-					<!-- <options>
+					<options>
 						<suppressGeneratorTimestamp>true</suppressGeneratorTimestamp>
 						<defaultComponentModel>cdi</defaultComponentModel>
-					</options> -- >
+					</options>
 				</configuration>
 				<executions>
 					<execution>

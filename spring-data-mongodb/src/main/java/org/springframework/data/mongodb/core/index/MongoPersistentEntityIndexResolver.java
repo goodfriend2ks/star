@@ -169,7 +169,7 @@ public class MongoPersistentEntityIndexResolver implements IndexResolver {
 	private IndexDefinitionHolder createIndexDefinitionHolderForProperty(String dotPath, String collection,
 			MongoPersistentProperty persistentProperty) {
 
-		if (persistentProperty.isAnnotationPresent(Indexed.class)) {
+		if (persistentProperty.isAnnotationPresent(javax.persistence.Index.class)) {
 			return createIndexDefinition(dotPath, collection, persistentProperty);
 		} else if (persistentProperty.isAnnotationPresent(GeoSpatialIndexed.class)) {
 			return createGeoSpatialIndexDefinition(dotPath, collection, persistentProperty);
@@ -290,8 +290,8 @@ public class MongoPersistentEntityIndexResolver implements IndexResolver {
 	protected IndexDefinitionHolder createIndexDefinition(String dotPath, String fallbackCollection,
 			MongoPersistentProperty persitentProperty) {
 
-		Indexed index = persitentProperty.findAnnotation(Indexed.class);
-		String collection = StringUtils.hasText(index.collection()) ? index.collection() : fallbackCollection;
+		javax.persistence.Index index = persitentProperty.findAnnotation(javax.persistence.Index.class);
+		String collection = StringUtils.hasText(index.schema()) ? index.schema() : fallbackCollection;
 
 		Index indexDefinition = new Index().on(dotPath,
 				IndexDirection.ASCENDING.equals(index.direction()) ? Sort.Direction.ASC : Sort.Direction.DESC);

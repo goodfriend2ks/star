@@ -158,7 +158,7 @@
 		$('#dlg-uploadfile').modal('show');
 
 		$('#uploadfile').fileupload({
-	        url: '${pageContext.request.contextPath}/profile/image',
+	        url: '${pageContext.request.contextPath}/api/profile/image',
 	        method: 'POST',
 	        dataType: 'json',
 	        autoUpload: false,

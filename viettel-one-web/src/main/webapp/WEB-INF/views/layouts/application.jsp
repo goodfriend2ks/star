@@ -52,26 +52,15 @@
         <!-- <link href="./styles/bootstrap/checkbox-flat.css" rel="stylesheet" type="text/css" /> -->
         
         <script src="${pageContext.request.contextPath}/js/url.js" type="text/javascript"></script>
-        <script type="text/javascript">
-        	CONTEXT_PATH = "${pageContext.request.contextPath}";
-        	
-        	LOGIN_URL = "${pageContext.request.contextPath}/login.jsp?force";
-			RELOGIN_WHEN_INVALID_TOKEN = true;
-        </script>
-        
         <script src="${pageContext.request.contextPath}/js/format.js" type="text/javascript"></script>
-        <script type="text/javascript">
-        	PERSONAL_DATE_FORMAT = "DD/MM/YYYY";
-        	PERSONAL_TIME_FORMAT = "HH:mm:ss";
-        	PERSONAL_DATE_TIME_FORMAT = "DD/MM/YYYY HH:mm:ss";
-        	
-        	//var datePat = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/;
-        </script>
         
+        <!-- JQuery -->
         <script src="${pageContext.request.contextPath}/js/jquery.min.js" type="text/javascript"></script>
-        <%-- <script src="${pageContext.request.contextPath}/js/jquery.easyui.min.js" type="text/javascript"></script> --%>
+        <!-- Joda Date time -->
         <script src="${pageContext.request.contextPath}/js/moment.min.js" type="text/javascript"></script>
-        
+        <!-- JQuery Shortcut -->
+		<script src="${pageContext.request.contextPath}/js/bootstrap/jquery.hotkeys.js" type="text/javascript"></script>
+		
 		<script src="${pageContext.request.contextPath}/js/store.js" type="text/javascript"></script>
 		<script src="${pageContext.request.contextPath}/js/oauth2.js" type="text/javascript"></script>
 	    <script src="${pageContext.request.contextPath}/js/sha256.js" type="text/javascript"></script>
@@ -86,6 +75,36 @@
 	    <script src="${pageContext.request.contextPath}/js/bootstrap/jquery.populatejson.js" type="text/javascript"></script>
 	    <!-- Serialize Form to JSON -->
 		<script src="${pageContext.request.contextPath}/js/bootstrap/jquery.serializejson.js" type="text/javascript"></script>
+		
+		<script type="text/javascript">
+			DIALOG_CONFIRM_YES 		= "<spring:message code='label.dialog.yes' htmlEscape='false'/>";
+			DIALOG_CONFIRM_NO 		= "<spring:message code='label.dialog.no' htmlEscape='false'/>";
+			DIALOG_CONFIRM_OK 		= "<spring:message code='label.dialog.ok' htmlEscape='false'/>";
+			DIALOG_CONFIRM_CANCEL 	= "<spring:message code='label.dialog.cancel' htmlEscape='false'/>";
+			DIALOG_CONFIRM_CLOSE 	= "<spring:message code='label.dialog.close' htmlEscape='false'/>";
+			
+			CONTEXT_PATH = "${pageContext.request.contextPath}";
+			
+			LOGIN_URL = "${pageContext.request.contextPath}/login.jsp?force";
+			LOCKSCREEN_URL = "${pageContext.request.contextPath}/lockscreen.jsp"; 
+			RELOGIN_WHEN_INVALID_TOKEN = true;
+
+			//PERSONAL_DATE_FORMAT = "DD/MM/YYYY";
+			//PERSONAL_TIME_FORMAT = "HH:mm:ss";
+			var cookieValue = oauth2.cookie.get('datePattern');
+			if (cookieValue != '')
+				PERSONAL_DATE_FORMAT = cookieValue.toUpperCase();
+			
+			cookieValue = oauth2.cookie.get('timePattern');
+			if (cookieValue != '')
+				PERSONAL_TIME_FORMAT = cookieValue;
+			
+			PERSONAL_DATE_TIME_FORMAT = PERSONAL_DATE_FORMAT + ' ' + PERSONAL_TIME_FORMAT;
+			
+			//oauth2.cookie.set('dateTimePattern', response.DateTimePattern);
+	        //oauth2.cookie.set('decimalPoint', response.DecimalPoint);
+			//var datePat = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/;
+		</script>
 		
         <decorator:head />
     </head>

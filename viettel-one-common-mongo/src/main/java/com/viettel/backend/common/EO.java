@@ -33,14 +33,14 @@ public abstract class EO<PK extends Serializable> implements IValuePair<PK> {
 	@Transient
 	public static final String ORG_KEYCOLUMN_NAME = ORG_TABLE_NAME + "_ID";
 	@Transient
-	public static final String ORG_FIELD_NAME = "ad_Org_ID";
+	public static final String ORG_FIELD_NAME = "org_ID";
 	
 	@Transient
 	public static final String APP_TABLE_NAME = "AD_App";
 	@Transient
 	public static final String APP_KEYCOLUMN_NAME = APP_TABLE_NAME + "_ID";
 	@Transient
-	public static final String APP_FIELD_NAME = "ad_App_ID";
+	public static final String APP_FIELD_NAME = "app_ID";
 	
 	@Transient
 	public static final String PARENT_COLUMN_NAME = "Parent_ID";
@@ -177,7 +177,11 @@ public abstract class EO<PK extends Serializable> implements IValuePair<PK> {
 	
 	public abstract void setVersion(long version);
 	
+	public abstract Date getCreated();
+	
 	public abstract void setCreated(Date created);
+	
+	public abstract Date getUpdated();
 	
 	public abstract void setUpdated(Date updated);
 	

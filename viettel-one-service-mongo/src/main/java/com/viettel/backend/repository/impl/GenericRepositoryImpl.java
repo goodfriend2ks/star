@@ -41,43 +41,43 @@ public abstract class GenericRepositoryImpl<T extends EO<PK>, PK extends Seriali
 	}
 
 	/**** Find By ID *****/
-	@Override
+	/*@Override
 	public T findById(PK key) {
 		return findById(typeClazz, pkClazz, key);
-	}
+	}*/
 
 	@Override
-	public T findById(UUID ad_Client_ID, PK id) {
-		return findById(typeClazz, pkClazz, ad_Client_ID, id);
+	public T findById(UUID tenant_ID, PK id) {
+		return findById(typeClazz, pkClazz, tenant_ID, id);
 	}
 
 	/** Get Count ***/
 	@Override
-	public long getCount(UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, GenericQuery query) {
+	public long getCount(UUID tenant_ID, UUID org_ID, UUID app_ID, GenericQuery query) {
 		return getCount(typeClazz, pkClazz, 
-				AD_Client_ID, AD_Org_ID, AD_App_ID, query);
+				tenant_ID, org_ID, app_ID, query);
 	}
 
 	/** Get First **/
 	@Override
-	public T getFirst(UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, GenericQuery query) {
+	public T getFirst(UUID tenant_ID, UUID org_ID, UUID app_ID, GenericQuery query) {
 		return getFirst(typeClazz, pkClazz, 
-				AD_Client_ID, AD_Org_ID, AD_App_ID, query);
+				tenant_ID, org_ID, app_ID, query);
 	}
 
 	/** Get List **/
 	@Override
-	public List<T> getList(UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID, GenericQuery query) {
+	public List<T> getList(UUID tenant_ID, UUID org_ID, UUID app_ID, GenericQuery query) {
 		return getList(typeClazz, pkClazz, 
-				AD_Client_ID, AD_Org_ID, AD_App_ID, query);
+				tenant_ID, org_ID, app_ID, query);
 	}
 
 	@Override
-	public List<T> getList(UUID AD_Client_ID, UUID AD_Org_ID, UUID AD_App_ID,
-			int firstResult, int maxResults, GenericQuery query) {
+	public List<T> getList(UUID tenant_ID, UUID org_ID, UUID app_ID,
+			GenericQuery query, int firstResult, int maxResults) {
 		return getList(typeClazz, pkClazz, 
-				AD_Client_ID, AD_Org_ID, AD_App_ID, 
-				firstResult, maxResults, query);
+				tenant_ID, org_ID, app_ID, 
+				query, firstResult, maxResults);
 	}
 
 	/** Save **/
@@ -92,43 +92,43 @@ public abstract class GenericRepositoryImpl<T extends EO<PK>, PK extends Seriali
 		return delete(typeClazz, pkClazz, entity, localTrx);
 	}
 
-	@Override
+	/*@Override
 	public boolean delete(PK key, boolean localTrx) {
 		return delete(typeClazz, pkClazz, key, localTrx);
+	}*/
+
+	@Override
+	public boolean delete(UUID tenant_ID, PK id, boolean localTrx) {
+		return delete(typeClazz, pkClazz, tenant_ID, id, localTrx);
 	}
 
 //	@Override
-//	public boolean delete(UUID ad_Client_ID, PK id, boolean localTrx) {
-//		return delete(typeClazz, pkClazz, ad_Client_ID, id, localTrx);
+//	public int delete(UUID tenant_ID, List<PK> ids, boolean localTrx) {
+//		return delete(typeClazz, pkClazz, tenant_ID, ids, localTrx);
 //	}
 
-	@Override
-	public int delete(UUID ad_Client_ID, List<PK> ids, boolean localTrx) {
-		return delete(typeClazz, pkClazz, ad_Client_ID, ids, localTrx);
-	}
-
-	public int delete(UUID ad_Client_ID, boolean localTrx, GenericQuery query) {
-		return delete(typeClazz, pkClazz, ad_Client_ID, localTrx, query);
+	public int delete(UUID tenant_ID, GenericQuery query, boolean localTrx) {
+		return delete(typeClazz, pkClazz, tenant_ID, query, localTrx);
 	}
 	
 	/** Set Active **/
-	@Override
-	public boolean setActive(PK key, boolean isActive, boolean localTrx) {
-		return setActive(typeClazz, pkClazz, key, isActive, localTrx);
-	}
-
 //	@Override
-//	public boolean setActive(UUID ad_Client_ID, PK id, boolean isActive, boolean localTrx) {
-//		return setActive(typeClazz, pkClazz, ad_Client_ID, id, isActive, localTrx);
+//	public boolean setActive(PK key, boolean isActive, boolean localTrx) {
+//		return setActive(typeClazz, pkClazz, key, isActive, localTrx);
 //	}
 
 	@Override
-	public int setActive(UUID ad_Client_ID, List<PK> ids, boolean isActive, boolean localTrx) {
-		return setActive(typeClazz, pkClazz, ad_Client_ID, ids, isActive, localTrx);
+	public boolean setActive(UUID tenant_ID, PK id, boolean isActive, boolean localTrx) {
+		return setActive(typeClazz, pkClazz, tenant_ID, id, isActive, localTrx);
 	}
 
+//	@Override
+//	public int setActive(UUID tenant_ID, List<PK> ids, boolean isActive, boolean localTrx) {
+//		return setActive(typeClazz, pkClazz, tenant_ID, ids, isActive, localTrx);
+//	}
+
 	@Override
-	public int setActive(UUID ad_Client_ID, boolean isActive, boolean localTrx, GenericQuery query) {
-		return setActive(typeClazz, pkClazz, ad_Client_ID, isActive, localTrx, query);
+	public int setActive(UUID tenant_ID, GenericQuery query, boolean isActive, boolean localTrx) {
+		return setActive(typeClazz, pkClazz, tenant_ID, query, isActive, localTrx);
 	}
 }

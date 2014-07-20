@@ -8,9 +8,9 @@ import com.viettel.backend.domain.MTenant;
 
 public interface TenantRepository extends GenericRepository<MTenant, UUID> {
 	
-	public List<MOrg> getOrgs(UUID ad_Client_ID);
+	public List<MOrg> getOrgs(UUID tenant_ID);
 	
-	public MOrg getOrg(UUID ad_Client_ID, UUID ad_Org_ID);
+	public MOrg getOrg(UUID tenant_ID, UUID org_ID);
 	
-	public long getOrgCount(UUID ad_Client_ID);
+	public long getOrgCount(UUID tenant_ID);
 }
