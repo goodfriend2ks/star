@@ -31,7 +31,7 @@ public class RoleRepositoryImpl
 
 	@Override
 	public List<MRole> getAccessedRoles(UUID tenant_ID, UUID user_ID, UUID app_ID) {
-		GenericQuery query = query(criteria("user_ID").is(user_ID));
+		GenericQuery query = query(criteria(MUserRole.USER_ID_PROPERTY).is(user_ID));
 		List<MUserRole> userRoles = getList(MUserRole.class, UUID.class, 
 				tenant_ID, EO.ROOT_ID_VALUE, app_ID, query);
 		if (userRoles == null || userRoles.isEmpty())
@@ -41,8 +41,8 @@ public class RoleRepositoryImpl
 		for (MUserRole ur : userRoles)
 			roleIds.add(ur.getRole_ID());
 		
-		query = query(criteria("app_ID").is(app_ID)
-				.and("role_ID").in(roleIds));
+		query = query(criteria(MRole.APP_ID_PROPERTY).is(app_ID)
+				.and(MRole.KEY_PROPERTY).in(roleIds));
 		return getList(tenant_ID, EO.ROOT_ID_VALUE, app_ID, query);
 	}
 }

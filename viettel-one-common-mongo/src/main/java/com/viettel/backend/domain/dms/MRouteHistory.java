@@ -34,7 +34,7 @@ public class MRouteHistory extends LinkedEO<UUID> {
 	@Transient
 	public static final String KEYCOLUMN_NAME = TABLE_NAME + "_ID";
 	@Transient
-	public static final String KEY_PROPERTY = "id";
+	public static final String KEY_PROPERTY = EO_ID_PROPERTY;
 	
 	@Id
 	private UUID id;
@@ -62,10 +62,6 @@ public class MRouteHistory extends LinkedEO<UUID> {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "FinishedDate", nullable = true)
 	private Date finishedDate;
-	
-	@Index
-	@Column(name = "IsCurrent", nullable = true)
-	private boolean isCurrent;
 	
     public MRouteHistory() {
     	super();
@@ -111,14 +107,6 @@ public class MRouteHistory extends LinkedEO<UUID> {
 		this.finishedDate = finishedDate;
 	}
 	
-	public boolean isCurrent() {
-		return isCurrent;
-	}
-
-	public void setCurrent(boolean isCurrent) {
-		this.isCurrent = isCurrent;
-	}
-
 	@Override
 	public String getTableName() {
 		return TABLE_NAME;

@@ -29,7 +29,7 @@
     </bean>
 
 	<bean name="/FileService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
-        <property name="service" ref="appFileService" />
+        <property name="service" ref="fileService" />
         <property name="serviceInterface" value="com.viettel.backend.service.FileService" />
     </bean>
     
@@ -50,7 +50,7 @@
     </bean> -->
     
 	<bean name="/TenantService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
-        <property name="service" ref="clientService" />
+        <property name="service" ref="tenantService" />
         <property name="serviceInterface" value="com.viettel.backend.service.TenantService" />
     </bean>
     

@@ -19,69 +19,17 @@
     
     <tx:annotation-driven transaction-manager="transactionManager" /> -->
     
-    <!-- Translate lower level hibernate's exception to higher level exceptions of Spring -->
-    <!-- Apply to all class marked by @Repository -->
-    <!-- Work by creating a proxy for those class, so they must not be declare as final class -->
-    <!-- <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" /> -->
-    <!-- ~Hibernate -->
-    
-    <!-- Kundera JPA -->
-    <!-- <bean id="entityManagerFactory"
-        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="persistenceUnitName" value="ViettelOne" />
-    </bean> -->
-    <!-- ~Kundera JPA -->
-    
-    <!-- Easy Cassandra Spring Template -->
-    <bean id="clusterInformation" class="org.easycassandra.persistence.cassandra.ClusterInformation">
-		<property name="keySpace" value="ViettelOne" />
-		<!-- <property name="user" value="user" />
-		<property name="password" value="password" /> -->
-		<!-- <property name="port" value="9160" />
-		<property name="port" value="9042" /> -->
-		<property name="hosts">
-			<list>
-				<value>localhost</value>
-				<!-- <value>10.60.15.174</value> -->
-			</list>
-		</property>
-	</bean>
-	
-    <bean id="cassandraFactory" class="org.easycassandra.persistence.cassandra.spring.CassandraFactoryAnnotation">
-		<constructor-arg name="clusterInformation" ref="clusterInformation" />
-		<!-- <property name="annotatedClasses">
-			<list>
-				<value>com.viettel.backend.domain.MClient</value>
-				<value>com.viettel.backend.domain.MOrg</value>
-				
-				<value>com.viettel.backend.domain.MApp</value>
-				<value>com.viettel.backend.domain.MPopup</value>
-				<value>com.viettel.backend.domain.MRole</value>
-				<value>com.viettel.backend.domain.MUser</value>
-				<value>com.viettel.backend.domain.MView</value>
-				<value>com.viettel.backend.domain.MWebService</value>
-				
-				<value>com.viettel.backend.domain.MUserRole</value>
-				<value>com.viettel.backend.domain.MViewPopup</value>
-				<value>com.viettel.backend.domain.MViewRole</value>
-				
-				<value>com.viettel.backend.domain.MCondition</value>
-				<value>com.viettel.backend.domain.MConfig</value>
-				<value>com.viettel.backend.domain.MGateway</value>
-				<value>com.viettel.backend.domain.MMailTemplate</value>
-				
-				<value>com.viettel.backend.domain.MReport</value>
-				<value>com.viettel.backend.domain.MReportPara</value>
-				
-				<value>com.viettel.backend.domain.MTask</value>
-				<value>com.viettel.backend.domain.MWorkflow</value>
-				
-				<value>com.viettel.backend.domain.common.MUnit</value>
-			</list>
-		</property> -->
-	</bean>
-	
-	<bean id="cassandraTemplate" class="org.easycassandra.persistence.cassandra.spring.SimpleCassandraTemplateImpl" >
-		<constructor-arg name="factory" ref="cassandraFactory" />
-	</bean>
+    <!-- Factory bean that creates the Mongo instance -->
+    <bean id="mongoFactory" class="org.springframework.data.mongodb.core.MongoFactoryBean">
+        <property name="host" value="123.30.186.62" />
+    </bean>
+     
+    <!-- MongoTemplate for connecting and quering the documents in the database -->
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg name="mongo" ref="mongoFactory" />
+        <constructor-arg name="databaseName" value="mydb" />
+    </bean>
+ 
+    <!-- Use this post processor to translate any MongoExceptions thrown in @Repository annotated classes -->
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 </beans>

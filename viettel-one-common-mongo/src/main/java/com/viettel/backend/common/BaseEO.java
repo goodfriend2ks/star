@@ -36,7 +36,7 @@ public abstract class BaseEO<PK extends Serializable> extends EO<PK>
 	private static final long serialVersionUID = -6193509556593385167L;
 	
 	@Index
-	@Column(name = ORG_KEYCOLUMN_NAME, nullable = false)
+	@Column(name = TENANT_KEYCOLUMN_NAME, nullable = false)
 	@EntityLinked(entityClazz = MTenant.class, pkClazz = UUID.class,  
 			idProperty = MTenant.KEY_PROPERTY, captionProperty = MTenant.DISPLAY_PROPERTY, 
 			type = LinkedType.DROPDOWN, checkOrg = false, checkApp = false, canNew = false)
@@ -58,7 +58,7 @@ public abstract class BaseEO<PK extends Serializable> extends EO<PK>
 	
 	@Index
 	@CommonCaption("active")
-	@Column(name = "IsActive", nullable = false)
+	@Column(name = ACTIVE_COLUMN_NAME, nullable = false)
 	private boolean isActive;
 	
 	@Index

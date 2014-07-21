@@ -31,7 +31,7 @@ public class MRoute extends BaseEO<UUID>{
 	@Transient
 	public static final String KEYCOLUMN_NAME = TABLE_NAME + "_ID";
 	@Transient
-	public static final String KEY_PROPERTY = "id";
+	public static final String KEY_PROPERTY = EO_ID_PROPERTY;
 	@Transient
 	public static final String DISPLAY_PROPERTY = "name";
 	

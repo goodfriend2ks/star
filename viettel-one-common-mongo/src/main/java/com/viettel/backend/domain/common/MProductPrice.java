@@ -35,7 +35,7 @@ public class MProductPrice extends BaseEO<UUID> {
 	@Transient
 	public static final String KEYCOLUMN_NAME = TABLE_NAME + "_ID";
 	@Transient
-	public static final String KEY_PROPERTY = "id";
+	public static final String KEY_PROPERTY = EO_ID_PROPERTY;
 	/*@Transient
 	public static final String DISPLAY_PROPERTY = "name";*/
 	
@@ -51,20 +51,26 @@ public class MProductPrice extends BaseEO<UUID> {
 	
 	@Index
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "ApplyDate", nullable = false, length = 100)
+	@Column(name = "ApplyDate", nullable = false)
 	private Date applyDate;
 	
-	@Column(name = "BaseUnitPrice", nullable = false, length = 100)
-	private float baseUnitPrice;
+	@Column(name = "BasePrice", nullable = false)
+	private double basePrice;
 	
-	@Column(name = "ExtendUnitPrice", nullable = false, length = 100)
-	private float extendUnitPrice;
+	@Column(name = "ExtendPrice", nullable = false)
+	private double extendPrice;
 	
-	@Column(name = "InputTax", nullable = false, length = 100)
-	private float inputTax;
+	@Column(name = "InputTax", nullable = false)
+	private double inputTax;
 	
-	@Column(name = "outputTax", nullable = false, length = 100)
-	private float outputTax;
+	@Column(name = "outputTax", nullable = false)
+	private double outputTax;
+	
+	@Column(name = "BaseTaxPrice", nullable = false)
+	private double baseTaxPrice;
+	
+	@Column(name = "ExtendTaxPrice", nullable = false)
+	private double extendTaxPrice;
 	
 	public MProductPrice() {
 		super();
@@ -93,39 +99,55 @@ public class MProductPrice extends BaseEO<UUID> {
 	public void setApplyDate(Date applyDate) {
 		this.applyDate = applyDate;
 	}
-
-	public float getBaseUnitPrice() {
-		return baseUnitPrice;
+	
+	public double getBasePrice() {
+		return basePrice;
 	}
 
-	public void setBaseUnitPrice(float baseUnitPrice) {
-		this.baseUnitPrice = baseUnitPrice;
+	public void setBasePrice(double basePrice) {
+		this.basePrice = basePrice;
 	}
 
-	public float getExtendUnitPrice() {
-		return extendUnitPrice;
+	public double getExtendPrice() {
+		return extendPrice;
 	}
 
-	public void setExtendUnitPrice(float extendUnitPrice) {
-		this.extendUnitPrice = extendUnitPrice;
+	public void setExtendPrice(double extendPrice) {
+		this.extendPrice = extendPrice;
 	}
 
-	public float getInputTax() {
+	public double getInputTax() {
 		return inputTax;
 	}
 
-	public void setInputTax(float inputTax) {
+	public void setInputTax(double inputTax) {
 		this.inputTax = inputTax;
 	}
 
-	public float getOutputTax() {
+	public double getOutputTax() {
 		return outputTax;
 	}
 
-	public void setOutputTax(float outputTax) {
+	public void setOutputTax(double outputTax) {
 		this.outputTax = outputTax;
 	}
-	
+
+	public double getBaseTaxPrice() {
+		return baseTaxPrice;
+	}
+
+	public void setBaseTaxPrice(double baseTaxPrice) {
+		this.baseTaxPrice = baseTaxPrice;
+	}
+
+	public double getExtendTaxPrice() {
+		return extendTaxPrice;
+	}
+
+	public void setExtendTaxPrice(double extendTaxPrice) {
+		this.extendTaxPrice = extendTaxPrice;
+	}
+
 	@Override
 	@Transient
 	public String getTableName() {

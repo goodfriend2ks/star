@@ -34,7 +34,7 @@ public class MTenant extends EO<UUID> {
 	private static final long serialVersionUID = 4142212916030434607L;
 	
 	@Transient
-	public static final String KEY_PROPERTY = "id";
+	public static final String KEY_PROPERTY = EO_ID_PROPERTY;
 	@Transient
 	public static final String DISPLAY_PROPERTY = "name";
 	

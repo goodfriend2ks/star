@@ -93,7 +93,7 @@
 				if (user == null) {
 					$('.lockscreen-name').text('Anonymous');
 				} else {
-					$('.lockscreen-name').text(user.FullName);
+					$('.lockscreen-name').text(user.full_name);
 				}
 				
 				startTime();

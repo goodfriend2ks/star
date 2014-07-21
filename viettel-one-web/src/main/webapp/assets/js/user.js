@@ -73,11 +73,11 @@ oauth2.user.login = function (username, password, callback) {
      		/*store.remove('authToken');*/
 	        oauth2.cookie.set('authToken', response.access_token);
 	        oauth2.cookie.set('refreshToken', response.refresh_token);
-	        oauth2.cookie.set('lang', response.LangCode);
-	        oauth2.cookie.set('datePattern', response.DatePattern);
-	        oauth2.cookie.set('dateTimePattern', response.DateTimePattern);
-	        oauth2.cookie.set('timePattern', response.TimePattern);
-	        oauth2.cookie.set('decimalPoint', response.DecimalPoint);
+	        oauth2.cookie.set('lang', response.lang_code);
+	        oauth2.cookie.set('datePattern', response.date_pattern);
+	        oauth2.cookie.set('dateTimePattern', response.datetime_pattern);
+	        oauth2.cookie.set('timePattern', response.time_pattern);
+	        oauth2.cookie.set('decimalPoint', response.decimal_point);
 	        //oauth2.cookie.set('userId', response.apiUser.id);
 	        oauth2.cookie.set('username', username);
 	        oauth2.cookie.set('lockscreen', false);
@@ -114,11 +114,11 @@ oauth2.user.relogin = function (password, callback) {
 		    function (response) {
 	     		oauth2.cookie.set('authToken', response.access_token);
 		        oauth2.cookie.set('refreshToken', response.refresh_token);
-		        oauth2.cookie.set('lang', response.LangCode);
-		        oauth2.cookie.set('datePattern', response.DatePattern);
-		        oauth2.cookie.set('dateTimePattern', response.DateTimePattern);
-		        oauth2.cookie.set('timePattern', response.TimePattern);
-		        oauth2.cookie.set('decimalPoint', response.DecimalPoint);
+		        oauth2.cookie.set('lang', response.lang_code);
+		        oauth2.cookie.set('datePattern', response.date_pattern);
+		        oauth2.cookie.set('dateTimePattern', response.datetime_pattern);
+		        oauth2.cookie.set('timePattern', response.time_pattern);
+		        oauth2.cookie.set('decimalPoint', response.decimal_point);
 		        oauth2.cookie.set('lockscreen', false);
 		        
 		        store.set('userResponse', JSON.stringify(response));

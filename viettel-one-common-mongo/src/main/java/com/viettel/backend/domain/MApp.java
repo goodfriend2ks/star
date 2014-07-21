@@ -35,7 +35,7 @@ public class MApp extends EO<UUID> {
 	private static final long serialVersionUID = 5629134143348918230L;
 	
 	@Transient
-	public static final String KEY_PROPERTY = "id";
+	public static final String KEY_PROPERTY = EO_ID_PROPERTY;
 	@Transient
 	public static final String DISPLAY_PROPERTY = "name";
 	

@@ -38,7 +38,7 @@
         </constructor-arg>
     </bean> -->
     
-    <bean id="reloginTokenGranter" class="com.viettel.api.security.ReloginTokenGranter">
+    <bean id="reloginTokenGranter" class="com.viettel.web.api.security.ReloginTokenGranter">
     	<constructor-arg name="authenticationManager" ref="userAuthenticationManager" />
     	<constructor-arg name="tokenServices" ref="tokenServices" />
     	<constructor-arg name="clientDetailsService" ref="clientDetailsService" />
@@ -71,7 +71,7 @@
 	</bean>
 	
 	<!-- User Authentication Manager -->
-	<bean id="logoutSuccessHandler" class="com.viettel.api.security.LogoutServiceImpl" >
+	<bean id="logoutSuccessHandler" class="com.viettel.web.api.security.LogoutServiceImpl" >
 		<property name="tokenstore" ref="tokenStore" />
 	</bean>
 	
@@ -86,7 +86,7 @@
 	<!-- User Token Services -->
 	<!-- <bean id="tokenServices" 
 		class="org.springframework.security.oauth2.provider.token.DefaultTokenServices"> -->
-	<bean id="tokenServices" class="com.viettel.api.security.VOUserTokenServices">
+	<bean id="tokenServices" class="com.viettel.web.api.security.VOUserTokenServices">
 		<property name="tokenStore" ref="tokenStore" />
 		<property name="supportRefreshToken" value="true" />
 		<property name="clientDetailsService" ref="clientDetailsService" />

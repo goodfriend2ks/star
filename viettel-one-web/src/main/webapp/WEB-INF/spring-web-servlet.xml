@@ -10,7 +10,7 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <context:component-scan base-package="com.viettel.api" />
+    <context:component-scan base-package="com.viettel.web.api" />
     
     <mvc:resources mapping="/styles/**" location="/assets/styles/" />
     <mvc:resources mapping="/images/**" location="/assets/images/" />
@@ -29,7 +29,7 @@
     	</mvc:message-converters>
     </mvc:annotation-driven>
 	
-	<bean id="iso8601DateMapper" class="com.viettel.api.mvc.ISO8601DateMapper" />
+	<bean id="iso8601DateMapper" class="com.viettel.web.api.mvc.ISO8601DateMapper" />
 	
 	<!-- Configure the multipart resolver -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

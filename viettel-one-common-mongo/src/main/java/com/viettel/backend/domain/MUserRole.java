@@ -30,7 +30,11 @@ public class MUserRole extends LinkedEO<UUID> {
 	@Transient
 	public static final String KEYCOLUMN_NAME = TABLE_NAME + "_ID";
 	@Transient
-	public static final String KEY_PROPERTY = "id";
+	public static final String KEY_PROPERTY = EO_ID_PROPERTY;
+	@Transient
+	public static final String USER_ID_PROPERTY = "user_ID";
+	@Transient
+	public static final String ROLE_ID_PROPERTY = "role_ID";
 	
 	@Id
 	private UUID id;

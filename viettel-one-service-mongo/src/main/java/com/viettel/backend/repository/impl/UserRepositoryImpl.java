@@ -27,7 +27,7 @@ public class UserRepositoryImpl
 	        return getCount(tenant_ID, null, null, null);
 	    }
 	    
-		GenericQuery query = query(criteria(EO.ACTIVE_FIELD_NAME).is(true));
+		GenericQuery query = query(criteria(EO.ACTIVE_PROPERTY).is(true));
 	    return getCount(tenant_ID, null, null, query);
 	}
 

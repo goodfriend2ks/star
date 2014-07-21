@@ -31,7 +31,7 @@
         <property name="serviceInterface" value="com.viettel.backend.service.AppService" />
     </bean>
 	
-	<bean id="appFileService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+	<bean id="fileService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
         <property name="serviceUrl" value="${remoting.http_invoker.host}/FileService" />
         <property name="serviceInterface" value="com.viettel.backend.service.FileService" />
     </bean>

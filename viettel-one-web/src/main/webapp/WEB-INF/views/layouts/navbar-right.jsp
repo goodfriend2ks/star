@@ -240,7 +240,7 @@
 		if (user == null) {
 			$('.login-name').text('Anonymous');
 		} else {
-			$('.login-name').text(user.FullName);
+			$('.login-name').text(user.full_name);
 		}
 	});
 	

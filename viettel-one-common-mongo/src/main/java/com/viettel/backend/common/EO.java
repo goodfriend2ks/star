@@ -20,35 +20,40 @@ public abstract class EO<PK extends Serializable> implements IValuePair<PK> {
 	 * 
 	 */
 	private static final long serialVersionUID = 7526935139676798972L;
-
+	
+	@Transient
+	public static final String EO_ID_PROPERTY = "id";
+	
 	@Transient
 	public static final String TENANT_TABLE_NAME = "AD_Tenant";
 	@Transient
 	public static final String TENANT_KEYCOLUMN_NAME = TENANT_TABLE_NAME + "_ID";
 	@Transient
-	public static final String TENANT_FIELD_NAME = "tenant_ID";
+	public static final String TENANT_ID_PROPERTY = "tenant_ID";
 	
 	@Transient
 	public static final String ORG_TABLE_NAME = "AD_Org";
 	@Transient
 	public static final String ORG_KEYCOLUMN_NAME = ORG_TABLE_NAME + "_ID";
 	@Transient
-	public static final String ORG_FIELD_NAME = "org_ID";
+	public static final String ORG_ID_PROPERTY = "org_ID";
 	
 	@Transient
 	public static final String APP_TABLE_NAME = "AD_App";
 	@Transient
 	public static final String APP_KEYCOLUMN_NAME = APP_TABLE_NAME + "_ID";
 	@Transient
-	public static final String APP_FIELD_NAME = "app_ID";
+	public static final String APP_ID_PROPERTY = "app_ID";
 	
 	@Transient
 	public static final String PARENT_COLUMN_NAME = "Parent_ID";
 	@Transient
-	public static final String PARENT_FIELD_NAME = "parent_ID";
+	public static final String PARENT_ID_PROPERTY = "parent_ID";
 	
 	@Transient
-	public static final String ACTIVE_FIELD_NAME = "isActive";
+	public static final String ACTIVE_COLUMN_NAME = "IsActive";
+	@Transient
+	public static final String ACTIVE_PROPERTY = "isActive";
 	
 	@Transient
 	@Description("Use as default ID for Portal App")

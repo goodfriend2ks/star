@@ -10,13 +10,13 @@
 	
 	<!-- User Authentication Manager -->
 	<bean id="userAuthenticationSaltSource" 
-		class="com.viettel.api.security.UserSaltSourceProvider" scope="singleton" />
+		class="com.viettel.web.api.security.UserSaltSourceProvider" scope="singleton" />
 	
 	<bean id="userAuthenticationEncoder" 
 		class="org.springframework.security.authentication.encoding.Md5PasswordEncoder"/>
 	
 	<bean id="userAuthenticationService"
-		class="com.viettel.api.security.UserAuthenticationService">
+		class="com.viettel.web.api.security.UserAuthenticationService">
 	</bean>
 	
 	<sec:authentication-manager id="userAuthenticationManager">

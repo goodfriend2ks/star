@@ -88,7 +88,7 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 					UUID tenant_ID, PK id) {
 		
 		Query query = query(criteria("id").is(id)
-				.and(EO.TENANT_FIELD_NAME).is(tenant_ID));
+				.and(EO.TENANT_ID_PROPERTY).is(tenant_ID));
 		return getDataTemplate().findOne(query, typeClazz);
 	}
 
@@ -311,6 +311,7 @@ public abstract class BasicRepositoryImpl<EOT, EOKT extends Serializable>
 		boolean orgCheck = false;
 		boolean appCheck = false;
 		
+		allResults = dataTemplate.find((Query)query, typeClazz);
 		/*if (tenant_ID != null) {
 			clientCheck = true;
 			if (clauses != null) {

@@ -11,12 +11,14 @@ import org.springframework.data.mongodb.core.query.Query;
 
 import com.viettel.backend.common.EO;
 import com.viettel.backend.domain.MApp;
+import com.viettel.backend.domain.MLanguage;
 import com.viettel.backend.domain.MOrg;
 import com.viettel.backend.domain.MOrgType;
 import com.viettel.backend.domain.MRole;
 import com.viettel.backend.domain.MTenant;
 import com.viettel.backend.domain.MUser;
 import com.viettel.backend.domain.MUserRole;
+import com.viettel.backend.domain.MUserTokenType;
 
 public class InitDB {
 	
@@ -28,6 +30,7 @@ public class InitDB {
 	UUID systemUserID = EO.ROOT_ID_VALUE;
 	UUID systemRoleID = EO.ROOT_ID_VALUE;
 	UUID systemAppID = EO.ROOT_ID_VALUE;
+	UUID systemLangID = EO.ROOT_ID_VALUE;
 	
 	public void open() {
 		ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
@@ -39,7 +42,7 @@ public class InitDB {
 	
 	public void initData() {
 		Query query = new Query();
-		query.addCriteria(Criteria.where("id").is(systemTenantID));
+		query.addCriteria(Criteria.where(MTenant.KEY_PROPERTY).is(systemTenantID));
 		MTenant systemTenant = mongoOperation.findOne(query, MTenant.class);
 		if (systemTenant == null) {
 			systemTenant = new MTenant();
@@ -61,7 +64,7 @@ public class InitDB {
 		}
 		
 		query = new Query();
-		query.addCriteria(Criteria.where("id").is(systemOrgID));
+		query.addCriteria(Criteria.where(MOrg.KEY_PROPERTY).is(systemOrgID));
 		MOrg systemOrg = mongoOperation.findOne(query, MOrg.class);
 		if (systemOrg == null) {
 			systemOrg = new MOrg();
@@ -82,7 +85,7 @@ public class InitDB {
 		}
 		
 		query = new Query();
-		query.addCriteria(Criteria.where("id").is(systemAppID));
+		query.addCriteria(Criteria.where(MApp.KEY_PROPERTY).is(systemAppID));
 		MApp systemApp = mongoOperation.findOne(query, MApp.class);
 		if (systemApp == null) {
 			systemApp = new MApp();
@@ -104,7 +107,7 @@ public class InitDB {
 		}
 		
 		query = new Query();
-		query.addCriteria(Criteria.where("id").is(systemRoleID));
+		query.addCriteria(Criteria.where(MRole.KEY_PROPERTY).is(systemRoleID));
 		MRole systemRole = mongoOperation.findOne(query, MRole.class);
 		if (systemRole == null) {
 			systemRole = new MRole();
@@ -125,7 +128,7 @@ public class InitDB {
 		}
 		
 		query = new Query();
-		query.addCriteria(Criteria.where("id").is(systemUserID));
+		query.addCriteria(Criteria.where(MUser.KEY_PROPERTY).is(systemUserID));
 		MUser systemUser = mongoOperation.findOne(query, MUser.class);
 		if (systemUser == null) {
 			systemUser = new MUser();
@@ -145,6 +148,13 @@ public class InitDB {
 			systemUser.setPassword("2da9ffbf08bf9e5598643eab59700a57");	// MD5: 123456a@
 			systemUser.setEmail("viettelone@viettel.com.vn");
 			systemUser.setDob(new Date());
+			systemUser.setAccountNonExpired(true);
+			systemUser.setAccountNonLocked(true);
+			systemUser.setCredentialsNonExpired(true);
+			systemUser.setLanguage_ID(systemLangID);
+			systemUser.setLocked(false);
+			systemUser.setLoginFail(0);
+			systemUser.setRandomToken(MUserTokenType.EMAIL_REGISTRATION, MUser.DEFAULT_TOKEN_EXPIRY_TIME_IN_MINS);
 			mongoOperation.save(systemUser);
 			
 			MUserRole systemUserRole = new MUserRole();
@@ -154,6 +164,39 @@ public class InitDB {
 			systemUserRole.setRole_ID(systemRoleID);
 			systemUserRole.setUser_ID(systemUserID);
 			mongoOperation.save(systemUserRole);
+		} else {
+			systemUser.setAccountNonExpired(true);
+			systemUser.setAccountNonLocked(true);
+			systemUser.setCredentialsNonExpired(true);
+			systemUser.setLanguage_ID(systemLangID);
+			systemUser.setLocked(false);
+			systemUser.setLoginFail(0);
+			systemUser.setRandomToken(MUserTokenType.EMAIL_REGISTRATION, MUser.DEFAULT_TOKEN_EXPIRY_TIME_IN_MINS);
+			mongoOperation.save(systemUser);
+		}
+		
+		query = new Query();
+		query.addCriteria(Criteria.where(MLanguage.KEY_PROPERTY).is(systemLangID));
+		MLanguage systemLang = mongoOperation.findOne(query, MLanguage.class);
+		if (systemLang == null) {
+			systemLang = new MLanguage();
+			systemLang.setId(systemUserID);
+			systemLang.setTenant_ID(systemTenantID);
+			systemLang.setOrg_ID(systemOrgID);
+			systemLang.setApp_ID(systemAppID);
+			systemLang.setCreated(new Date());
+			systemLang.setCreatedBy(systemUserID);
+			systemLang.setUpdated(new Date());
+			systemLang.setUpdatedBy(systemUserID);
+			systemLang.setVersion(1);
+			systemLang.setActive(true);
+			systemLang.setCode("vi-VN");
+			systemLang.setName("Tiếng Việt");
+			systemLang.setDatePattern("dd/MM/yyyy");
+			systemLang.setTimePattern("HH:mm:ss");
+			systemLang.setDateTimePattern("dd/MM/yyyy HH:mm:ss");
+			systemLang.setDecimalPoint(false);
+			mongoOperation.save(systemLang);
 		}
 	}
 	

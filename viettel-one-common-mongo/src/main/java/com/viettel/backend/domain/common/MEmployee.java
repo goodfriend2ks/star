@@ -43,7 +43,7 @@ public class MEmployee extends BaseEO<UUID> {
 	@Transient
 	public static final String SUPERVISION_COLUMN_NAME = "Supervision_ID";
 	@Transient
-	public static final String KEY_PROPERTY = "id";
+	public static final String KEY_PROPERTY = EO_ID_PROPERTY;
 	@Transient
 	public static final String DISPLAY_PROPERTY = "name";
 	
