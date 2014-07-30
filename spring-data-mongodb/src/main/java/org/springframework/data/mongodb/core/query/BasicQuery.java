@@ -28,7 +28,11 @@ import com.mongodb.util.JSON;
  * @author Oliver Gierke
  */
 public class BasicQuery extends Query {
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7817530044479708369L;
+	
 	private final DBObject queryObject;
 	private final DBObject fieldsObject;
 	private DBObject sortObject;

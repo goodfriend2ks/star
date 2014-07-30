@@ -4,13 +4,16 @@
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <dependent-module archiveName="spring-data-mongodb-1.5.1.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/spring-data-mongodb/spring-data-mongodb">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="persistence-api-2.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/persistence-api/persistence-api">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="viettel-one-dto-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/viettel-one-dto/viettel-one-dto">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="viettel-one-common-mongo-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/viettel-one-common-mongo/viettel-one-common-mongo">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="persistence-api-2.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/persistence-api/persistence-api">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/viettel-one-web/target/classes"/>

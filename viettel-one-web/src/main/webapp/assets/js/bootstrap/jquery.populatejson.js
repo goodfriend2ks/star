@@ -111,11 +111,39 @@
                             var parent = (!father)? property : father + "\[" + property + "\]";
                             //alert("1:" + parent);
                             if (isArrayValue) {
-                                for (var item in value) {
-                                    if (value[item]) {
+                            	var name = ((father)? father + "\[" + property + "\]" : property) 
+				                				+ (isArrayValue ? "\[\]" : "");
+				                var query = "[name='" + name + "']";
+				                if(byId) { query = ("#" + name); }
+				                
+				                var root = self.find(query);
+				                var childTag = null;
+				                var lastChild = null;
+				                
+				                if (root && root.size() > 0) {
+					                childTag = root.attr('childTag');
+					                var size = root.find(childTag).size(); 
+					                while (size > 1) {
+					                	root.find(childTag + ':last').remove();
+					                	size--;
+					                }
+				                }
+				                
+				                for (var item in value) {
+                                    if ('clean' != item && value[item]) {
+                                    	if (lastChild) {
+	        				                var newChild = lastChild.clone();
+	        				                lastChild.after(newChild);
+	        				                lastChild = newChild;
+                                    	}
+                                    	
                                         var parent_arr = parent + "\\["+item+"\\]";
                                         //alert("2:" + parent_arr)
                                         roam(value[item], parent_arr);
+                                        
+                                        if (!lastChild && root && root.size() > 0) {
+                                        	lastChild = root.find(childTag + ':last');
+                                        }
                                     }
                                 }
                             } else {
@@ -123,7 +151,6 @@
                             }
                             parent = null;
                         } else {
-                        	
                             var name = ((father)? father + "\[" + property + "\]" : property) 
                             				+ (isArrayValue ? "\[\]" : "");
                             var query = "[name='" + name + "']";
@@ -132,7 +159,7 @@
 							var other = self.find(query);
 							
 							//if (isArrayValue)
-							//	alert("3:" + name + "=" + value + "=" + other + "=" + other.length);
+							//alert("4:" + name + "=" + value + "=" + other + "=" + other.length);
 							
                             if(other.length === 0){
                                 var selector = query.replace(/\\\[(\d+)?\\\]/g, "\\[\\]"), 

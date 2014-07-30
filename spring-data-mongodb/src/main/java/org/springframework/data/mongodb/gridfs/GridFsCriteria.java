@@ -23,6 +23,10 @@ import org.springframework.data.mongodb.core.query.Criteria;
  * @author Oliver Gierke
  */
 public class GridFsCriteria extends Criteria {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7301014515993969080L;
 
 	/**
 	 * Creates a new {@link GridFsCriteria} for the given key.

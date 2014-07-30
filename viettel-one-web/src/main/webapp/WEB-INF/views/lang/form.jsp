@@ -75,14 +75,14 @@
 				   		<div class="row">
 				   			<div class="col-lg-8">
 				   				<div class="form-group">
-									<label for="dateTimePattern">Date Time Pattern</label>
+									<!-- <label for="dateTimePattern">Date Time Pattern</label>
 									<div class="input-group">
 										<div class="input-group-addon">
 											<i class="fa fa-calendar"></i>
 										</div>
 			                           	<input type="text" class="form-control" id="dateTimePattern" name="dateTimePattern" 
 			                           		placeholder="Date Time Pattern" required>
-			                        </div>
+			                        </div> -->
 								</div>
 				   			</div>
 				   			<div class="col-lg-4">
@@ -90,7 +90,7 @@
 									<label for="decimalPoint" class="nowrap">Decimal Point</label>
 									<div class="input-group">
 										<input type="checkbox" class="btn btn-danger btn-flat" 
-											id="decimalPoint" name="decimalPoint" value="true" />
+											id="decimalPoint" name="decimalPoint" value="Y" />
 									</div>
 								</div>
 				   			</div>

@@ -1,10 +1,9 @@
 package javax.persistence.criteria;
 
+import java.io.Serializable;
 import java.util.List;
 
-
-
-public interface GenericQuery {
+public interface GenericQuery extends Serializable {
 	
 	/**
 	 * Adds the given {@link GenericCriteria} to the current {@link GenericQuery}.

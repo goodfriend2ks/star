@@ -15,6 +15,8 @@
  */
 package org.springframework.data.mongodb.core.query;
 
+import java.io.Serializable;
+
 import org.springframework.data.geo.Box;
 import org.springframework.data.geo.Circle;
 import org.springframework.data.geo.Polygon;
@@ -28,8 +30,12 @@ import org.springframework.util.Assert;
  * @author Thomas Darimont
  * @since 1.5
  */
-public class GeoCommand {
-
+public class GeoCommand implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4606666197824292021L;
+	
 	private final Shape shape;
 	private final String command;
 

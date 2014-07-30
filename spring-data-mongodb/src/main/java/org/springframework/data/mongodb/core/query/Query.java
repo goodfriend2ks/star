@@ -44,6 +44,10 @@ import com.mongodb.DBObject;
  * @author Thomas Darimont
  */
 public class Query implements GenericQuery {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1076899744366875425L;
 
 	private static final String RESTRICTED_TYPES_KEY = "_$RESTRICTED_TYPES";
 

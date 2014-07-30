@@ -12,7 +12,7 @@
 			<form id="fm-user" method="post" class="fm" role="form" novalidate>
   				<fieldset>
 	    			<div class="modal-body">
-   	
+	    				
 				   		<div class="row">
 				   			<div class="col-lg-5">
 				   				<div class="form-group">
@@ -84,12 +84,12 @@
 				   		<div class="row">
 				   			<div class="col-lg-6">
 				   				<div class="form-group">
-									<label for="email"><spring:message code='label.user.language' htmlEscape='false'/></label>
+									<label for="language_ID"><spring:message code='label.user.language' htmlEscape='false'/></label>
 									<div class="input-group">
 										<div class="input-group-addon">
 											<i class="fa fa-calendar"></i>
 										</div>
-				   						<select id="c_Language_ID" name="c_Language_ID" 
+				   						<select id="language_ID" name="language_ID" 
 				   								data-placeholder="<spring:message code='label.user.language' htmlEscape='false'/>" 
 				   								class="form-control chzn-select-deselect" required  
 				   								ajaxUrl="${pageContext.request.contextPath}/api/lang/listpair"
@@ -101,35 +101,39 @@
 							</div>
 							<div class="col-lg-6" align="center">
 								<img id="preview" alt="Select avatar" width="60" height="80" src="" onclick="openUploadFile()" />
+							</div>
+						</div>
+						
 								<!-- <span id="uploadButton" class="btn btn-warning fileinput-button">
 				                    <img id="preview" alt="Select avatar" width="60" height="80" src="">
 				                    <input type="file" id="upload" name="file" multiple>
 				                </span> -->
-				                
-				   				<!-- <div class="form-group">
-									<label for="dob">DOB</label>
-									<div class="input-group">
-										<div class="input-group-addon">
-											<i class="fa fa-calendar"></i>
+						<!-- <div class="row">
+							<div class="col-lg-4">
+				   				<div class="form-group">
+									<div class="form-group">
+										<label for="dob">DOB</label>
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<select id="opq[]" name="opq[]" data-placeholder="Your Favorite Types of Bear" 
+													multiple class="form-control chzn-select">
+												<option value=""></option>
+												<option>American Black Bear</option>
+												<option>Asiatic Black Bear</option>
+												<option>Brown Bear</option>
+												<option>Giant Panda</option>
+												<option selected>Sloth Bear</option>
+												<option disabled>Sun Bear</option>
+												<option>Polar Bear</option>
+												<option disabled>Spectacled Bear</option>
+											</select>
 										</div>
-										<select id="opq[]" name="opq[]" data-placeholder="Your Favorite Types of Bear" 
-												multiple class="form-control chzn-select">
-											<option value=""></option>
-											<option>American Black Bear</option>
-											<option>Asiatic Black Bear</option>
-											<option>Brown Bear</option>
-											<option>Giant Panda</option>
-											<option selected>Sloth Bear</option>
-											<option disabled>Sun Bear</option>
-											<option>Polar Bear</option>
-											<option disabled>Spectacled Bear</option>
-										</select>
 									</div>
-								</div> -->
+								</div>
 							</div>
-						</div>
-						<%-- <div class="row">
-				   			<div class="col-lg-6">
+				   			<div class="col-lg-4">
 				   				<div class="form-group">
 									<label for="email">Email</label>
 									<div class="input-group">
@@ -148,7 +152,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-lg-6">
+							<div class="col-lg-4">
 				   				<div class="form-group">
 									<label for="email">Email</label>
 									<div class="input-group">
@@ -166,7 +170,34 @@
 									</div>
 								</div>
 							</div>
-						</div> --%>
+						</div> -->
+						
+						<div class="row">
+				   			<div class="col-lg-12">
+				   				<table>
+				   					<thead>
+				   						<tr>
+				   							<th>ID</th>
+				   							<th>Code</th>
+				   							<th>Name</th>
+				   						</tr>
+				   					</thead>
+				   					<tbody id="languages[]" name="languages[]" childTag='tr'>
+				   						<tr>
+				   							<td>
+				   								<input type="text" class="form-control" id="languages[][id]" name="languages[][id]" /> 
+											</td>
+											<td>
+				   								<input type="text" class="form-control" id="languages[][code]" name="languages[][code]" /> 
+											</td>
+											<td>
+				   								<input type="text" class="form-control" id="languages[][name]" name="languages[][name]" /> 
+											</td>
+				   						</tr>
+				   					</tbody>
+				   				</table>
+				   			</div>
+				   		</div>
 	   				</div> <!-- modal-body -->
 	   				
 	   				<div class="modal-footer">

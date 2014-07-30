@@ -1,6 +1,7 @@
 package com.viettel.dto;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import com.viettel.backend.domain.MLanguage;
@@ -36,6 +37,8 @@ public class MUserDto extends BaseDto<MUser, UUID> {
 	private String accountNonLocked;
 
 	private String resetPassword;
+	
+	private List<MLanguageDto> languages;
 	
 	public MUserDto() {
 		super();
@@ -189,5 +192,13 @@ public class MUserDto extends BaseDto<MUser, UUID> {
 
 	public void setResetPassword(String resetPassword) {
 		this.resetPassword = resetPassword;
+	}
+
+	public List<MLanguageDto> getLanguages() {
+		return languages;
+	}
+
+	public void setLanguages(List<MLanguageDto> languages) {
+		this.languages = languages;
 	}
 }

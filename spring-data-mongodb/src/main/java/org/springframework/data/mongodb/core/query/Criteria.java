@@ -15,13 +15,13 @@
  */
 package org.springframework.data.mongodb.core.query;
 
-import static org.springframework.util.ObjectUtils.*;
+import static org.springframework.util.ObjectUtils.nullSafeHashCode;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.persistence.criteria.GenericCriteria;
@@ -49,16 +49,20 @@ import com.mongodb.DBObject;
  * @author Christoph Strobl
  */
 public class Criteria implements GenericCriteria, CriteriaDefinition {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8261882417037617713L;
 
 	/**
 	 * Custom "not-null" object as we have to be able to work with {@literal null} values as well.
 	 */
-	private static final Object NOT_SET = new Object();
+	private static final Serializable NOT_SET = new SerializableObject();
 
 	private String key;
-	private List<Criteria> criteriaChain;
-	private LinkedHashMap<String, Object> criteria = new LinkedHashMap<String, Object>();
-	private Object isValue = NOT_SET;
+	private ArrayList<Criteria> criteriaChain;
+	private LinkedHashMap<String, Serializable> criteria = new LinkedHashMap<>();
+	private Serializable isValue = NOT_SET;
 
 	public Criteria() {
 		this.criteriaChain = new ArrayList<Criteria>();
@@ -70,7 +74,7 @@ public class Criteria implements GenericCriteria, CriteriaDefinition {
 		this.key = key;
 	}
 
-	protected Criteria(List<Criteria> criteriaChain, String key) {
+	protected Criteria(ArrayList<Criteria> criteriaChain, String key) {
 		this.criteriaChain = criteriaChain;
 		this.criteriaChain.add(this);
 		this.key = key;
@@ -112,7 +116,7 @@ public class Criteria implements GenericCriteria, CriteriaDefinition {
 			throw new InvalidMongoDbApiUsageException("Invalid query: 'not' can't be used with 'is' - use 'ne' instead.");
 		}
 
-		this.isValue = o;
+		this.isValue = getSerializable(o);
 		return this;
 	}
 
@@ -128,7 +132,7 @@ public class Criteria implements GenericCriteria, CriteriaDefinition {
 	 * @return
 	 */
 	public Criteria ne(Object o) {
-		criteria.put("$ne", o);
+		criteria.put("$ne", getSerializable(o));
 		return this;
 	}
 
@@ -140,7 +144,7 @@ public class Criteria implements GenericCriteria, CriteriaDefinition {
 	 * @return
 	 */
 	public Criteria lt(Object o) {
-		criteria.put("$lt", o);
+		criteria.put("$lt", getSerializable(o));
 		return this;
 	}
 
@@ -152,7 +156,7 @@ public class Criteria implements GenericCriteria, CriteriaDefinition {
 	 * @return
 	 */
 	public Criteria lte(Object o) {
-		criteria.put("$lte", o);
+		criteria.put("$lte", getSerializable(o));
 		return this;
 	}
 
@@ -164,7 +168,7 @@ public class Criteria implements GenericCriteria, CriteriaDefinition {
 	 * @return
 	 */
 	public Criteria gt(Object o) {
-		criteria.put("$gt", o);
+		criteria.put("$gt", getSerializable(o));
 		return this;
 	}
 
@@ -176,7 +180,7 @@ public class Criteria implements GenericCriteria, CriteriaDefinition {
 	 * @return
 	 */
 	public Criteria gte(Object o) {
-		criteria.put("$gte", o);
+		criteria.put("$gte", getSerializable(o));
 		return this;
 	}
 
@@ -192,7 +196,7 @@ public class Criteria implements GenericCriteria, CriteriaDefinition {
 			throw new InvalidMongoDbApiUsageException("You can only pass in one argument of type "
 					+ o[1].getClass().getName());
 		}
-		criteria.put("$in", Arrays.asList(o));
+		criteria.put("$in", getSerializable(Arrays.asList(o)));
 		return this;
 	}
 
@@ -203,8 +207,8 @@ public class Criteria implements GenericCriteria, CriteriaDefinition {
 	 * @param c the collection containing the values to match against
 	 * @return
 	 */
-	public Criteria in(Collection<?> c) {
-		criteria.put("$in", c);
+	public Criteria in(Collection<?> o) {
+		criteria.put("$in", getSerializable(o));
 		return this;
 	}
 
@@ -227,7 +231,7 @@ public class Criteria implements GenericCriteria, CriteriaDefinition {
 	 * @return
 	 */
 	public Criteria nin(Collection<?> o) {
-		criteria.put("$nin", o);
+		criteria.put("$nin", getSerializable(o));
 		return this;
 	}
 
@@ -240,9 +244,10 @@ public class Criteria implements GenericCriteria, CriteriaDefinition {
 	 * @return
 	 */
 	public Criteria mod(Number value, Number remainder) {
-		List<Object> l = new ArrayList<Object>();
+		ArrayList<Number> l = new ArrayList<>();
 		l.add(value);
 		l.add(remainder);
+		
 		criteria.put("$mod", l);
 		return this;
 	}
@@ -266,7 +271,7 @@ public class Criteria implements GenericCriteria, CriteriaDefinition {
 	 * @return
 	 */
 	public Criteria all(Collection<?> o) {
-		criteria.put("$all", o);
+		criteria.put("$all", getSerializable(o));
 		return this;
 	}
 
@@ -323,8 +328,8 @@ public class Criteria implements GenericCriteria, CriteriaDefinition {
 	 * @param value
 	 * @return
 	 */
-	public Criteria not(Object value) {
-		criteria.put("$not", value);
+	public Criteria not(Object o) {
+		criteria.put("$not", getSerializable(o));
 		return this;
 	}
 
@@ -465,7 +470,10 @@ public class Criteria implements GenericCriteria, CriteriaDefinition {
 	 * @return
 	 */
 	public Criteria elemMatch(Criteria c) {
-		criteria.put("$elemMatch", c.getCriteriaObject());
+		DBObject o = c.getCriteriaObject();
+		if (o instanceof Serializable)
+			criteria.put("$elemMatch", (Serializable)o);
+		
 		return this;
 	}
 
@@ -662,6 +670,16 @@ public class Criteria implements GenericCriteria, CriteriaDefinition {
 		return ObjectUtils.nullSafeEquals(left, right);
 	}
 
+	private Serializable getSerializable(Object o) {
+		if (o == null)
+			return null;
+		
+		if (o instanceof Serializable)
+			return (Serializable)o;
+		
+		return o.toString();
+	}
+	
 	/* 
 	 * (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -676,5 +694,18 @@ public class Criteria implements GenericCriteria, CriteriaDefinition {
 		result += nullSafeHashCode(isValue);
 
 		return result;
+	}
+}
+
+class SerializableObject implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5659798382033781482L;
+	
+	@Override
+	public boolean equals(Object o) {
+		return ((o != null) && (o instanceof SerializableObject));
 	}
 }

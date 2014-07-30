@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.criteria.GenericCriteria;
 import javax.persistence.criteria.GenericQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ import com.viettel.backend.service.BaseService;
 import com.viettel.backend.service.CommonService;
 import com.viettel.backend.service.TenantService;
 import com.viettel.backend.service.UserService;
+import com.viettel.dto.MLanguageDto;
 import com.viettel.dto.MUserDto;
 import com.viettel.util.DataTypeUtil;
 import com.viettel.util.EntityUtil;
@@ -79,11 +81,11 @@ public class UserController extends BasicController<MUserDto, UUID> {
     public @ResponseBody ResponseEntity<?> list(@RequestParam MultiValueMap<String, String> params) {
 		try {
 			VOUser currentUser = Env.getCurrentUser();
-			UUID user_Tenant_ID = EntityUtil.getTenant_ID(MUser.class, currentUser.getTenant_ID());
-			UUID user_Org_ID = EntityUtil.getOrg_ID(MUser.class, currentUser.getOrg_ID());
-			UUID user_App_ID = EntityUtil.getApp_ID(MUser.class, currentUser.getApp_ID());
+			UUID bean_Tenant_ID = EntityUtil.getTenant_ID(MUser.class, currentUser.getTenant_ID());
+			UUID bean_Org_ID = EntityUtil.getOrg_ID(MUser.class, currentUser.getOrg_ID());
+			UUID bean_App_ID = EntityUtil.getApp_ID(MUser.class, currentUser.getApp_ID());
 			
-			List<MUser> beans = dataService.getList(user_Tenant_ID, user_Org_ID, user_App_ID, null);
+			List<MUser> beans = dataService.getList(bean_Tenant_ID, bean_Org_ID, bean_App_ID, null);
 			
 			// Load language
 			Set<UUID> langIds = new HashSet<>();
@@ -96,7 +98,8 @@ public class UserController extends BasicController<MUserDto, UUID> {
 			UUID lang_Tenant_ID = EntityUtil.getTenant_ID(MLanguage.class, currentUser.getTenant_ID());
 			UUID lang_Org_ID = EntityUtil.getOrg_ID(MLanguage.class, currentUser.getOrg_ID());
 			UUID lang_App_ID = EntityUtil.getApp_ID(MLanguage.class, currentUser.getApp_ID());
-			GenericQuery langQuery = commonService.query(commonService.criteria(MLanguage.KEY_PROPERTY).in(langIds));
+			GenericCriteria criteria = commonService.criteria(MLanguage.KEY_PROPERTY).in(langIds);
+			GenericQuery langQuery = commonService.query(criteria);
 			List<MLanguage> langs = commonService.getList(MLanguage.class, UUID.class, 
 						lang_Tenant_ID, lang_Org_ID, lang_App_ID, langQuery);
 			Map<UUID, MLanguage> languages = new HashMap<>();
@@ -138,9 +141,9 @@ public class UserController extends BasicController<MUserDto, UUID> {
 		
 		try {
 			VOUser currentUser = Env.getCurrentUser();
-			UUID tenant_ID = EntityUtil.getTenant_ID(MUser.class, currentUser.getTenant_ID());
+			UUID bean_Tenant_ID = EntityUtil.getTenant_ID(MUser.class, currentUser.getTenant_ID());
 			
-			MUser bean = dataService.findById(tenant_ID, beanId);
+			MUser bean = dataService.findById(bean_Tenant_ID, beanId);
 			if (bean != null) {
 				MOrg org = tenantService.getOrg(bean.getTenant_ID(), bean.getOrg_ID());
 				
@@ -150,7 +153,20 @@ public class UserController extends BasicController<MUserDto, UUID> {
 					lang = commonService.findById(MLanguage.class, UUID.class, lang_Tenant_ID, bean.getLanguage_ID());
 				}
 				
+				UUID lang_Tenant_ID = EntityUtil.getTenant_ID(MLanguage.class, bean.getTenant_ID());
+				UUID lang_Org_ID = EntityUtil.getOrg_ID(MLanguage.class, bean.getOrg_ID());
+				UUID lang_App_ID = EntityUtil.getApp_ID(MLanguage.class, bean.getApp_ID());
+				List<MLanguage> languages = commonService.getList(MLanguage.class, UUID.class, 
+						lang_Tenant_ID, lang_Org_ID, lang_App_ID, null);
+				
+				List<MLanguageDto> langDtos = new ArrayList<>();
+				for (MLanguage l : languages) {
+					langDtos.add(new MLanguageDto(l, org));
+				}
+				
 				MUserDto beanDto = new MUserDto(bean, org, lang);
+				beanDto.setLanguages(langDtos);
+				
 				return new ResponseEntity<MUserDto>(beanDto, HttpStatus.OK);
 			}
 			
@@ -183,8 +199,8 @@ public class UserController extends BasicController<MUserDto, UUID> {
 			
 			try {
 				VOUser currentUser = Env.getCurrentUser();
-				UUID tenant_ID = EntityUtil.getTenant_ID(MUser.class, currentUser.getTenant_ID());
-				updateItem = dataService.findById(tenant_ID, updateItemId);
+				UUID bean_Tenant_ID = EntityUtil.getTenant_ID(MUser.class, currentUser.getTenant_ID());
+				updateItem = dataService.findById(bean_Tenant_ID, updateItemId);
 			} catch (Exception ex) {
 				Map<String, String> message = errorException(ex, "Cannot get user");
 				return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
@@ -223,7 +239,7 @@ public class UserController extends BasicController<MUserDto, UUID> {
 	        	}
 	        }
 		} catch (Exception ex) {
-			Map<String, String> message = errorException(ex, "Error convert bean properties");
+			Map<String, String> message = errorException(ex, "Error convert user bean properties");
 			return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -248,14 +264,14 @@ public class UserController extends BasicController<MUserDto, UUID> {
 		
 		try {
 			VOUser currentUser = Env.getCurrentUser();
-			UUID tenant_ID = EntityUtil.getTenant_ID(MUser.class, currentUser.getTenant_ID());
-			MUser bean = dataService.findById(tenant_ID, beanId);
+			UUID bean_Tenant_ID = EntityUtil.getTenant_ID(MUser.class, currentUser.getTenant_ID());
+			MUser bean = dataService.findById(bean_Tenant_ID, beanId);
 			if (bean != null) {
 				return new ResponseEntity<IValuePair<UUID>>(new ValuePair<>(bean), HttpStatus.OK);
 			}
 			
 			Map<String, String> message = error(TYPE_ERROR, CODE_NOT_FOUND, 
-					"Cannot get user pair value with id {" + id + "}", "Cannot user get pair value");
+					"Cannot get user pair value with id {" + id + "}", "Cannot get user pair value");
 			return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 		} catch (Exception ex) {
 			Map<String, String> message = errorException(ex, "Cannot user get pair value");
@@ -268,11 +284,11 @@ public class UserController extends BasicController<MUserDto, UUID> {
 	public @ResponseBody ResponseEntity<?> listPair(@RequestParam MultiValueMap<String, String> params) {
 		try {
 			VOUser currentUser = Env.getCurrentUser();
-			UUID user_Tenant_ID = EntityUtil.getTenant_ID(MUser.class, currentUser.getTenant_ID());
-			UUID user_Org_ID = EntityUtil.getOrg_ID(MUser.class, currentUser.getOrg_ID());
-			UUID user_App_ID = EntityUtil.getApp_ID(MUser.class, currentUser.getApp_ID());
+			UUID bean_Tenant_ID = EntityUtil.getTenant_ID(MUser.class, currentUser.getTenant_ID());
+			UUID bean_Org_ID = EntityUtil.getOrg_ID(MUser.class, currentUser.getOrg_ID());
+			UUID bean_App_ID = EntityUtil.getApp_ID(MUser.class, currentUser.getApp_ID());
 			
-			List<MUser> beans = dataService.getList(user_Tenant_ID, user_Org_ID, user_App_ID, null);
+			List<MUser> beans = dataService.getList(bean_Tenant_ID, bean_Org_ID, bean_App_ID, null);
 			List<IValuePair<UUID>> pairs = ValuePairUtil.fromEOs(beans);
 			
 			ResultSet<IValuePair<UUID>> results = new ResultSet<>();

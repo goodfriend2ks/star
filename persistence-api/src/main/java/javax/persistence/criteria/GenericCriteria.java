@@ -1,9 +1,10 @@
 package javax.persistence.criteria;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.regex.Pattern;
 
-public interface GenericCriteria {
+public interface GenericCriteria extends Serializable {
 	
 	public String getKey();
 	
