@@ -133,17 +133,18 @@
                                     if ('clean' != item && value[item]) {
                                     	if (lastChild) {
 	        				                var newChild = lastChild.clone();
+	        				                newChild.find('input').each(function(){
+	        				                	$(this).val('');
+	        				                });
 	        				                lastChild.after(newChild);
 	        				                lastChild = newChild;
-                                    	}
+                                    	} else if (root && root.size() > 0) {
+                                        	lastChild = root.find(childTag + ':last');
+                                        }
                                     	
                                         var parent_arr = parent + "\\["+item+"\\]";
                                         //alert("2:" + parent_arr)
                                         roam(value[item], parent_arr);
-                                        
-                                        if (!lastChild && root && root.size() > 0) {
-                                        	lastChild = root.find(childTag + ':last');
-                                        }
                                     }
                                 }
                             } else {

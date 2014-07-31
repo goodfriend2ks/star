@@ -5,7 +5,6 @@
 --%>
 
 <%@page contentType="text/html; charset=utf-8" pageEncoding="UTF-8"%>
-<%@taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 <!DOCTYPE html>
@@ -108,86 +107,7 @@
 			//var datePat = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/;
 		</script>
 		
-        <decorator:head />
-        
-        <style type="text/css" title="text/css">
-
-/*
-bg: #FDEBDC
-bg1: #FFD6AF
-bg2: #FFAB59
-orange: #FF7F00
-brown: #913D00
-lt. brown: #C4884F
-*/
-
-.bbq {
-  margin-bottom: 1em;
-}
-
-.bbq-content {
-  border-left: 1px solid #913D00;
-  border-right: 1px solid #913D00;
-  padding: 8px;
-  margin: 0;
-  float: left;
-  width: 682px;
-  height: 302px;
-}
-
-.bbq-item h1 {
-  margin: 0;
-  font-size: 180%;
-}
-
-.bbq-item p {
-  font-size: 150%;
-  margin: 5px 0 0;
-}
-
-.bbq-item img {
-  border: 1px solid #913D00;
-  float: right;
-  margin-left: 10px;
-}
-
-a.bbq-current {
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.bbq-nav {
-  padding: 0.3em;
-  color: #C4884F;
-  border: 1px solid #C4884F;
-  background: #FFD6AF;
-  clear: both;
-  text-align: center;
-}
-
-.bbq-nav-top {
-  margin-bottom: 0;
-  -moz-border-radius-topleft: 10px;
-  -moz-border-radius-topright: 10px;
-  -webkit-border-top-left-radius: 10px;
-  -webkit-border-top-right-radius: 10px;
-}
-
-.bbq-nav-bottom {
-  margin-top: 0;
-  -moz-border-radius-bottomleft: 10px;
-  -moz-border-radius-bottomright: 10px;
-  -webkit-border-bottom-left-radius: 10px;
-  -webkit-border-bottom-right-radius: 10px;
-}
-
-#page {
-  width: 700px;
-}
-
-</style>
-
-<script type="text/javascript">
+		<script type="text/javascript">
 			$(function(){
 				  // Keep a mapping of url-to-container for caching purposes.
 				  var cache = {
@@ -231,7 +151,7 @@ a.bbq-current {
 				        // Load external content via AJAX. Note that in order to keep this
 				        // example streamlined, only the content in .infobox is shown. You'll
 				        // want to change this based on your needs.
-				        .load( url, function(){
+				        .load( 'views/' + url, function(){
 				          // Content loaded, hide "loading" content.
 				          $( '.bbq-loading' ).hide();
 				        });
@@ -264,7 +184,7 @@ a.bbq-current {
                     <span class="icon-bar"></span>
                 </a>
                 <div class="navbar-right">
-                    <%@include file="navbar-right.jsp"%>
+                    <%@include file="WEB-INF/views/layouts/navbar-right.jsp"%>
                 </div>
             </nav>
         </header>
@@ -320,7 +240,7 @@ a.bbq-current {
         			</div>
 					
 					 <!-- sidebar menu: : style can be found in sidebar.less -->
-					<%@include file="menu.jsp"%>
+					<%@include file="WEB-INF/views/layouts/menu.jsp"%>
 					
       			</section>
                 <!-- /.sidebar -->
@@ -337,17 +257,17 @@ a.bbq-current {
     
     <!-- This content will be shown if no path is specified in the URL fragment. -->
     <div class="bbq-default bbq-item">
-      <img src="bbq.jpg" width="400" height="300">
+      <!-- <img src="bbq.jpg" width="400" height="300">
       <h1>jQuery BBQ XYZ</h1>
       <p>Click a nav item above or below to load some delicious AJAX content! Also,
         once the content loads, feel free to further explore our savory delights by
-        clicking any inline links you might see.</p>
+        clicking any inline links you might see.</p> -->
     </div>
     
   </div><br />
   
-            	<decorator:body/>
-			</aside>
+  
+  		</aside>
 		</div>
 		
 		<!-- %@include file="uploadfile.jsp"% -->

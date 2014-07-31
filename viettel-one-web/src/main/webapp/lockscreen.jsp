@@ -3,51 +3,51 @@
 
 <!DOCTYPE html>
 <html style="height: 100%;">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-		<link rel="shortcut icon" href="${pageContext.request.contextPath}/images/logo.png">
-		<title>DMS Lite | Lockscreen</title>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="shortcut icon" href="${pageContext.request.contextPath}/images/logo.png">
+	<title>Viettel.One | Lockscreen</title>
         
-		<!-- bootstrap 3.0.2 -->
-		<link href="${pageContext.request.contextPath}/styles/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
-		<!-- font Awesome -->
-		<link href="${pageContext.request.contextPath}/styles/bootstrap/font-awesome.min.css" rel="stylesheet" type="text/css" />
-		<!-- Theme style -->
-		<link href="${pageContext.request.contextPath}/styles/bootstrap/AdminLTE.css" rel="stylesheet" type="text/css" />
+	<!-- bootstrap 3.0.2 -->
+	<link href="${pageContext.request.contextPath}/styles/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<!-- font Awesome -->
+	<link href="${pageContext.request.contextPath}/styles/bootstrap/font-awesome.min.css" rel="stylesheet" type="text/css" />
+	<!-- Theme style -->
+	<link href="${pageContext.request.contextPath}/styles/bootstrap/AdminLTE.css" rel="stylesheet" type="text/css" />
 		
-		<!-- Theme style -->
-		<link href="${pageContext.request.contextPath}/styles/bootstrap/themes/blue.css" rel="stylesheet" type="text/css" />
-		<link href="${pageContext.request.contextPath}/styles/bootstrap/themes/black.css" rel="stylesheet" type="text/css" />
+	<!-- Theme style -->
+	<link href="${pageContext.request.contextPath}/styles/bootstrap/themes/blue.css" rel="stylesheet" type="text/css" />
+	<link href="${pageContext.request.contextPath}/styles/bootstrap/themes/black.css" rel="stylesheet" type="text/css" />
 		
-		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-		<!--[if lt IE 9]>
-			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-			<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-		<![endif]-->
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+	<![endif]-->
 		
-		<script src="${pageContext.request.contextPath}/js/url.js" type="text/javascript"></script>
-		<script type="text/javascript">
-			CONTEXT_PATH = "${pageContext.request.contextPath}";
-		</script>
-        
-		<!-- JQuery -->
-		<script src="${pageContext.request.contextPath}/js/jquery.min.js" type="text/javascript"></script>
-		<!-- JQuery Shortcut -->
-		<script src="${pageContext.request.contextPath}/js/bootstrap/jquery.hotkeys.js" type="text/javascript"></script>
-		<!-- Bootstrap -->
-		<script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap.min.js" type="text/javascript"></script>
-		<!-- Bootstrap Dialog -->
-		<script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap-dialog.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/js/url.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		CONTEXT_PATH = "${pageContext.request.contextPath}";
+	</script>
+	
+	<!-- JQuery -->
+	<script src="${pageContext.request.contextPath}/js/jquery.min.js" type="text/javascript"></script>
+	<!-- JQuery Shortcut -->
+	<script src="${pageContext.request.contextPath}/js/bootstrap/jquery.hotkeys.js" type="text/javascript"></script>
+	<!-- Bootstrap -->
+	<script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap.min.js" type="text/javascript"></script>
+	<!-- Bootstrap Dialog -->
+	<script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap-dialog.js" type="text/javascript"></script>
 		
-		<script src="${pageContext.request.contextPath}/js/store.js" type="text/javascript"></script>
-		<script src="${pageContext.request.contextPath}/js/oauth2.js" type="text/javascript"></script>
-		<script src="${pageContext.request.contextPath}/js/sha256.js" type="text/javascript"></script>
-		<script src="${pageContext.request.contextPath}/js/enc-base64-min.js" type="text/javascript"></script>
-		<script src="${pageContext.request.contextPath}/js/cookie.js" type="text/javascript"></script>
-		<script src="${pageContext.request.contextPath}/js/user.js" type="text/javascript"></script>
-    </head>
+	<script src="${pageContext.request.contextPath}/js/store.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/js/oauth2.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/js/sha256.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/js/enc-base64-min.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/js/cookie.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/js/user.js" type="text/javascript"></script>
+</head>
     <body class="lockscreen">
         <!-- Automatic element centering using js -->
         <div class="center">            

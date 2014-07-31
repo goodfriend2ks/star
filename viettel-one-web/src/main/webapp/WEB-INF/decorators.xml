@@ -9,6 +9,9 @@
         <pattern>/login.jsp*</pattern>
         <pattern>/register.jsp*</pattern>
         <pattern>/lockscreen.jsp*</pattern>
+        <pattern>*.htm*</pattern>
+        <pattern>/burger.jsp*</pattern>
+        <pattern>/chicken.jsp*</pattern>
     </excludes>
     <decorator name="default" page="application.jsp">
         <pattern>/*</pattern>

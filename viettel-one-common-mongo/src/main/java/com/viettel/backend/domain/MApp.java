@@ -60,6 +60,14 @@ public class MApp extends EO<UUID> {
     private String imageLink;
 	
 	@Index
+	@Column(name = "Oauth2ClientId", length = 120, nullable = true)
+	private String oauth2ClientId;
+	
+	@Index
+	@Column(name = "Oauth2ClientSecret", length = 120, nullable = true)
+	private String oauth2ClientSecret;
+	
+	@Index
 	@Column(name = TENANT_KEYCOLUMN_NAME, nullable = false)
 	@EntityLinked(entityClazz = MTenant.class, pkClazz = UUID.class,
 			idProperty = MTenant.KEY_PROPERTY, captionProperty = MTenant.DISPLAY_PROPERTY, 
@@ -255,7 +263,23 @@ public class MApp extends EO<UUID> {
         this.imageLink = imageLink;
     }
 	
-    @Override
+    public String getOauth2ClientId() {
+		return oauth2ClientId;
+	}
+
+	public void setOauth2ClientId(String oauth2ClientId) {
+		this.oauth2ClientId = oauth2ClientId;
+	}
+
+	public String getOauth2ClientSecret() {
+		return oauth2ClientSecret;
+	}
+
+	public void setOauth2ClientSecret(String oauth2ClientSecret) {
+		this.oauth2ClientSecret = oauth2ClientSecret;
+	}
+
+	@Override
     @Transient
     public UUID getApp_ID() {
 		return getId();

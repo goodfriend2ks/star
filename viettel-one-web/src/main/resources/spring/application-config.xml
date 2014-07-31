@@ -18,13 +18,10 @@
 	<mvc:resources mapping="/styles/**" location="/assets/styles/" />
     <mvc:resources mapping="/images/**" location="/assets/images/" />
     <mvc:resources mapping="/icons/**" location="/assets/icons/" />
-    <mvc:resources mapping="/js/**" location="/assets/js/" />
+    <mvc:resources mapping="/js/**" location="/assets/js/" />  
+	<mvc:resources mapping="/img/**" location="/assets/img/" />
     
-    <!-- Have Spring servlet handle all static content -->
-    <mvc:default-servlet-handler/>
-    <mvc:annotation-driven />
-    
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 	    <property name="locations">
 	        <array>
 	        	<!-- <value>classpath:app-production.properties</value> -->
@@ -33,6 +30,28 @@
 	    </property>
 	</bean>
 	
+    <!-- Have Spring servlet handle all static content -->
+    <mvc:default-servlet-handler/>
+    <mvc:annotation-driven />
+    
+    <bean id="messageSource"
+              class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:messages/messages" />
+        <property name="defaultEncoding" value="UTF-8" />
+    </bean>
+    
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix">
+            <value>/</value>
+        </property>
+        <property name="suffix">
+            <value>.jsp</value>
+        </property>
+        <property name="contentType">
+        	<value>text/html; charset=utf-8</value>
+        </property>  
+    </bean>
+    
 	<import resource="classpath:spring/http-invoker-config.xml"/>
 	
 	<!-- <import resource="classpath:spring/security/security-configuration.xml"/> -->

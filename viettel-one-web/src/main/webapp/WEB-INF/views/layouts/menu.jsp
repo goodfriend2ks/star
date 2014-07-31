@@ -22,31 +22,31 @@
                 	<i class="fa fa-angle-double-right"></i>&nbsp;Quy&#7873;n truy c&#7853;p</a>
 			</li>
 	        <li class="">
-				<a href="${pageContext.request.contextPath}/admin/user">
+				<a href="#user" hrefx="${pageContext.request.contextPath}/admin/user">
 					<i class="fa fa-angle-double-right"></i>&nbsp;Ng&#432;&#7901;i s&#7917; d&#7909;ng</a>
 			</li> 
 			<li class="">
-            	<a href="${pageContext.request.contextPath}/admin/lang">
+            	<a href="#lang" hrefx="${pageContext.request.contextPath}/admin/lang">
 					<i class="fa fa-angle-right"></i>&nbsp;Ngon ngu</a>
 			</li>
-			<li class="">
-				<a href="fixed-header-menu.html">
-					<i class="fa fa-angle-right"></i>&nbsp;Fixed Header & Menu</a>
+			<%-- <li class="">
+				<a href="${pageContext.request.contextPath}/admin/wapi">
+					<i class="fa fa-angle-right"></i>&nbsp;WSO2 App</a>
 			</li>
 			<li class="">
-				<a href="sm.html">
+				<a href="#login.jsp">
 					<i class="fa fa-angle-right"></i>&nbsp;Mini Sidebar</a>
 			</li>
               <li class="">
-                <a href="fixed-header-mini-sidebar.html">
+                <a href="#lockscreen.jsp">
                   <i class="fa fa-angle-right"></i>&nbsp;Fixed Header & Mini Menu</a> 
-              </li>
+              </li> --%>
               <li class="">
-                <a href="fixed-mini-sidebar.html">
+                <a href="#burger.jsp">
                   <i class="fa fa-angle-right"></i>&nbsp;Fixed & Mini Menu</a> 
               </li>
               <li class="">
-                <a href="fixed-header-fixed-mini-sidebar.html">
+                <a href="#chicken.jsp">
                   <i class="fa fa-angle-right"></i>&nbsp;Fixed Header and Fixed Mini Menu</a> 
               </li>
               <li class="">

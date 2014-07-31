@@ -18,6 +18,15 @@
     <mvc:resources mapping="/js/**" location="/assets/js/" />  
 	<mvc:resources mapping="/img/**" location="/assets/img/" />
 	
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:app-production.properties</value>
+	            <!-- <value>classpath:spring/application-config.properties</value> -->
+            </list>
+        </property>
+    </bean>
+    
 	<mvc:default-servlet-handler />
     <mvc:annotation-driven>
     	<mvc:message-converters>
@@ -39,15 +48,6 @@
         </property>
 	</bean>
 
-    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="locations">
-            <list>
-                <value>classpath:app-production.properties</value>
-	            <!-- <value>classpath:spring/application-config.properties</value> -->
-            </list>
-        </property>
-    </bean>
-	
     <bean id="messageSource"
               class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="basename" value="classpath:messages/messages" />
