@@ -22,6 +22,7 @@
     <!-- Factory bean that creates the Mongo instance -->
     <bean id="mongoFactory" class="org.springframework.data.mongodb.core.MongoFactoryBean">
         <property name="host" value="123.30.186.62" />
+	<property name="port" value="27017" />
     </bean>
      
     <!-- MongoTemplate for connecting and quering the documents in the database -->

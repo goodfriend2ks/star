@@ -405,7 +405,9 @@ function newBean(){
 /** Get selection bean and open dialog for edit **/
 function editBean(selectedId){
 	if (!selectedId)
-		var selectedId = getSelectedId();
+		selectedId = getSelectedId();
+	
+	//alert(selectedId + "=" + beanRequestMappingUrl);
 	
 	if (selectedId != null && selectedId != '') {
 	    //$('#' + beanDialogId).dialog('open').dialog('setTitle', dialogEditTitle);

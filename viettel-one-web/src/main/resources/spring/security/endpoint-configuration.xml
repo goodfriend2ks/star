@@ -9,26 +9,32 @@
 					  http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 	
 	<!-- HTTP Filter -->
+	<http pattern="/assets/**" security="none" 
+		xmlns="http://www.springframework.org/schema/security"/>
+	
+	<http pattern="/**icons/**" security="none" 
+		xmlns="http://www.springframework.org/schema/security" />
+	
+	<http pattern="/**images/**" security="none" 
+		xmlns="http://www.springframework.org/schema/security" />
+	
+	<http pattern="/**img/**" security="none" 
+		xmlns="http://www.springframework.org/schema/security" />
+	
+	<http pattern="/**js/**" security="none" 
+		xmlns="http://www.springframework.org/schema/security" />
+	
+	<http pattern="/**styles/**" security="none" 
+		xmlns="http://www.springframework.org/schema/security" />
+	
 	<http pattern="/login.jsp**" security="none" 
 		xmlns="http://www.springframework.org/schema/security" />
 	
 	<http pattern="/register.jsp**" security="none" 
 		xmlns="http://www.springframework.org/schema/security" />
 	
-	<!-- <http pattern="/icons/**" security="none" 
+	<http pattern="/lockscreen.jsp**" security="none" 
 		xmlns="http://www.springframework.org/schema/security" />
-	
-	<http pattern="/images/**" security="none" 
-		xmlns="http://www.springframework.org/schema/security" />
-	
-	<http pattern="/img/**" security="none" 
-		xmlns="http://www.springframework.org/schema/security" />
-	
-	<http pattern="/js/**" security="none" 
-		xmlns="http://www.springframework.org/schema/security" />
-	
-	<http pattern="/styles/**" security="none" 
-		xmlns="http://www.springframework.org/schema/security" /> -->
 	
 	<http pattern="/oauth/token" create-session="stateless"
 		authentication-manager-ref="clientAuthenticationManager"

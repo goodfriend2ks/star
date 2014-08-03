@@ -5,59 +5,57 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-    	http://www.springframework.org/schema/beans/spring-beans.xsd
-       	http://www.springframework.org/schema/mvc 
-       	http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd">
-
+		http://www.springframework.org/schema/context/spring-context.xsd">
+	
 	<!-- Use annotations to configure some components -->
 	<context:component-scan base-package="com.viettel.web.api" />
 	<context:component-scan base-package="com.viettel.web.api.security" />
 	
 	<mvc:resources mapping="/styles/**" location="/assets/styles/" />
-    <mvc:resources mapping="/images/**" location="/assets/images/" />
-    <mvc:resources mapping="/icons/**" location="/assets/icons/" />
-    <mvc:resources mapping="/js/**" location="/assets/js/" />  
+	<mvc:resources mapping="/images/**" location="/assets/images/" />
+	<mvc:resources mapping="/icons/**" location="/assets/icons/" />
+	<mvc:resources mapping="/js/**" location="/assets/js/" />  
 	<mvc:resources mapping="/img/**" location="/assets/img/" />
-    
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-	    <property name="locations">
-	        <array>
-	        	<!-- <value>classpath:app-production.properties</value> -->
-	            <value>classpath:spring/application-config.properties</value>
-	        </array>
-	    </property>
+	
+	<!-- Have Spring servlet handle all static content -->
+	<mvc:default-servlet-handler/>
+	<mvc:annotation-driven />
+	
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<array>
+				<!-- <value>classpath:app-production.properties</value> -->
+				<value>classpath:spring/application-config.properties</value>
+			</array>
+		</property>
 	</bean>
 	
-    <!-- Have Spring servlet handle all static content -->
-    <mvc:default-servlet-handler/>
-    <mvc:annotation-driven />
-    
-    <bean id="messageSource"
-              class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-        <property name="basename" value="classpath:messages/messages" />
-        <property name="defaultEncoding" value="UTF-8" />
-    </bean>
-    
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix">
-            <value>/</value>
-        </property>
-        <property name="suffix">
-            <value>.jsp</value>
-        </property>
-        <property name="contentType">
-        	<value>text/html; charset=utf-8</value>
-        </property>  
-    </bean>
-    
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- CSRF protection. Here we only include the CsrfFilter instead of all of Spring Security.
+		See http://docs.spring.io/spring-security/site/docs/3.2.x/reference/htmlsingle/#csrf for more information on
+		Spring Security's CSRF protection
+	-->
+	<!-- <bean id="csrfFilter" class="org.springframework.security.web.csrf.CsrfFilter">
+		<constructor-arg>
+			<bean class="org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository"/>
+		</constructor-arg>
+	</bean> -->
+	
+	<!-- Provides automatic CSRF token inclusion when using Spring MVC Form tags or Thymeleaf. See
+		http://localhost:8080/#forms and form.jsp for examples
+	-->
+	<!-- <bean id="requestDataValueProcessor" class="org.springframework.security.web.servlet.support.csrf.CsrfRequestDataValueProcessor"/> -->
+	
 	<import resource="classpath:spring/http-invoker-config.xml"/>
 	
 	<!-- <import resource="classpath:spring/security/security-configuration.xml"/> -->
-    <import resource="classpath:spring/security/authentication-managers.xml"/>
-    <import resource="classpath:spring/security/endpoint-configuration.xml"/>
-    <import resource="classpath:spring/oauth/oauth2-configuration.xml"/>
-    <import resource="classpath:spring/oauth/token-store.xml"/>
-    <import resource="classpath:spring/oauth/client-details.xml"/>
+	<import resource="classpath:spring/security/authentication-managers.xml"/>
+	<import resource="classpath:spring/security/endpoint-configuration.xml"/>
+	<import resource="classpath:spring/oauth/oauth2-configuration.xml"/>
+	<import resource="classpath:spring/oauth/token-store.xml"/>
+	<import resource="classpath:spring/oauth/client-details.xml"/>
 </beans>

@@ -97,8 +97,8 @@
 	dialogDeleteTitle = "<spring:message code='label.confirm'/>";
 	dialogDeleteMsg = "<spring:message code='label.message.destroy' arguments='${beanName}' />";
 	
-	$(function(){
+	//$(function(){
 		loadBeans(true);
 		initForm();
-	});
+	//});
 </script>

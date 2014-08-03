@@ -56,93 +56,90 @@
 	<script src="${pageContext.request.contextPath}/js/user.js" type="text/javascript"></script>
 </head>
 <body class="bg-blue">
-    	<div class="form-box" id="login-box">
-        	<div class="header">
-	        	<h3 class="title">Sign In</h3>
-			</div>
-			<form action="#" method="post">
-		        <div class="body">
-		        	<div class="form-group">
-		            	<div class="input-group">
-		                	<div class="input-group-addon">
-		                    	<i class="fa fa-user"></i>
-							</div>
-		                    <input type="text" class="form-control" id="username" 
-		                    	placeholder="User ID" data-options="required:true" />
+	<div class="form-box" id="login-box">
+		<div class="header">
+			<h3 class="title">Sign In</h3>
+		</div>
+		<form action="#" method="post">
+			<div class="body">
+				<div class="form-group">
+					<div class="input-group">
+						<div class="input-group-addon">
+							<i class="fa fa-user"></i>
 						</div>
+						<input type="text" class="form-control" id="username" 
+								placeholder="User ID" data-options="required:true" />
 					</div>
-					
-					<div class="form-group">
-		            	<div class="input-group">
-		                	<div class="input-group-addon">
-		                    	<i class="fa fa-key"></i>
-							</div>
-		                    <input type="password" class="form-control" id="password" 
-		                    	placeholder="Password" data-options="required:true" />
-						</div>
-					</div>
-					
-					<div class="form-group">
-						<input type="checkbox" class="flat-red" id="rememberMe"/> Remember me
-					</div>
-		        </div>
-		        
-		        <div class="footer">
-					<a href="javascript:void(0)" class="btn btn-block btn-flat bg-olive" onclick="doLogin()">Sign me in</a>
-					<!-- <a href="javascript:void(0)" class="btn btn-flat" onclick="clearForm()">Clear</a> -->
-					
-					<p><a href="#">I forgot my password</a></p>
-                    
-                    <a href="${pageContext.request.contextPath}/register.jsp" class="text-center">Register a new membership</a>
 				</div>
-			</form>
+				
+				<div class="form-group">
+					<div class="input-group">
+						<div class="input-group-addon">
+							<i class="fa fa-key"></i>
+						</div>
+						<input type="password" class="form-control" id="password" 
+								placeholder="Password" data-options="required:true" />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<input type="checkbox" class="flat-red" id="rememberMe"/> Remember me
+				</div>
+			</div>
 			
-            <div class="margin text-center">
-                <span>Sign in using social networks</span>
-                <br/>
-                <button class="btn bg-light-blue btn-circle"><i class="fa fa-facebook"></i></button>
-                <button class="btn bg-aqua btn-circle"><i class="fa fa-twitter"></i></button>
-                <button class="btn bg-red btn-circle"><i class="fa fa-google-plus"></i></button>
-
-            </div>
-        </div>
+			<div class="footer">
+				<a href="javascript:void(0)" class="btn btn-block btn-flat bg-olive" onclick="doLogin()">Sign me in</a>
+				<!-- <a href="javascript:void(0)" class="btn btn-flat" onclick="clearForm()">Clear</a> -->
+				<p><a href="#">I forgot my password</a></p>
+				
+				<a href="${pageContext.request.contextPath}/register.jsp" class="text-center">Register a new membership</a>
+			</div>
+		</form>
 		
-		<!-- Bootstrap -->
-		<script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap.min.js" type="text/javascript"></script>
-		<!-- AdminLTE App -->
-		<script src="${pageContext.request.contextPath}/js/bootstrap/app.js" type="text/javascript"></script>
-		<!-- Bootstrap Dialog -->
-		<script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap-dialog.js" type="text/javascript"></script>
-		
-        <script type="text/javascript">
-			$(function() {
-				$('#password').bind('keydown', 'return', function(){
-					doLogin();
-				});
+		<div class="margin text-center">
+			<span>Sign in using social networks</span><br/>
+			<button class="btn bg-light-blue btn-circle"><i class="fa fa-facebook"></i></button>
+			<button class="btn bg-aqua btn-circle"><i class="fa fa-twitter"></i></button>
+			<button class="btn bg-red btn-circle"><i class="fa fa-google-plus"></i></button>
+		</div>
+	</div>
+	
+	<!-- Bootstrap -->
+	<script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap.min.js" type="text/javascript"></script>
+	<!-- AdminLTE App -->
+	<script src="${pageContext.request.contextPath}/js/bootstrap/app.js" type="text/javascript"></script>
+	<!-- Bootstrap Dialog -->
+	<script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap-dialog.js" type="text/javascript"></script>
+	
+	<script type="text/javascript">
+		$(function() {
+			$('#password').bind('keydown', 'return', function(){
+				doLogin();
 			});
-			
-			function doLogin() {
-				oauth2.user.login($('#username').val(), $('#password').val(), function (result) {
-					if (!result) {
-						var wlocation = oauth2.cookie.get('wlocation');
-						if (!wlocation || wlocation == '')
-							wlocation = '${pageContext.request.contextPath}/start';
-	        			
-						window.location = wlocation;
-					} else {
-						BootstrapDialog.alert({
+		});
+		
+		function doLogin() {
+			oauth2.user.login($('#username').val(), $('#password').val(), function (result) {
+				if (!result) {
+					var wlocation = oauth2.cookie.get('wlocation');
+					if (!wlocation || wlocation == '')
+						wlocation = '${pageContext.request.contextPath}';
+					
+					window.location = wlocation;
+				} else {
+					BootstrapDialog.alert({
 							title: 'Sign-in Error',
 							message: 'Username and/or password did not match a user account.',
 							closeByBackdrop: false,
 							draggable: true
-						});
-					}
-				});
-			}
+					});
+				}
+			});
+		}
+		
+		function clearForm(){
 			
-			function clearForm(){
-			
-			}
-		</script>
-    </body>
+		}
+	</script>
+</body>
 </html>
