@@ -43,9 +43,9 @@ public class MLanguageDto extends BaseDto<MLanguage, UUID> {
 	}
 
 	@Override
-	public void toBean(MLanguage bean) throws Exception {
+	public void toBean(MLanguage bean, boolean isNew) throws Exception {
 		if (!StringUtils.isEmpty(getStatus()))
-			bean.setActive(toBoolean(this.getStatus()));
+			bean.setActive(toBoolean(this.getStatus(), true));
 		
 		if (!StringUtils.isEmpty(this.code))
 			bean.setCode(this.code);
@@ -59,7 +59,8 @@ public class MLanguageDto extends BaseDto<MLanguage, UUID> {
 		if (!StringUtils.isEmpty(this.timePattern))
 			bean.setTimePattern(this.timePattern);
 		
-		bean.setDecimalPoint(toBoolean(this.decimalPoint));
+		if (isNew || !StringUtils.isEmpty(this.decimalPoint))
+			bean.setDecimalPoint(toBoolean(this.decimalPoint, false));
 		
 		bean.setDateTimePattern(bean.getDatePattern() + " " + bean.getTimePattern());
 	}

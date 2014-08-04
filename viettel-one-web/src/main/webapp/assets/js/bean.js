@@ -559,6 +559,7 @@ function saveBean() {
 					return value;
 				}
 			});
+			alert(JSON.stringify(json));
 			
 			oauth2.post(beanCurrentUrl, 
 					JSON.stringify(json), 

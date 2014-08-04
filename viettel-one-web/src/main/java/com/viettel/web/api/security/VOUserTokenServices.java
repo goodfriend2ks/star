@@ -24,7 +24,6 @@ import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.util.Assert;
 
 public class VOUserTokenServices implements AuthorizationServerTokenServices, ResourceServerTokenServices,
 ConsumerTokenServices, InitializingBean {
@@ -47,7 +46,7 @@ ConsumerTokenServices, InitializingBean {
 	 * Initialize these token services. If no random generator is set, one will be created.
 	 */
 	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(tokenStore, "tokenStore must be set");
+//		Assert.notNull(tokenStore, "tokenStore must be set");
 	}
 
 	public OAuth2AccessToken createAccessToken(OAuth2Authentication authentication) throws AuthenticationException {
@@ -58,20 +57,18 @@ ConsumerTokenServices, InitializingBean {
 			if (existingAccessToken.isExpired()) {
 				if (existingAccessToken.getRefreshToken() != null) {
 					refreshToken = existingAccessToken.getRefreshToken();
-					// The token store could remove the refresh token when the access token is removed, but we want to
-					// be sure...
+					// The token store could remove the refresh token when the access token is removed, but we want to be sure...
 					tokenStore.removeRefreshToken(refreshToken);
 				}
 				tokenStore.removeAccessToken(existingAccessToken);
 			}
-			else {
+			/*else {
 				return existingAccessToken;
-			}
+			}*/
 		}
 
 		// Only create a new refresh token if there wasn't an existing one associated with an expired access token.
-		// Clients might be holding existing refresh tokens, so we re-use it in the case that the old access token
-		// expired.
+		// Clients might be holding existing refresh tokens, so we re-use it in the case that the old access token expired.
 		if (refreshToken == null) {
 			refreshToken = createRefreshToken(authentication);
 		}

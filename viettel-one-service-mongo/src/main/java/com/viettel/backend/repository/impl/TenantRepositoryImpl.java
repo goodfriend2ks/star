@@ -39,7 +39,7 @@ public class TenantRepositoryImpl
 	@Override
 	public MOrg getOrg(UUID tenant_ID, UUID org_ID) {
 		GenericQuery query = query(criteria(EO.TENANT_ID_PROPERTY).is(tenant_ID)
-				.and(EO.ORG_ID_PROPERTY).is(org_ID));
+				.and(MOrg.KEY_PROPERTY).is(org_ID));
 		return getFirst(MOrg.class, UUID.class,
 				tenant_ID, null, EO.ROOT_ID_VALUE, query);
 	}

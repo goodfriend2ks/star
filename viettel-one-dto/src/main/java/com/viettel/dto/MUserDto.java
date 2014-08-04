@@ -72,19 +72,19 @@ public class MUserDto extends BaseDto<MUser, UUID> {
 	}
 
 	@Override
-	public void toBean(MUser bean) throws Exception {
+	public void toBean(MUser bean, boolean isNew) throws Exception {
 		if (bean == null)
 			return;
 		
 		if (!StringUtils.isEmpty(getStatus()))
-			bean.setActive(toBoolean(this.getStatus()));
+			bean.setActive(toBoolean(this.getStatus(), true));
 		
 		if (!StringUtils.isEmpty(this.name))
 			bean.setName(this.name);
 		
-		if (DataTypeUtil.isEmpty(UUID.class, bean.getId())) {
+		if (isNew || DataTypeUtil.isEmpty(UUID.class, bean.getId())) {
 			if (!StringUtils.isEmpty(this.userName))
-				bean.setName(this.userName);
+				bean.setUserName(this.userName);
 		}
 		
 		if (this.dob != null)
@@ -93,14 +93,14 @@ public class MUserDto extends BaseDto<MUser, UUID> {
 		if (!StringUtils.isEmpty(this.email))
 			bean.setEmail(this.email);
 		
-		if (!StringUtils.isEmpty(this.accountNonExpired))
-			bean.setAccountNonExpired(toBoolean(this.accountNonExpired));
+		if (isNew || !StringUtils.isEmpty(this.accountNonExpired))
+			bean.setAccountNonExpired(toBoolean(this.accountNonExpired, true));
 		
-		if (!StringUtils.isEmpty(this.credentialsNonExpired))
-			bean.setCredentialsNonExpired(toBoolean(this.credentialsNonExpired));
+		if (isNew || !StringUtils.isEmpty(this.credentialsNonExpired))
+			bean.setCredentialsNonExpired(toBoolean(this.credentialsNonExpired, true));
 		
-		if (!StringUtils.isEmpty(this.accountNonLocked))
-			bean.setAccountNonLocked(toBoolean(this.accountNonLocked));
+		if (isNew || !StringUtils.isEmpty(this.accountNonLocked))
+			bean.setAccountNonLocked(toBoolean(this.accountNonLocked, true));
 		
 		if (this.language_ID != null)
 			bean.setLanguage_ID(this.language_ID);

@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.viettel.backend.common.EO;
 import com.viettel.backend.domain.MOrg;
 import com.viettel.util.DataTypeUtil;
+import com.viettel.util.StringUtils;
 
 public abstract class BaseDto<T extends EO<PK>, PK extends Serializable> extends EO<PK> {
 	/**
@@ -26,7 +27,10 @@ public abstract class BaseDto<T extends EO<PK>, PK extends Serializable> extends
 	}
 	
 	@Transient
-	public static boolean toBoolean(String value) {
+	public static boolean toBoolean(String value, boolean nullValue) {
+		if (StringUtils.isEmpty(value))
+			return nullValue;
+		
 		return YES.equalsIgnoreCase(value) || "true".equalsIgnoreCase(value);
 	}
 	
@@ -69,7 +73,7 @@ public abstract class BaseDto<T extends EO<PK>, PK extends Serializable> extends
 	
 	public abstract void fromBean(T bean);
 	
-	public abstract void toBean(T bean) throws Exception;
+	public abstract void toBean(T bean, boolean isNew) throws Exception;
 	
 	@Override
 	public void setId(PK id) {

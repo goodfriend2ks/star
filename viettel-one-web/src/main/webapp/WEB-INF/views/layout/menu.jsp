@@ -27,7 +27,11 @@
 			</li> 
 			<li class="">
             	<a href="#lang" hrefx="${pageContext.request.contextPath}/admin/lang">
-					<i class="fa fa-angle-right"></i>&nbsp;Ngon ngu</a>
+					<i class="fa fa-angle-right"></i>&nbsp;Ng&#244;n ng&#7919;</a>
+			</li>
+			<li class="">
+            	<a href="#area" hrefx="${pageContext.request.contextPath}/admin/area">
+					<i class="fa fa-angle-right"></i>&nbsp;&#272;&#7883;a b&#224;n</a>
 			</li>
 			<%-- <li class="">
 				<a href="${pageContext.request.contextPath}/admin/wapi">

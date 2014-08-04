@@ -99,10 +99,10 @@ public class MUser extends BaseEO<UUID> {
 	@Description("Account Non Locked")
 	private boolean isAccountNonLocked;
 	
-	@Index
+	/*@Index
 	@Column(name = "IsLocked")
 	@Description("Locked Status if not isAccountNonLocked")
-	private boolean isLocked;
+	private boolean isLocked;*/
 	
 	@Index
 	@Column(name = "LoginFail")
@@ -208,13 +208,13 @@ public class MUser extends BaseEO<UUID> {
 		this.birthPlace = birthPlace;
 	}
 
-	public boolean isLocked() {
+	/*public boolean isLocked() {
 		return isLocked;
 	}
 
 	public void setLocked(boolean isLocked) {
 		this.isLocked = isLocked;
-	}
+	}*/
 
 	public int getLoginFail() {
 		return loginFail;

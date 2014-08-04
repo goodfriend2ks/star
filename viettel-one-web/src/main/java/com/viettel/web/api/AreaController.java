@@ -1,20 +1,13 @@
 package com.viettel.web.api;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
-
-import javax.persistence.criteria.GenericCriteria;
-import javax.persistence.criteria.GenericQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,15 +19,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.viettel.backend.common.IValuePair;
 import com.viettel.backend.common.ValuePair;
-import com.viettel.backend.domain.MLanguage;
 import com.viettel.backend.domain.MOrg;
-import com.viettel.backend.domain.MUser;
+import com.viettel.backend.domain.common.MArea;
 import com.viettel.backend.service.BaseService;
 import com.viettel.backend.service.CommonService;
 import com.viettel.backend.service.TenantService;
-import com.viettel.backend.service.UserService;
-import com.viettel.dto.MLanguageDto;
-import com.viettel.dto.MUserDto;
+import com.viettel.dto.common.MAreaDto;
 import com.viettel.util.DataTypeUtil;
 import com.viettel.util.EntityUtil;
 import com.viettel.util.ValuePairUtil;
@@ -44,86 +34,59 @@ import com.viettel.web.api.util.EOUtil;
 import com.viettel.web.api.util.Env;
 
 @Controller
-@RequestMapping(value = "/api/user")
-public class UserController extends BasicController<MUserDto, UUID> {
-	
-	@Autowired
-    private UserService dataService;
-	
+@RequestMapping(value = "/api/area")
+public class AreaController extends BasicController<MAreaDto, UUID> {
 	@Autowired
     private TenantService tenantService;
 	
 	@Autowired
-    private CommonService commonService;
+    private CommonService dataService;
 	
-	public UserController() {
-		super("user");
+	public AreaController() {
+		super("area");
 	}
-	
+
 	@Override
 	public BaseService getDataService() {
 		return dataService;
 	}
-	
-	/*@RequestMapping(value = "/current", method = RequestMethod.GET)
-    public @ResponseBody MUserDto getCurrentUser(@RequestParam MultiValueMap<String, String> params) {
-		VOUser currentUser = Env.getCurrentUser();
-		
-		MUser user = dataService.findById(currentUser.getAd_Client_ID(), currentUser.getAd_User_ID());
-		MOrg org = clientService.getOrg(currentUser.getAd_Client_ID(), currentUser.getAd_Org_ID());
-		MLanguage lang = commonService.findById(MLanguage.class, MLanguageKey.class, UUID.class, 
-				MLanguage.ROOT_ID_VALUE, UUID.fromString("fc15c181-e577-11e3-a5bf-19b777468313"));
-		return MUserMapper.INSTANCE.userToDto(user, org, lang);
-	}*/
 	
 	@Override
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
     public @ResponseBody ResponseEntity<?> list(@RequestParam MultiValueMap<String, String> params) {
 		try {
 			VOUser currentUser = Env.getCurrentUser();
-			UUID bean_Tenant_ID = EntityUtil.getTenant_ID(MUser.class, currentUser.getTenant_ID());
-			UUID bean_Org_ID = EntityUtil.getOrg_ID(MUser.class, currentUser.getOrg_ID());
-			UUID bean_App_ID = EntityUtil.getApp_ID(MUser.class, currentUser.getApp_ID());
+			UUID bean_Tenant_ID = EntityUtil.getTenant_ID(MArea.class, currentUser.getTenant_ID());
+			UUID bean_Org_ID = EntityUtil.getOrg_ID(MArea.class, currentUser.getOrg_ID());
+			UUID bean_App_ID = EntityUtil.getApp_ID(MArea.class, currentUser.getApp_ID());
 			
-			List<MUser> beans = dataService.getList(bean_Tenant_ID, bean_Org_ID, bean_App_ID, null);
-			
-			// Load language
-			Set<UUID> langIds = new HashSet<>();
-			for (MUser bean : beans) {
-				if (bean.getLanguage_ID() != null) {
-					langIds.add(bean.getLanguage_ID());
-				}
-			}
-			
-			UUID lang_Tenant_ID = EntityUtil.getTenant_ID(MLanguage.class, currentUser.getTenant_ID());
-			UUID lang_Org_ID = EntityUtil.getOrg_ID(MLanguage.class, currentUser.getOrg_ID());
-			UUID lang_App_ID = EntityUtil.getApp_ID(MLanguage.class, currentUser.getApp_ID());
-			GenericCriteria criteria = commonService.criteria(MLanguage.KEY_PROPERTY).in(langIds);
-			GenericQuery langQuery = commonService.query(criteria);
-			List<MLanguage> langs = commonService.getList(MLanguage.class, UUID.class, 
-						lang_Tenant_ID, lang_Org_ID, lang_App_ID, langQuery);
-			Map<UUID, MLanguage> languages = new HashMap<>();
-			for (MLanguage lang : langs) {
-				languages.put(lang.getId(), lang);
-			}
+			List<MArea> beans = dataService.getList(MArea.class, UUID.class, 
+					bean_Tenant_ID, bean_Org_ID, bean_App_ID, null);
 			
 			// Init dto
-			List<MUserDto> beanDtos = new ArrayList<>();
-			for (MUser bean : beans) {
-				MLanguage language = null;
-				if (bean.getLanguage_ID() != null) {
-					language = languages.get(bean.getLanguage_ID());
+			List<MAreaDto> beanDtos = new ArrayList<>();
+			for (MArea bean : beans) {
+				MArea parent = null;
+				
+				UUID parent_ID = bean.getParent_ID(); 
+				if (!DataTypeUtil.isEmpty(UUID.class, parent_ID)) {
+					for (MArea o : beans) {
+						if (DataTypeUtil.compare(UUID.class, parent_ID, o.getId()) == 0) {
+							parent = o;
+							break;
+						}
+					}
 				}
 				
-				beanDtos.add(new MUserDto(bean, null, language));
+				beanDtos.add(new MAreaDto(bean, null, parent));
 			}
 			
-			ResultSet<MUserDto> results = new ResultSet<>();
+			ResultSet<MAreaDto> results = new ResultSet<>();
 			results.setRows(beanDtos);
 			
 			return new ResponseEntity<ResultSet<?>>(results, HttpStatus.OK);
 		} catch (Exception ex) {
-			Map<String, String> message = errorException(ex, "Cannot get users");
+			Map<String, String> message = errorException(ex, "Cannot get areas");
 			return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 		}
     }
@@ -135,110 +98,88 @@ public class UserController extends BasicController<MUserDto, UUID> {
 		if (DataTypeUtil.isEmpty(UUID.class, beanId))
 		{
 			Map<String, String> message = error(TYPE_INVALID_DATA, CODE_INVALID_ID, 
-					"Cannot get user with id {" + id + "}", "Cannot get user");
+					"Cannot get area with id {" + id + "}", "Cannot get area");
 			return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 		}
 		
 		try {
 			VOUser currentUser = Env.getCurrentUser();
-			UUID bean_Tenant_ID = EntityUtil.getTenant_ID(MUser.class, currentUser.getTenant_ID());
+			UUID bean_Tenant_ID = EntityUtil.getTenant_ID(MArea.class, currentUser.getTenant_ID());
 			
-			MUser bean = dataService.findById(bean_Tenant_ID, beanId);
+			MArea bean = dataService.findById(MArea.class, UUID.class, bean_Tenant_ID, beanId);
 			if (bean != null) {
 				MOrg org = tenantService.getOrg(bean.getTenant_ID(), bean.getOrg_ID());
 				
-				MLanguage lang = null;
-				if (!DataTypeUtil.isEmpty(UUID.class, bean.getLanguage_ID())) {
-					UUID lang_Tenant_ID = EntityUtil.getTenant_ID(MLanguage.class, bean.getTenant_ID());
-					lang = commonService.findById(MLanguage.class, UUID.class, lang_Tenant_ID, bean.getLanguage_ID());
+				MArea parent = null;
+				if (!DataTypeUtil.isEmpty(UUID.class, bean.getParent_ID())) {
+					parent = dataService.findById(MArea.class, UUID.class, bean_Tenant_ID, bean.getParent_ID());
 				}
 				
-				UUID lang_Tenant_ID = EntityUtil.getTenant_ID(MLanguage.class, bean.getTenant_ID());
-				UUID lang_Org_ID = EntityUtil.getOrg_ID(MLanguage.class, bean.getOrg_ID());
-				UUID lang_App_ID = EntityUtil.getApp_ID(MLanguage.class, bean.getApp_ID());
-				List<MLanguage> languages = commonService.getList(MLanguage.class, UUID.class, 
-						lang_Tenant_ID, lang_Org_ID, lang_App_ID, null);
-				
-				List<MLanguageDto> langDtos = new ArrayList<>();
-				for (MLanguage l : languages) {
-					langDtos.add(new MLanguageDto(l, org));
-				}
-				
-				MUserDto beanDto = new MUserDto(bean, org, lang);
-				beanDto.setLanguages(langDtos);
-				
-				return new ResponseEntity<MUserDto>(beanDto, HttpStatus.OK);
+				MAreaDto beanDto = new MAreaDto(bean, org, parent);
+				return new ResponseEntity<MAreaDto>(beanDto, HttpStatus.OK);
 			}
 			
 			Map<String, String> message = error(TYPE_ERROR, CODE_NOT_FOUND, 
-					"Cannot get user with id {" + id + "}", "Cannot get user");
+					"Cannot get area with id {" + id + "}", "Cannot get area");
 			return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 		} catch (Exception ex) {
-			Map<String, String> message = errorException(ex, "Cannot get user");
+			Map<String, String> message = errorException(ex, "Cannot get area");
 			return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 		}
     }
 	
 	@Override
 	@RequestMapping(value = "/save/{id}", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<?> save(@PathVariable String id, @RequestBody MUserDto bean) {
+    public @ResponseBody ResponseEntity<?> save(@PathVariable String id, @RequestBody MAreaDto bean) {
 		if (bean == null) {
 			Map<String, String> message = error(TYPE_INVALID_DATA, CODE_INVALID_DTO, 
-					"Cannot save user with id {" + id + "}", "Cannot save user");
+					"Cannot save area with id {" + id + "}", "Cannot save area");
 			return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 		}
 		
-		MUser updateItem = null;
+		MArea updateItem = null;
 		if (!"new".equalsIgnoreCase(id)) {
 			UUID updateItemId = DataTypeUtil.fromObject(UUID.class, id);
 			if (DataTypeUtil.isEmpty(UUID.class, updateItemId)) {
 				Map<String, String> message = error(TYPE_INVALID_DATA, CODE_INVALID_ID, 
-						"Cannot get user with id {" + id + "}", "Cannot get user");
+						"Cannot get area with id {" + id + "}", "Cannot get area");
 				return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 			}
 			
 			try {
 				VOUser currentUser = Env.getCurrentUser();
-				UUID bean_Tenant_ID = EntityUtil.getTenant_ID(MUser.class, currentUser.getTenant_ID());
-				updateItem = dataService.findById(bean_Tenant_ID, updateItemId);
+				UUID bean_Tenant_ID = EntityUtil.getTenant_ID(MArea.class, currentUser.getTenant_ID());
+				updateItem = dataService.findById(MArea.class, UUID.class, bean_Tenant_ID, updateItemId);
 			} catch (Exception ex) {
-				Map<String, String> message = errorException(ex, "Cannot get user");
+				Map<String, String> message = errorException(ex, "Cannot get area");
 				return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 			}
 		} else {
-			updateItem = new MUser();
+			updateItem = new MArea();
 		}
 		
 		boolean isNew = EOUtil.initBaseEO(updateItem);
 		try {
 			bean.toBean(updateItem, isNew);
 			
-			boolean resetPassword = MUserDto.toBoolean(bean.getResetPassword(), false);
-			if (isNew || resetPassword) {
-	        	String password = MUser.DEFAULT_PASSWORD;
-	        	Md5PasswordEncoder passwordEncoder = new Md5PasswordEncoder();
-				String hashedPassword = passwordEncoder.encodePassword(password, updateItem.getUserName());
-				updateItem.setPassword(hashedPassword);
-	        }
-			
 			UUID saveItemID = null;
 	        try {
-	        	saveItemID = dataService.save(updateItem, true);
+	        	saveItemID = dataService.save(MArea.class, UUID.class, updateItem, true);
 	        	
 	        	Map<String, String> message = success(true);
 	    		return new ResponseEntity<Map<String, String>>(message, HttpStatus.OK);
 	        } catch (Exception ex) {
-	        	Map<String, String> message = errorException(ex, "Cannot save user");
+	        	Map<String, String> message = errorException(ex, "Cannot save area");
 				return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 	        } finally {
 	        	if (saveItemID == null) {
 	        		Map<String, String> message = error(TYPE_ERROR, CODE_NOT_SAVE, 
-							"Cannot save user with id {" + id + "}", "Cannot save user");
+							"Cannot save area with id {" + id + "}", "Cannot save area");
 					return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 	        	}
 	        }
 		} catch (Exception ex) {
-			Map<String, String> message = errorException(ex, "Error convert user bean properties");
+			Map<String, String> message = errorException(ex, "Error convert area bean properties");
 			return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -257,20 +198,20 @@ public class UserController extends BasicController<MUserDto, UUID> {
 		if (DataTypeUtil.isEmpty(UUID.class, beanId))
 		{
 			Map<String, String> message = error(TYPE_INVALID_DATA, CODE_INVALID_ID, 
-					"Cannot get user pair value with id {" + id + "}", "Cannot get user pair value");
+					"Cannot get area pair value with id {" + id + "}", "Cannot get area pair value");
 			return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 		}
 		
 		try {
 			VOUser currentUser = Env.getCurrentUser();
-			UUID bean_Tenant_ID = EntityUtil.getTenant_ID(MUser.class, currentUser.getTenant_ID());
-			MUser bean = dataService.findById(bean_Tenant_ID, beanId);
+			UUID bean_Tenant_ID = EntityUtil.getTenant_ID(MArea.class, currentUser.getTenant_ID());
+			MArea bean = dataService.findById(MArea.class, UUID.class, bean_Tenant_ID, beanId);
 			if (bean != null) {
 				return new ResponseEntity<IValuePair<UUID>>(new ValuePair<>(bean), HttpStatus.OK);
 			}
 			
 			Map<String, String> message = error(TYPE_ERROR, CODE_NOT_FOUND, 
-					"Cannot get user pair value with id {" + id + "}", "Cannot get user pair value");
+					"Cannot get area pair value with id {" + id + "}", "Cannot get area pair value");
 			return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 		} catch (Exception ex) {
 			Map<String, String> message = errorException(ex, "Cannot user get pair value");
@@ -283,11 +224,12 @@ public class UserController extends BasicController<MUserDto, UUID> {
 	public @ResponseBody ResponseEntity<?> listPair(@RequestParam MultiValueMap<String, String> params) {
 		try {
 			VOUser currentUser = Env.getCurrentUser();
-			UUID bean_Tenant_ID = EntityUtil.getTenant_ID(MUser.class, currentUser.getTenant_ID());
-			UUID bean_Org_ID = EntityUtil.getOrg_ID(MUser.class, currentUser.getOrg_ID());
-			UUID bean_App_ID = EntityUtil.getApp_ID(MUser.class, currentUser.getApp_ID());
+			UUID bean_Tenant_ID = EntityUtil.getTenant_ID(MArea.class, currentUser.getTenant_ID());
+			UUID bean_Org_ID = EntityUtil.getOrg_ID(MArea.class, currentUser.getOrg_ID());
+			UUID bean_App_ID = EntityUtil.getApp_ID(MArea.class, currentUser.getApp_ID());
 			
-			List<MUser> beans = dataService.getList(bean_Tenant_ID, bean_Org_ID, bean_App_ID, null);
+			List<MArea> beans = dataService.getList(MArea.class, UUID.class, 
+					bean_Tenant_ID, bean_Org_ID, bean_App_ID, null);
 			List<IValuePair<UUID>> pairs = ValuePairUtil.fromEOs(beans);
 			
 			ResultSet<IValuePair<UUID>> results = new ResultSet<>();
@@ -295,7 +237,7 @@ public class UserController extends BasicController<MUserDto, UUID> {
 			
 			return new ResponseEntity<ResultSet<IValuePair<UUID>>>(results, HttpStatus.OK);
 		} catch (Exception ex) {
-			Map<String, String> message = errorException(ex, "Cannot get user pair values");
+			Map<String, String> message = errorException(ex, "Cannot get area pair values");
 			return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 		}
 	}

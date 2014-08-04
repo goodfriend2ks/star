@@ -44,7 +44,7 @@ public class LanguageController extends BasicController<MLanguageDto, UUID> {
     private CommonService dataService;
 	
 	public LanguageController() {
-		super("language");
+		super("lang");
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class LanguageController extends BasicController<MLanguageDto, UUID> {
 		if (DataTypeUtil.isEmpty(UUID.class, beanId))
 		{
 			Map<String, String> message = error(TYPE_INVALID_DATA, CODE_INVALID_ID, 
-					"Cannot get user with id {" + id + "}", "Cannot get language");
+					"Cannot get language with id {" + id + "}", "Cannot get language");
 			return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 		}
 		
@@ -104,7 +104,7 @@ public class LanguageController extends BasicController<MLanguageDto, UUID> {
 			}
 			
 			Map<String, String> message = error(TYPE_ERROR, CODE_NOT_FOUND, 
-					"Cannot get user with id {" + id + "}", "Cannot get language");
+					"Cannot get language with id {" + id + "}", "Cannot get language");
 			return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 		} catch (Exception ex) {
 			Map<String, String> message = errorException(ex, "Cannot get language");
@@ -117,7 +117,7 @@ public class LanguageController extends BasicController<MLanguageDto, UUID> {
     public @ResponseBody ResponseEntity<?> save(@PathVariable String id, @RequestBody MLanguageDto bean) {
 		if (bean == null) {
 			Map<String, String> message = error(TYPE_INVALID_DATA, CODE_INVALID_DTO, 
-					"Cannot save user with id {" + id + "}", "Cannot save language");
+					"Cannot save language with id {" + id + "}", "Cannot save language");
 			return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 		}
 		
@@ -126,7 +126,7 @@ public class LanguageController extends BasicController<MLanguageDto, UUID> {
 			UUID updateItemId = DataTypeUtil.fromObject(UUID.class, id);
 			if (DataTypeUtil.isEmpty(UUID.class, updateItemId)) {
 				Map<String, String> message = error(TYPE_INVALID_DATA, CODE_INVALID_ID, 
-						"Cannot get user with id {" + id + "}", "Cannot get language");
+						"Cannot get language with id {" + id + "}", "Cannot get language");
 				return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 			}
 			
@@ -142,9 +142,9 @@ public class LanguageController extends BasicController<MLanguageDto, UUID> {
 			updateItem = new MLanguage();
 		}
 		
-		EOUtil.initBaseEO(updateItem);
+		boolean isNew = EOUtil.initBaseEO(updateItem);
 		try {
-			bean.toBean(updateItem);
+			bean.toBean(updateItem, isNew);
 			
 			UUID saveItemID = null;
 	        try {
@@ -158,7 +158,7 @@ public class LanguageController extends BasicController<MLanguageDto, UUID> {
 	        } finally {
 	        	if (saveItemID == null) {
 	        		Map<String, String> message = error(TYPE_ERROR, CODE_NOT_SAVE, 
-							"Cannot save user with id {" + id + "}", "Cannot save language");
+							"Cannot save language with id {" + id + "}", "Cannot save language");
 					return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 	        	}
 	        }
@@ -182,7 +182,7 @@ public class LanguageController extends BasicController<MLanguageDto, UUID> {
 		if (DataTypeUtil.isEmpty(UUID.class, beanId))
 		{
 			Map<String, String> message = error(TYPE_INVALID_DATA, CODE_INVALID_ID, 
-					"Cannot get user pair value with id {" + id + "}", "Cannot get language pair value");
+					"Cannot get language pair value with id {" + id + "}", "Cannot get language pair value");
 			return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 		}
 		
