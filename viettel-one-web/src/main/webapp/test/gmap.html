@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+
+	<script src="jquery.min.js"></script>
+	<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+	<script type="text/javascript">
+    	google.load("maps", "3.4", {
+    		other_params: "sensor=false&language=vi"
+    	});
+	</script>
+	<script type="text/javascript" src="jquery.googlemap.js"></script>
+</head>
+<body>
+	<input type="text" id="latitude" name="latitude" />
+	<input type="text" id="longitude" name="longitude" />
+	
+	<div id="map" style="width: 800px; height: 500px;"></div>
+	<script type="text/javascript">
+		$(function() {
+			$("#map").googleMap({
+				zoom: 10, // Initial zoom level (optional)
+				coords: [21.02782551610964, 105.85232203459168], // Map center (optional)
+				type: "ROADMAP" // Map type (optional)
+			});
+			
+			$("#map").addMarker({
+				//zoom: 10, // Initial zoom level (optional)
+				coords: [21.02782551610964, 105.85232203459168], // GPS coords
+				//url: 'http://www.tiloweb.com', // Link to redirect onclick (optional)
+				id: 'marker1', // Unique ID for your marker
+				draggable: true, 
+				success: function(e) {
+		    	    $("#latitude").val(e.lat);
+		    	    $("#longitude").val(e.lon);
+		    	}
+			});
+
+			$("#map").addWay({
+		    	start: "Nghĩa Tân Cầu Giấy Hà Nội", // Postal address for the start marker (obligatory)
+				end:  [21.010840189092324, 105.84167902922059], // Postal Address or GPS coordinates for the end marker (obligatory)
+				route : 'way', // Block's ID for the route display (optional)
+				langage : 'vi', // language of the route detail (optional) //english
+				step: [[21.030869851342153, 105.80202525114441],
+						[21.003468596240726, 105.82004969572449]]
+			});
+		});
+	</script>
+</body>
+</html>

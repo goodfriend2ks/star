@@ -123,6 +123,9 @@ public class MAreaDto extends BaseDto<MArea, UUID> {
 		if (!StringUtils.isEmpty(this.name))
 			bean.setName(this.name);
 		
+		bean.setLatitude(this.latitude);
+		bean.setLongitude(this.longitude);
+		
 		bean.setParent_ID(this.parent_ID);
 	}
 }

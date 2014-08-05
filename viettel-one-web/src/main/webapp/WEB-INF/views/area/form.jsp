@@ -68,7 +68,9 @@
 				   		<div class="row">
 				   			<div class="col-lg-12">
 				   				<div class="form-group">
-									
+				   					<input type="text" id="latitude" name="latitude" />
+									<input type="text" id="longitude" name="longitude" />
+									<div id="map" class="map" style="width: 650px; height: 300px;"></div>
 								</div>
 				   			</div>
 				   		</div>

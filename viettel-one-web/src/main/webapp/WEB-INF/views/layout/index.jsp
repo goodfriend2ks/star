@@ -70,12 +70,24 @@
 	<script src="${pageContext.request.contextPath}/js/bean.js" type="text/javascript"></script>
 	<script src="${pageContext.request.contextPath}/js/application.js" type="text/javascript"></script>
 	
+	<!-- BBQ Fragment -->
 	<script src="${pageContext.request.contextPath}/js/jquery.ba-bbq.js" type="text/javascript"></script>
 	
 	<!-- Populate JSON to Form-->
 	<script src="${pageContext.request.contextPath}/js/bootstrap/jquery.populatejson.js" type="text/javascript"></script>
 	<!-- Serialize Form to JSON -->
 	<script src="${pageContext.request.contextPath}/js/bootstrap/jquery.serializejson.js" type="text/javascript"></script>
+	
+	<!-- <script src="http://maps.google.com/maps/api/js?sensor=true&language=vi" type="text/javascript"></script> -->
+	<%-- <script src="${pageContext.request.contextPath}/js/gmaps.js" type="text/javascript"></script> --%>
+	
+	<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+	<script type="text/javascript">
+    	google.load("maps", "3.4", {
+    		other_params: "sensor=false&language=vi"
+    	});
+	</script>
+	<script src="${pageContext.request.contextPath}/js/jquery.googlemap.js" type="text/javascript"></script>
 	
 	<script type="text/javascript">
 		DIALOG_CONFIRM_YES 		= "<spring:message code='label.dialog.yes' htmlEscape='false'/>";

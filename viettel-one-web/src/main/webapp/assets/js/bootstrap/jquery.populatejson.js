@@ -102,6 +102,7 @@
             
             var self = this;
             (function roam(el, father) {
+            	var coords = null;
                 for (var property in el) {
                     if (el[property] || el[property] === 0) {
                         var value = el[property];
@@ -172,8 +173,52 @@
                             }
                             
                             setValue(other, value, isArrayValue);
+                            
+                            if ('latitude' === name) {
+                            	if (coords == null)
+                            		coords = [value, 105.85232203459168];
+                            	else
+                            		coords[0] = value;
+                            }
+                            
+                            if ('longitude' === name) {
+                            	if (coords == null)
+                            		coords = [21.02782551610964, value];
+                            	else
+                            		coords[1] = value;
+                            }
                         }
                     }
+                }
+                
+                if (coords != null) {
+                	/*var name = 'map';
+                	var query = "[name='" + name + "']";
+                    if(byId) { query = ("#" + name); }
+                    
+					var map = self.find(query);*/
+					
+                	$('.map').each(
+                    		function(index){
+								/*$(this).googleMap({
+				    				zoom: 10, // Initial zoom level (optional)
+				    				coords: [21.02782551610964, 105.85232203459168], // Map center (optional)
+				    				type: "ROADMAP" // Map type (optional)
+				    			});*/
+								
+								$(this).addMarker({
+				    				//zoom: 10, // Initial zoom level (optional)
+				    				coords: coords, // GPS coords
+				    				//url: 'http://www.tiloweb.com', // Link to redirect onclick (optional)
+				    				id: 'marker1', // Unique ID for your marker
+				    				draggable: true, 
+				    				success: function(e) {
+				    					self.find('#latitude').val(e.lat);
+				    					self.find('#longitude').val(e.lon);
+				    		    	}
+				    			});
+                    		}
+                    );
                 }
             })(json);
             return this;

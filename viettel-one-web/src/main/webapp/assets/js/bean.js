@@ -270,6 +270,28 @@ function initFormData(callbackOption, callback) {
     		}
     );
     
+    $('#' + beanFormId + ' .map').each(
+    		function(index){
+    			$(this).googleMap({
+    				zoom: 10, // Initial zoom level (optional)
+    				coords: [21.02782551610964, 105.85232203459168], // Map center (optional)
+    				type: "ROADMAP" // Map type (optional)
+    			});
+    			
+    			/*$(this).addMarker({
+    				//zoom: 10, // Initial zoom level (optional)
+    				coords: [21.02782551610964, 105.85232203459168], // GPS coords
+    				//url: 'http://www.tiloweb.com', // Link to redirect onclick (optional)
+    				id: 'marker1', // Unique ID for your marker
+    				draggable: true, 
+    				success: function(e) {
+    		    	    $('#' + beanFormId + ' #latitude').val(e.lat);
+    		    	    $('#' + beanFormId + ' #longitude').val(e.lon);
+    		    	}
+    			});*/
+    		}
+    );
+    
     if (callback) {
     	callback();
     }
@@ -315,7 +337,7 @@ function initOption(jselect, ischosen, ismultiselect, callbackOption) {
 			if (!!!required && !ismultiselect)
 				$('<option />').appendTo(select);
 			
-			if (localstorage != '') {
+			if (localstorage && localstorage != '') {
 				var localdata = store.get(localstorage);
 				if (localdata) {
 					var datas = null;
@@ -323,7 +345,7 @@ function initOption(jselect, ischosen, ismultiselect, callbackOption) {
 					
 					if (timeout <= 0) {
 						if (json['access_token'] == oauth2.cookie.get('authToken')) {
-							datas = json.rows
+							datas = json.rows;
 						}
 					} else {
 						try {
@@ -559,7 +581,6 @@ function saveBean() {
 					return value;
 				}
 			});
-			alert(JSON.stringify(json));
 			
 			oauth2.post(beanCurrentUrl, 
 					JSON.stringify(json), 
