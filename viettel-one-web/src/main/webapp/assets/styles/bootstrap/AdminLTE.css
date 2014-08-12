@@ -270,7 +270,7 @@ img {
 }
 /*Hide elements by display none only*/
 .hide {
-  display: none !important;
+  display: none /* !important */;
 }
 /* Remove borders */
 .no-border {

@@ -23,7 +23,7 @@
 	<link href="${pageContext.request.contextPath}/styles/bootstrap/themes/blue.css" rel="stylesheet" type="text/css" />
 	<link href="${pageContext.request.contextPath}/styles/bootstrap/themes/black.css" rel="stylesheet" type="text/css" />
 		
-	<link href="${pageContext.request.contextPath}/styles/bootstrap/bootstrap.dialog.css" rel="stylesheet" type="text/css" />
+	<%-- <link href="${pageContext.request.contextPath}/styles/bootstrap/bootstrap.dialog.css" rel="stylesheet" type="text/css" /> --%>
 		
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -32,28 +32,30 @@
 		<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
 	<![endif]-->
 		
-	<script src="${pageContext.request.contextPath}/js/url.js" type="text/javascript"></script>
+	<!-- JQuery -->
+	<script src="${pageContext.request.contextPath}/js/jquery/jquery.min.js" type="text/javascript"></script>
+	<!-- JQuery Extended -->
+	<script src="${pageContext.request.contextPath}/js/jquery/jquery.ext.js" type="text/javascript"></script>
+	<!-- JQuery Shortcut -->
+	<script src="${pageContext.request.contextPath}/js/jquery/jquery.hotkeys.js" type="text/javascript"></script>
+	
+	<script src="${pageContext.request.contextPath}/js/common/store.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/js/common/oauth2.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/js/common/sha256.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/js/common/enc-base64-min.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/js/common/cookie.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/js/common/user.js" type="text/javascript"></script>
+	
+	<script src="${pageContext.request.contextPath}/js/common/url.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		CONTEXT_PATH = "${pageContext.request.contextPath}";
 	</script>
         	
-	<script src="${pageContext.request.contextPath}/js/application.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/js/common/format.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		PERSONAL_DATE_FORMAT = "DD/MM/YYYY";
 		PERSONAL_DATE_TIME_FORMAT = "DD/MM/YYYY HH:mm:ss";
 	</script>
-        
-	<!-- JQuery -->
-	<script src="${pageContext.request.contextPath}/js/jquery.min.js" type="text/javascript"></script>
-	<!-- JQuery Shortcut -->
-	<script src="${pageContext.request.contextPath}/js/bootstrap/jquery.hotkeys.js" type="text/javascript"></script>
-		
-	<script src="${pageContext.request.contextPath}/js/store.js" type="text/javascript"></script>
-	<script src="${pageContext.request.contextPath}/js/oauth2.js" type="text/javascript"></script>
-	<script src="${pageContext.request.contextPath}/js/sha256.js" type="text/javascript"></script>
-	<script src="${pageContext.request.contextPath}/js/enc-base64-min.js" type="text/javascript"></script>
-	<script src="${pageContext.request.contextPath}/js/cookie.js" type="text/javascript"></script>
-	<script src="${pageContext.request.contextPath}/js/user.js" type="text/javascript"></script>
 </head>
 <body class="bg-blue">
 	<div class="form-box" id="login-box">
@@ -107,9 +109,7 @@
 	<!-- Bootstrap -->
 	<script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap.min.js" type="text/javascript"></script>
 	<!-- AdminLTE App -->
-	<script src="${pageContext.request.contextPath}/js/bootstrap/app.js" type="text/javascript"></script>
-	<!-- Bootstrap Dialog -->
-	<script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap-dialog.js" type="text/javascript"></script>
+	<%-- <script src="${pageContext.request.contextPath}/js/common/application.js" type="text/javascript"></script> --%>
 	
 	<script type="text/javascript">
 		$(function() {
@@ -127,11 +127,17 @@
 					
 					window.location = wlocation;
 				} else {
-					BootstrapDialog.alert({
-							title: 'Sign-in Error',
-							message: 'Username and/or password did not match a user account.',
-							closeByBackdrop: false,
-							draggable: true
+					bootstrap_alert({
+						type: DIALOG_TYPE_ERROR,
+						title: 'Sign-in Error',
+						message: 'Username and/or password did not match a user account.',
+						icon: 'fa-exclamation-triangle',
+						closable: true,
+						okButton: 'OK',
+						cancelButton: null,
+						callback: null,
+						closeByBackdrop: false,
+						draggable: true
 					});
 				}
 			});

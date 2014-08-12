@@ -98,7 +98,7 @@
 	dialogEditTitle = "<spring:message code='label.area.edit'/>";
 	dialogDeleteTitle = "<spring:message code='label.confirm'/>";
 	dialogDeleteMsg = "<spring:message code='label.message.destroy' arguments='${beanName}' />";
-	
+
 	//$(function(){
 		loadBeans(true);
 		initForm();

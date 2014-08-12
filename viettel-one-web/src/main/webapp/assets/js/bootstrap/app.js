@@ -160,38 +160,51 @@ function change_skin(cls) {
     $("body").addClass(cls);
 }
 /*END DEMO*/
+/*
 $(window).load(function() {
-    /*! pace 0.4.17 */
     (function() {
-        var a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V = [].slice, W = {}.hasOwnProperty, X = function(a, b) {
+        var a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z;
+        var A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U;
+        var V = [].slice;
+        var W = {}.hasOwnProperty;
+        var X = function(a, b) {
             function c() {
-                this.constructor = a
+                this.constructor = a;
             }
             for (var d in b)
                 W.call(b, d) && (a[d] = b[d]);
-            return c.prototype = b.prototype, a.prototype = new c, a.__super__ = b.prototype, a
-        }, Y = [].indexOf || function(a) {
+            
+            return c.prototype = b.prototype, a.prototype = new c, a.__super__ = b.prototype, a;
+        };
+        
+        var Y = [].indexOf || function(a) {
             for (var b = 0, c = this.length; c > b; b++)
                 if (b in this && this[b] === a)
                     return b;
-            return-1
+            return -1;
         };
-        for (t = {catchupTime:500, initialRate:.03, minTime:500, ghostTime:500, maxProgressPerFrame:10, easeFactor:1.25, startOnPageLoad:!0, restartOnPushState:!0, restartOnRequestAfter:500, target:"body", elements:{checkInterval:100, selectors:["body"]}, eventLag:{minSamples:10, sampleCount:3, lagThreshold:3}, ajax:{trackMethods:["GET"], trackWebSockets:!1}}, B = function() {
-            var a;
-            return null != (a = "undefined" != typeof performance && null !== performance ? "function" == typeof performance.now ? performance.now() : void 0 : void 0) ? a : +new Date
-        }, D = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame, s = window.cancelAnimationFrame || window.mozCancelAnimationFrame, null == D && (D = function(a) {
-            return setTimeout(a, 50)
-        }, s = function(a) {
-            return clearTimeout(a)
-        }), F = function(a) {
-            var b, c;
-            return b = B(), (c = function() {
-                var d;
-                return d = B() - b, d >= 33 ? (b = B(), a(d, function() {
-                    return D(c)
-                })) : setTimeout(c, 33 - d)
-            })()
-        }, E = function() {
+        for (t = {catchupTime:500, initialRate:.03, minTime:500, ghostTime:500, maxProgressPerFrame:10, easeFactor:1.25, startOnPageLoad:!0, restartOnPushState:!0, restartOnRequestAfter:500, target:"body", elements:{checkInterval:100, selectors:["body"]}, eventLag:{minSamples:10, sampleCount:3, lagThreshold:3}, ajax:{trackMethods:["GET"], trackWebSockets:!1}}, 
+        		B = function() {
+            		var a;
+            		return null != (a = "undefined" != typeof performance && null !== performance ? "function" == typeof performance.now ? performance.now() : void 0 : void 0) ? a : + new Date;
+        		}, 
+        		D = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame, 
+        		s = window.cancelAnimationFrame || window.mozCancelAnimationFrame, 
+        		null == D && (D = function(a) {
+        						return setTimeout(a, 50);
+        					}, s = function(a) {
+        						return clearTimeout(a);
+        					}), 
+        		F = function(a) {
+        			var b, c;
+        			return b = B(), (c = function() {
+        				var d;
+        				return d = B() - b, d >= 33 ? (b = B(), a(d, function() {
+        					return D(c);
+        				})) : setTimeout(c, 33 - d);
+        			})();
+        		}, 
+        		E = function() {
             var a, b, c;
             return c = arguments[0], b = arguments[1], a = 3 <= arguments.length ? V.call(arguments, 2) : [], "function" == typeof c[b] ? c[b].apply(c, a) : c[b]
         }, u = function() {
@@ -479,6 +492,7 @@ $(window).load(function() {
         }) : "object" == typeof exports ? module.exports = Pace : C.startOnPageLoad && Pace.start()
     }).call(this);
 });
+*/
 
 /* 
  * BOX REFRESH BUTTON 
@@ -489,6 +503,7 @@ $(window).load(function() {
  * USAGE:
  *  $("#box-widget").boxRefresh( options );
  * */
+/*
 (function($) {
     "use strict";
 
@@ -557,6 +572,7 @@ $(window).load(function() {
     };
 
 })(jQuery);
+*/
 
 /*
  * SIDEBAR MENU
@@ -680,7 +696,7 @@ $(window).load(function() {
             "left": ((($(parent).width() - this.outerWidth()) / 2) + $(parent).scrollLeft() + "px")
         });
         return this;
-    }
+    };
 }(jQuery));
 
 /*
@@ -691,6 +707,7 @@ $(window).load(function() {
  * Dual licensed under the MIT and GPL licenses.
  * http://benalman.com/about/license/
  */
+/*
 (function($, h, c) {
     var a = $([]), e = $.resize = $.extend($.resize, {}), i, k = "setTimeout", j = "resize", d = j + "-special-event", b = "delay", f = "throttleWindow";
     e[b] = 250;
@@ -746,6 +763,7 @@ $(window).load(function() {
         }, e[b])
     }}
 )(jQuery, this);
+*/
 
 /*!
  * SlimScroll https://github.com/rochal/jQuery-slimScroll
@@ -753,6 +771,7 @@ $(window).load(function() {
  * 
  * Copyright (c) 2011 Piotr Rochala (http://rocha.la) Dual licensed under the MIT 
  */
+/*
 (function(f) {
     jQuery.fn.extend({slimScroll: function(h) {
             var a = f.extend({width: "auto", height: "250px", size: "7px", color: "#000", position: "right", distance: "1px", start: "top", opacity: 0.4, alwaysVisible: !1, disableFadeOut: !1, railVisible: !1, railColor: "#333", railOpacity: 0.2, railDraggable: !0, railClass: "slimScrollRail", barClass: "slimScrollBar", wrapperClass: "slimScrollDiv", allowPageScroll: !1, wheelStep: 20, touchScrollStep: 200, borderRadius: "0px", railBorderRadius: "0px"}, h);
@@ -895,8 +914,10 @@ $(window).load(function() {
         }});
     jQuery.fn.extend({slimscroll: jQuery.fn.slimScroll})
 })(jQuery);
+*/
 
 /*! iCheck v1.0.1 by Damir Sultanov, http://git.io/arlzeA, MIT Licensed */
+/*
 (function(h) {
     function F(a, b, d) {
         var c = a[0], e = /er/.test(d) ? m : /bl/.test(d) ? s : l, f = d == H ? {checked: c[l], disabled: c[s], indeterminate: "true" == a.attr(m) || "false" == a.attr(w)} : c[e];
@@ -1059,3 +1080,4 @@ $(window).load(function() {
         })
     }
 })(window.jQuery || window.Zepto);
+*/

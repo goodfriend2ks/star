@@ -1,14 +1,8 @@
-﻿<%-- 
-    Document   : header
-    Created on : 13/06/2014, 15:17:32
-    Author     : GoodFriend2ks
---%>
-
 <%@page contentType="text/html; charset=utf-8" pageEncoding="UTF-8"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 <!DOCTYPE html>
-<html style="height: 100%;">
+<html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -82,11 +76,11 @@
 	<script src="${pageContext.request.contextPath}/js/common/bean.js" type="text/javascript"></script>
 	
 	<script type="text/javascript">
-		DIALOG_CONFIRM_YES 		= "<spring:message code='label.dialog.yes' htmlEscape='false'/>";
-		DIALOG_CONFIRM_NO 		= "<spring:message code='label.dialog.no' htmlEscape='false'/>";
-		DIALOG_CONFIRM_OK 		= "<spring:message code='label.dialog.ok' htmlEscape='false'/>";
-		DIALOG_CONFIRM_CANCEL 	= "<spring:message code='label.dialog.cancel' htmlEscape='false'/>";
-		DIALOG_CONFIRM_CLOSE 	= "<spring:message code='label.dialog.close' htmlEscape='false'/>";
+		DIALOG_CONFIRM_YES 		= "Yes";
+		DIALOG_CONFIRM_NO 		= "No";
+		DIALOG_CONFIRM_OK 		= "OK";
+		DIALOG_CONFIRM_CANCEL 	= "Cancel";
+		DIALOG_CONFIRM_CLOSE 	= "Close";
 		
 		CONTEXT_PATH = "${pageContext.request.contextPath}";
 		
@@ -107,108 +101,25 @@
 		PERSONAL_DATE_TIME_FORMAT = PERSONAL_DATE_FORMAT + ' ' + PERSONAL_TIME_FORMAT;
 	</script>
 </head>
+<body>
+	<input type="text" id="latitude" name="latitude" />
+	<input type="text" id="longitude" name="longitude" />
+	<button id="xyz" type="button" onclick="loadMap()">XYZZZ</button>
+	
+	<input id="pac-input" class="controls" type="text"
+        					placeholder="Enter a location">
+        				<div id="type-selector" class="controls">
+      <input type="radio" name="type" id="changetype-all" checked="checked">
+      <label for="changetype-all">All</label>
 
-<body class="skin-blue">
-	<!-- header logo: style can be found in header.less -->
-	<header class="header">
-		<a href="${pageContext.request.contextPath}" class="logo">
-			<!-- Add the class icon to your logo image or logo icon to add the margining -->
-			Viettel.One
-		</a>
-		<!-- Header Navbar: style can be found in header.less -->
-		<nav class="navbar navbar-static-top" role="navigation">
-			<!-- Sidebar toggle button-->
-			<a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</a>
-			<div class="navbar-right">
-				<%@include file="navbar-right.jsp"%>
-			</div>
-		</nav>
-	</header>
-	
-	<div class="wrapper row-offcanvas row-offcanvas-left">
-		<!-- Left side column. contains the logo and sidebar -->
-		<aside class="left-side sidebar-offcanvas">
-			<!-- sidebar: style can be found in sidebar.less -->
-			<section class="sidebar">
-				<!-- Sidebar user panel -->
-				<!-- <div class="user-panel">
-					<div class="pull-left image">
-						<img src="./assets/img/avatar3.png" class="img-circle" alt="User Image" />
-					</div>
-					<div class="pull-left info">
-						<p>Hello, Jane</p>
-						<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-					</div>
-				</div> -->
-				
-				<!-- search form -->
-				<!-- <form action="#" method="get" class="sidebar-form">
-					<div class="input-group">
-						<input type="text" name="q" class="form-control" placeholder="Search..."/>
-						<span class="input-group-btn">
-							<button type='submit' name='seach' id='search-btn' class="btn btn-flat">
-								<i class="fa fa-search"></i>
-							</button>
-						</span>
-					</div>
-				</form> -->
-				<!-- /.search form -->
-				
-				<div class="media user-media bg-dark dker">
-	  				<div class="user-media-toggleHover">
-						<span class="fa fa-user"></span> 
-	  				</div>
-	  				<div class="user-wrapper bg-dark">
-						<a class="user-link" href="">
-	  						<img class="media-object img-thumbnail user-img" width="64" height="64" 
-	  							alt="User Picture" src="./img/avatar3.png">
-	  						<span class="label label-danger user-label">16</span> 
-						</a> 
-						<div class="media-body">
-	  						<h5 class="media-heading">Archie</h5>
-	  						<ul class="list-unstyled user-info">
-								<li> <a href="">Administrator</a>  </li>
-								<li>Last Access :
-		  							<br><small><i class="fa fa-calendar"></i>&nbsp;16 Mar 16:32</small> 
-								</li>
-	  						</ul>
-						</div>
-	  				</div>
-				</div>
-				
-				 <!-- sidebar menu: : style can be found in sidebar.less -->
-				<%@include file="menu.jsp"%>
-				
-      		</section>
-		<!-- /.sidebar -->
-		</aside>
-	
-		<!-- Right side column. Contains the navbar and content of the page -->
-		<aside class="right-side">
-			<div class="bbq-content">
-				<!-- This will be shown while loading AJAX content. You'll want to get an image that suits your design at http://ajaxload.info/ -->
-				<div class="bbq-loading" style="display:none;">
-					<img src="/shell/images/ajaxload-15-white.gif" alt="Loading"/> Loading content...
-				</div>
-				
-				<!-- This content will be shown if no path is specified in the URL fragment. -->
-				<div class="bbq-default bbq-item">
-					<!-- <img src="bbq.jpg" width="400" height="300">
-					<h1>jQuery BBQ XYZ</h1>
-					<p>Click a nav item above or below to load some delicious AJAX content! Also,
-						once the content loads, feel free to further explore our savory delights by
-						clicking any inline links you might see.</p> -->
-				</div>
-			</div>
-  		</aside>
-	</div>
-			
-	<!-- %@include file="uploadfile.jsp"% -->
+      <input type="radio" name="type" id="changetype-establishment">
+      <label for="changetype-establishment">Establishments</label>
+
+      <input type="radio" name="type" id="changetype-geocode">
+      <label for="changetype-geocode">Geocodes</label>
+    </div>
+    
+	<div id="map" style="width: 800px; height: 500px;"></div>
 	
 	<!-- Bootstrap -->
 	<script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap.min.js" type="text/javascript"></script>
@@ -258,7 +169,7 @@
 		function loadMap() {
 			mapMarkerId = "marker_" + parseInt(Date.now());
 			
-			var coords = [$("#latitude").val() || 21.02782551610964, $("#longitude").val() || 105.85232203459168];
+			var coords = [21.02782551610964, 105.85232203459168];
 			
 			mapInstance = $("#map"); 
 			mapInstance.show();
@@ -289,7 +200,7 @@
 						[21.003468596240726, 105.82004969572449]]
 			}); */
 			
-			
+			//$('#' + beanDialogId).modal('layout');
 			
 			/* $('#pac-input').geocomplete(); */
 			
@@ -308,10 +219,10 @@
 			
 			var infowindow = new google.maps.InfoWindow();
 			google.maps.event.addListener(autocomplete, 'place_changed', function() {
-				/* infowindow.close();
-			    marker.setVisible(false); */
-			    
+				infowindow.close();
+			    marker.setVisible(false);
 			    var place = autocomplete.getPlace();
+			    
 			    if (!place.geometry) {
 			      return;
 			    }
@@ -358,10 +269,34 @@
 			  setupClickListener('changetype-all', []);
 			  setupClickListener('changetype-establishment', ['establishment']);
 			  setupClickListener('changetype-geocode', ['geocode']);
+			  /* 
+			$("#map").googleMap({
+				zoom: 10, // Initial zoom level (optional)
+				coords: [], // Map center (optional)
+				type: "ROADMAP" // Map type (optional)
+			});
+			
+			$("#map").addMarker({
+				//zoom: 10, // Initial zoom level (optional)
+				coords: [21.02782551610964, 105.85232203459168], // GPS coords
+				//url: 'http://www.tiloweb.com', // Link to redirect onclick (optional)
+				id: 'marker1', // Unique ID for your marker
+				draggable: true, 
+				success: function(e) {
+		    	    $("#latitude").val(e.lat);
+		    	    $("#longitude").val(e.lon);
+		    	}
+			});
 
-			  
-			  $('#' + beanDialogId).modal('layout');
-		}
+			$("#map").addWay({
+		    	start: "Nghĩa Tân Cầu Giấy Hà Nội", // Postal address for the start marker (obligatory)
+				end:  [21.010840189092324, 105.84167902922059], // Postal Address or GPS coordinates for the end marker (obligatory)
+				route : 'way', // Block's ID for the route display (optional)
+				langage : 'vi', // language of the route detail (optional) //english
+				step: [[21.030869851342153, 105.80202525114441],
+						[21.003468596240726, 105.82004969572449]]
+			}); */
+		};
 	</script>
 </body>
 </html>

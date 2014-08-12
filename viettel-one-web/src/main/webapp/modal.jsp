@@ -1,14 +1,8 @@
-﻿<%-- 
-    Document   : header
-    Created on : 13/06/2014, 15:17:32
-    Author     : GoodFriend2ks
---%>
-
 <%@page contentType="text/html; charset=utf-8" pageEncoding="UTF-8"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
-<!DOCTYPE html>
-<html style="height: 100%;">
+<!doctype html>
+<html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -82,11 +76,11 @@
 	<script src="${pageContext.request.contextPath}/js/common/bean.js" type="text/javascript"></script>
 	
 	<script type="text/javascript">
-		DIALOG_CONFIRM_YES 		= "<spring:message code='label.dialog.yes' htmlEscape='false'/>";
-		DIALOG_CONFIRM_NO 		= "<spring:message code='label.dialog.no' htmlEscape='false'/>";
-		DIALOG_CONFIRM_OK 		= "<spring:message code='label.dialog.ok' htmlEscape='false'/>";
-		DIALOG_CONFIRM_CANCEL 	= "<spring:message code='label.dialog.cancel' htmlEscape='false'/>";
-		DIALOG_CONFIRM_CLOSE 	= "<spring:message code='label.dialog.close' htmlEscape='false'/>";
+		DIALOG_CONFIRM_YES 		= "Yes";
+		DIALOG_CONFIRM_NO 		= "No";
+		DIALOG_CONFIRM_OK 		= "OK";
+		DIALOG_CONFIRM_CANCEL 	= "Cancel";
+		DIALOG_CONFIRM_CLOSE 	= "Close";
 		
 		CONTEXT_PATH = "${pageContext.request.contextPath}";
 		
@@ -106,110 +100,84 @@
 		
 		PERSONAL_DATE_TIME_FORMAT = PERSONAL_DATE_FORMAT + ' ' + PERSONAL_TIME_FORMAT;
 	</script>
-</head>
+	
+	<style>      
+  		.text-center { 
+    		text-align: center; 
+  	}
 
+  .marketing h1 {
+    font-size: 50px;
+    font-weight: lighter;
+    line-height: 1;
+  }
+
+  .marketing p {
+    font-size: 18px;
+  }
+  </style>
+</head>
 <body class="skin-blue">
-	<!-- header logo: style can be found in header.less -->
-	<header class="header">
-		<a href="${pageContext.request.contextPath}" class="logo">
-			<!-- Add the class icon to your logo image or logo icon to add the margining -->
-			Viettel.One
-		</a>
-		<!-- Header Navbar: style can be found in header.less -->
-		<nav class="navbar navbar-static-top" role="navigation">
-			<!-- Sidebar toggle button-->
-			<a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</a>
-			<div class="navbar-right">
-				<%@include file="navbar-right.jsp"%>
-			</div>
-		</nav>
-	</header>
-	
-	<div class="wrapper row-offcanvas row-offcanvas-left">
-		<!-- Left side column. contains the logo and sidebar -->
-		<aside class="left-side sidebar-offcanvas">
-			<!-- sidebar: style can be found in sidebar.less -->
-			<section class="sidebar">
-				<!-- Sidebar user panel -->
-				<!-- <div class="user-panel">
-					<div class="pull-left image">
-						<img src="./assets/img/avatar3.png" class="img-circle" alt="User Image" />
-					</div>
-					<div class="pull-left info">
-						<p>Hello, Jane</p>
-						<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-					</div>
-				</div> -->
-				
-				<!-- search form -->
-				<!-- <form action="#" method="get" class="sidebar-form">
-					<div class="input-group">
-						<input type="text" name="q" class="form-control" placeholder="Search..."/>
-						<span class="input-group-btn">
-							<button type='submit' name='seach' id='search-btn' class="btn btn-flat">
-								<i class="fa fa-search"></i>
-							</button>
-						</span>
-					</div>
-				</form> -->
-				<!-- /.search form -->
-				
-				<div class="media user-media bg-dark dker">
-	  				<div class="user-media-toggleHover">
-						<span class="fa fa-user"></span> 
-	  				</div>
-	  				<div class="user-wrapper bg-dark">
-						<a class="user-link" href="">
-	  						<img class="media-object img-thumbnail user-img" width="64" height="64" 
-	  							alt="User Picture" src="./img/avatar3.png">
-	  						<span class="label label-danger user-label">16</span> 
-						</a> 
-						<div class="media-body">
-	  						<h5 class="media-heading">Archie</h5>
-	  						<ul class="list-unstyled user-info">
-								<li> <a href="">Administrator</a>  </li>
-								<li>Last Access :
-		  							<br><small><i class="fa fa-calendar"></i>&nbsp;16 Mar 16:32</small> 
-								</li>
-	  						</ul>
-						</div>
-	  				</div>
-				</div>
-				
-				 <!-- sidebar menu: : style can be found in sidebar.less -->
-				<%@include file="menu.jsp"%>
-				
-      		</section>
-		<!-- /.sidebar -->
-		</aside>
-	
-		<!-- Right side column. Contains the navbar and content of the page -->
-		<aside class="right-side">
-			<div class="bbq-content">
-				<!-- This will be shown while loading AJAX content. You'll want to get an image that suits your design at http://ajaxload.info/ -->
-				<div class="bbq-loading" style="display:none;">
-					<img src="/shell/images/ajaxload-15-white.gif" alt="Loading"/> Loading content...
-				</div>
-				
-				<!-- This content will be shown if no path is specified in the URL fragment. -->
-				<div class="bbq-default bbq-item">
-					<!-- <img src="bbq.jpg" width="400" height="300">
-					<h1>jQuery BBQ XYZ</h1>
-					<p>Click a nav item above or below to load some delicious AJAX content! Also,
-						once the content loads, feel free to further explore our savory delights by
-						clicking any inline links you might see.</p> -->
-				</div>
-			</div>
-  		</aside>
-	</div>
-			
-	<!-- %@include file="uploadfile.jsp"% -->
-	
+    <div class="container" style="position: relative">
+      <div class="marketing">
+        <h1>Bootstrap-Modal</h1>
+      </div>
+      <br />
+		  <div class="row">
+			  <div class="span10">
+  				<p>
+            Using Bootstrap 3? Include the <a href="css/bootstrap-modal-bs3patch.css">patch file</a> <strong>before</strong> bootstrap-modal and check out the <a href="bs3.html">demo page</a>.
+          </p>
+          <div class="responsive">
+  				  <h3>Responsive</h3>
+  				  <div class="text-center">
+  					<button class="demo btn btn-primary btn-large" data-toggle="modal" href="#responsive">View Demo</button>
+  				  </div>
+  				</div>
+  				<br />
+
+		    </div>
+	    </div>
+	  </div>
+		
+<!-- Modal Definitions (tabbed over for <pre>) -->
+<div id="responsive" class="modal hide fade" tabindex="-1" data-width="760" data-replace="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Responsive</h3>
+  </div>
+  <div class="modal-body">
+  	<!-- <button type="button" onclick="$('#xyz').height('800px')">XYZ</button>
+  	<img id="xyz" style="height: 300px" src="http://i.imgur.com/KwPYo.jpg"> -->
+    <div class="row-fluid">
+      <div class="span6">
+        <h4>Some Input</h4>
+        <p><input type="text" class="form-control" /></p>
+        <p><input type="text" class="form-control" /></p>
+        <p><input type="text" class="form-control" /></p>
+        <p><input type="text" class="form-control" /></p>
+        <p><input type="text" class="form-control" /></p>
+        <p><input type="text" class="form-control" /></p>
+        <p><input type="text" class="form-control" /></p>
+      </div>
+      <div class="span6">
+        <h4>Some More Input</h4>
+        <p><input type="text" class="form-control" /></p>
+        <p><input type="text" class="form-control" /></p>
+        <p><input type="text" class="form-control" /></p>
+        <p><input type="text" class="form-control" /></p>
+        <p><input type="text" class="form-control" /></p>
+        <p><input type="text" class="form-control" /></p>
+        <p><input type="text" class="form-control" /></p>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" data-dismiss="modal" class="btn">Close</button>
+    <button type="button" class="btn btn-primary">Save changes</button>
+  </div>
+</div>
+
 	<!-- Bootstrap -->
 	<script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap.min.js" type="text/javascript"></script>
 	<!-- AdminLTE App -->
@@ -254,114 +222,56 @@
 	<script src="${pageContext.request.contextPath}/js/jquery/jquery.googlemap.js" type="text/javascript"></script>
 	<%-- <script src="${pageContext.request.contextPath}/js/gmap/jquery.geocomplete.min.js" type="text/javascript"></script> --%>
 	
-	<script type="text/javascript">
-		function loadMap() {
-			mapMarkerId = "marker_" + parseInt(Date.now());
-			
-			var coords = [$("#latitude").val() || 21.02782551610964, $("#longitude").val() || 105.85232203459168];
-			
-			mapInstance = $("#map"); 
-			mapInstance.show();
-			
-			mapInstance.googleMap({
-				zoom: 10, // Initial zoom level (optional)
-				coords: coords, // Map center (optional)
-				type: "ROADMAP" // Map type (optional)
-			});
-			
-			mapInstance.addMarker({
-				coords: coords, // GPS coords
-				//url: 'http://www.tiloweb.com', // Link to redirect onclick (optional)
-				id: mapMarkerId, // Unique ID for your marker
-				draggable: true, 
-				success: function(e) {
-					$("#latitude").val(e.lat);
-					$("#longitude").val(e.lon);
-				}
-			});
+<script id="dynamic" type="text/javascript">
+/* $('.dynamic .demo').click(function(){
+  var tmpl = [
+    // tabindex is required for focus
+    '<div class="modal hide fade" tabindex="-1">',
+      '<div class="modal-header">',
+        '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">Ã</button>',
+        '<h3>Modal header</h3>', 
+      '</div>',
+      '<div class="modal-body">',
+        '<p>Test</p>',
+      '</div>',
+      '<div class="modal-footer">',
+        '<a href="#" data-dismiss="modal" class="btn">Close</a>',
+        '<a href="#" class="btn btn-primary">Save changes</a>',
+      '</div>',
+    '</div>'
+  ].join('');
+  
+  $(tmpl).modal();
+}); */
+</script>
 
-			/* mapInstance.addWay({
-		    	start: "Nghĩa Tân Cầu Giấy Hà Nội", // Postal address for the start marker (obligatory)
-				end:  [21.010840189092324, 105.84167902922059], // Postal Address or GPS coordinates for the end marker (obligatory)
-				route : 'way', // Block's ID for the route display (optional)
-				langage : 'vi', // language of the route detail (optional) //english
-				step: [[21.030869851342153, 105.80202525114441],
-						[21.003468596240726, 105.82004969572449]]
-			}); */
-			
-			
-			
-			/* $('#pac-input').geocomplete(); */
-			
-			var map = mapInstance.getMap();
-			var marker = mapInstance.getMarker(mapMarkerId);
-			
-			var input = document.getElementById('pac-input');
-			var types = document.getElementById('type-selector');
-			
-			map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-			map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
-			
-			var autocomplete = new google.maps.places.Autocomplete(input);
-			
-			autocomplete.bindTo('bounds', map);
-			
-			var infowindow = new google.maps.InfoWindow();
-			google.maps.event.addListener(autocomplete, 'place_changed', function() {
-				/* infowindow.close();
-			    marker.setVisible(false); */
-			    
-			    var place = autocomplete.getPlace();
-			    if (!place.geometry) {
-			      return;
-			    }
+<script id="ajax" type="text/javascript">
 
-			    // If the place has a geometry, then present it on a map.
-			    if (place.geometry.viewport) {
-			      map.fitBounds(place.geometry.viewport);
-			    } else {
-			      map.setCenter(place.geometry.location);
-			      map.setZoom(17);  // Why 17? Because it looks good.
-			    }
-			    marker.setIcon(({
-			      url: place.icon,
-			      size: new google.maps.Size(71, 71),
-			      origin: new google.maps.Point(0, 0),
-			      anchor: new google.maps.Point(17, 34),
-			      scaledSize: new google.maps.Size(35, 35)
-			    }));
-			    marker.setPosition(place.geometry.location);
-			    marker.setVisible(true);
+/* var $modal = $('#ajax-modal');
 
-			    var address = '';
-			    if (place.address_components) {
-			      address = [
-			        (place.address_components[0] && place.address_components[0].short_name || ''),
-			        (place.address_components[1] && place.address_components[1].short_name || ''),
-			        (place.address_components[2] && place.address_components[2].short_name || '')
-			      ].join(' ');
-			    }
+$('.ajax .demo').on('click', function(){
+  // create the backdrop and wait for next modal to be triggered
+  $('body').modalmanager('loading');
 
-			    infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
-			    infowindow.open(map, marker);
-			  });
-			
-			// Sets a listener on a radio button to change the filter type on Places
-			  // Autocomplete.
-			  function setupClickListener(id, types) {
-			    var radioButton = document.getElementById(id);
-			    google.maps.event.addDomListener(radioButton, 'click', function() {
-			      autocomplete.setTypes(types);
-			    });
-			  }
+  setTimeout(function(){
+     $modal.load('modal_ajax_test.html', '', function(){
+      $modal.modal();
+    });
+  }, 1000);
+});
 
-			  setupClickListener('changetype-all', []);
-			  setupClickListener('changetype-establishment', ['establishment']);
-			  setupClickListener('changetype-geocode', ['geocode']);
+$modal.on('click', '.update', function(){
+  $modal.modal('loading');
+  setTimeout(function(){
+    $modal
+      .modal('loading')
+      .find('.modal-body')
+        .prepend('<div class="alert alert-info fade in">' +
+          'Updated!<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+        '</div>');
+  }, 1000);
+}); */
 
-			  
-			  $('#' + beanDialogId).modal('layout');
-		}
-	</script>
-</body>
+</script> 
+  </body>
 </html>
