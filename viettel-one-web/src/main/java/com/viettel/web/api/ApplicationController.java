@@ -18,21 +18,6 @@ public class ApplicationController {
          return "layout/index";
 	}
     
-    /*@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(ModelMap model) {
-         return "login";
-	}
-    
-    @RequestMapping(value = "/lockscreen", method = RequestMethod.GET)
-	public String lockscreen(ModelMap model) {
-         return "lockscreen";
-	}
-    
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
-	public String register(ModelMap model) {
-         return "register";
-	}*/
-    
     @RequestMapping(value = "/admin/{module}", method = RequestMethod.GET)
     public String admin(ModelMap model, @PathVariable String module) {
 		return module + "/index";

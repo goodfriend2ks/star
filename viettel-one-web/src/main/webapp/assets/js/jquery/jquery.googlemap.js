@@ -22,7 +22,6 @@ $(function() {
 		}
 		
 		this.each(function() {
-						
 			var map = new google.maps.Map(this, {
 				zoom: params.zoom,
 				center: new google.maps.LatLng(params.coords[0], params.coords[1]),
@@ -30,6 +29,7 @@ $(function() {
 			});
 			
 			$(this).data('googleMap', map);
+			$(this).data('googleGeocoder', new google.maps.Geocoder());
 			$(this).data('googleLang', params.langage);
 			$(this).data('googleDebug', params.debug);
 			$(this).data('googleMarker', new Array());
@@ -68,7 +68,8 @@ $(function() {
 			}
         	        	
 			if(params.address && typeof params.address == "string") {
-				geocoder = new google.maps.Geocoder();
+				var geocoder = $this.data('googleGeocoder');
+				//new google.maps.Geocoder();
 	        	
 				geocoder.geocode({
 					address : params.address,
@@ -110,7 +111,7 @@ $(function() {
 										console.error("jQuery googleMap : Wrong google response", location);
 								}
 								
-								params.success(coords);
+								params.success($this.data('googleMap'), marker, true, coords);
 							});
 						}
 			            
@@ -153,7 +154,7 @@ $(function() {
 								console.error("jQuery googleMap : Wrong google response", results[0].geometry.location);
 						}
 			            			              
-						params.success(coords);
+						params.success($this.data('googleMap'), marker, false, coords);
 			
 					} else {
 						if($this.data('googleDebug'))
@@ -195,7 +196,7 @@ $(function() {
 								console.error("jQuery googleMap : Wrong google response", location);
 						}
 						
-						params.success(coords);
+						params.success($this.data('googleMap'), marker, true, coords);
 					});
 				}
 				
@@ -228,10 +229,11 @@ $(function() {
 					$this.data('googleMap').fitBounds($this.data('googleBound'));
 				}
 	            
-				params.success({
-					lat: params.coords[0],
-					lon: params.coords[1]
-				});
+				params.success($this.data('googleMap'), marker, false,
+						{
+							lat: params.coords[0],
+							lon: params.coords[1]
+						});
 			}
 		});
         
@@ -282,6 +284,18 @@ $(function() {
 		$marker.setPosition(position);
 		
 		return true;
+	},
+	
+	$.fn.geocodePosition = function(coords, callback) {
+		var $this = $(this);
+		
+		$this.data('googleGeocoder').geocode(
+				{
+					latLng: new google.maps.LatLng(coords[0], coords[1])
+				}, 
+				function(responses) {
+					callback(responses);
+				});
 	},
 	
 	$.fn.removeMarker = function(id) {

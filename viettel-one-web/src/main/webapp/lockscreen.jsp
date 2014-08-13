@@ -10,16 +10,20 @@
 	<title>Viettel.One | Lockscreen</title>
         
 	<!-- bootstrap 3.0.2 -->
-	<link href="${pageContext.request.contextPath}/styles/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link href="${pageContext.request.contextPath}/styles/bootstrap/bootstrap-2.3.2.css" rel="stylesheet" type="text/css" />
+	<%-- <link href="${pageContext.request.contextPath}/styles/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" /> --%>
 	<!-- font Awesome -->
 	<link href="${pageContext.request.contextPath}/styles/bootstrap/font-awesome.min.css" rel="stylesheet" type="text/css" />
 	<!-- Theme style -->
 	<link href="${pageContext.request.contextPath}/styles/bootstrap/AdminLTE.css" rel="stylesheet" type="text/css" />
-		
+	
 	<!-- Theme style -->
 	<link href="${pageContext.request.contextPath}/styles/bootstrap/themes/blue.css" rel="stylesheet" type="text/css" />
 	<link href="${pageContext.request.contextPath}/styles/bootstrap/themes/black.css" rel="stylesheet" type="text/css" />
-		
+	
+	<link href="${pageContext.request.contextPath}/styles/bootstrap/bootstrap-responsive-2.3.2.css" rel="stylesheet" type="text/css" />
+	<link href="${pageContext.request.contextPath}/styles/bootstrap/bootstrap-modal.css" rel="stylesheet" type="text/css" />
+	
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
@@ -41,13 +45,11 @@
 	<script src="${pageContext.request.contextPath}/js/common/cookie.js" type="text/javascript"></script>
 	<script src="${pageContext.request.contextPath}/js/common/user.js" type="text/javascript"></script>
 	
-	<script src="${pageContext.request.contextPath}/js/common/url.js" type="text/javascript"></script>
-	<script type="text/javascript">
-		CONTEXT_PATH = "${pageContext.request.contextPath}";
-	</script>
-        	
+	<script src="${pageContext.request.contextPath}/js/common/context.var.js" type="text/javascript"></script>
 	<script src="${pageContext.request.contextPath}/js/common/format.js" type="text/javascript"></script>
 	<script type="text/javascript">
+		CONTEXT_PATH = "${pageContext.request.contextPath}";
+		
 		PERSONAL_DATE_FORMAT = "DD/MM/YYYY";
 		PERSONAL_DATE_TIME_FORMAT = "DD/MM/YYYY HH:mm:ss";
 	</script>
@@ -170,17 +172,9 @@
 					
 					window.location = wlocation;
 				} else {
-					bootstrap_alert({
-						type: DIALOG_TYPE_ERROR,
-						title: 'Sign-in Error',
-						message: 'Username and/or password did not match a user account.',
-						icon: 'fa-exclamation-triangle',
-						closable: true,
-						okButton: 'OK',
-						cancelButton: null,
-						callback: null,
-						closeByBackdrop: false,
-						draggable: true
+					ui.dialog.alert('Username and/or password did not match a user account.', 'Sign-in Error', {
+						type: DIALOG_TYPE_DANGER,
+						msgClass: 'text-gray'
 					});
 				}
 			});

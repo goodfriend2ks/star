@@ -76,7 +76,7 @@
 	<script src="${pageContext.request.contextPath}/js/common/cookie.js" type="text/javascript"></script>
 	<script src="${pageContext.request.contextPath}/js/common/user.js" type="text/javascript"></script>
 	
-	<script src="${pageContext.request.contextPath}/js/common/url.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/js/common/context.var.js" type="text/javascript"></script>
 	<script src="${pageContext.request.contextPath}/js/common/format.js" type="text/javascript"></script>
 	
 	<script src="${pageContext.request.contextPath}/js/common/bean.js" type="text/javascript"></script>
@@ -255,7 +255,7 @@
 	<%-- <script src="${pageContext.request.contextPath}/js/gmap/jquery.geocomplete.min.js" type="text/javascript"></script> --%>
 	
 	<script type="text/javascript">
-		function loadMap() {
+		function loadMapxxxxxxxxx() {
 			mapMarkerId = "marker_" + parseInt(Date.now());
 			
 			var coords = [$("#latitude").val() || 21.02782551610964, $("#longitude").val() || 105.85232203459168];
@@ -279,7 +279,7 @@
 					$("#longitude").val(e.lon);
 				}
 			});
-
+ 
 			/* mapInstance.addWay({
 		    	start: "Nghĩa Tân Cầu Giấy Hà Nội", // Postal address for the start marker (obligatory)
 				end:  [21.010840189092324, 105.84167902922059], // Postal Address or GPS coordinates for the end marker (obligatory)
@@ -346,7 +346,7 @@
 			    infowindow.open(map, marker);
 			  });
 			
-			// Sets a listener on a radio button to change the filter type on Places
+				// Sets a listener on a radio button to change the filter type on Places
 			  // Autocomplete.
 			  function setupClickListener(id, types) {
 			    var radioButton = document.getElementById(id);
@@ -359,6 +359,7 @@
 			  setupClickListener('changetype-establishment', ['establishment']);
 			  setupClickListener('changetype-geocode', ['geocode']);
 
+			  //google.maps.event.trigger(map, 'resize');  
 			  
 			  $('#' + beanDialogId).modal('layout');
 		}

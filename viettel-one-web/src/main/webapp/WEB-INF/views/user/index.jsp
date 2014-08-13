@@ -79,6 +79,14 @@
 		</div>
 	</div>
 	
+	<select id="language_IDx" name="language_IDx" 
+		   								data-placeholder="<spring:message code='label.user.language' htmlEscape='false'/>" 
+		   								class="form-control chzn-select-deselect" required  
+		   								ajaxUrl="${pageContext.request.contextPath}/api/lang/listpair"
+		   								localstoragex="language" timeout="0">
+	                            	<option value=""></option>
+	                          	</select>
+	                          	
 	<%@include file="form.jsp"%>
 	 
 	<div id="error_message"></div>

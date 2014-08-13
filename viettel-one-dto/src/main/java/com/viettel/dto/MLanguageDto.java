@@ -59,8 +59,8 @@ public class MLanguageDto extends BaseDto<MLanguage, UUID> {
 		if (!StringUtils.isEmpty(this.timePattern))
 			bean.setTimePattern(this.timePattern);
 		
-		if (isNew || !StringUtils.isEmpty(this.decimalPoint))
-			bean.setDecimalPoint(toBoolean(this.decimalPoint, false));
+		//if (isNew || !StringUtils.isEmpty(this.decimalPoint))
+		bean.setDecimalPoint(toBoolean(this.decimalPoint, false));
 		
 		bean.setDateTimePattern(bean.getDatePattern() + " " + bean.getTimePattern());
 	}

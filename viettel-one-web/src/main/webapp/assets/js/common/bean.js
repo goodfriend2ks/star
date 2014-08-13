@@ -1,12 +1,6 @@
 /**
  * 
  */
-var DIALOG_CONFIRM_YES 		= "Yes";
-var DIALOG_CONFIRM_NO 		= "No";
-var DIALOG_CONFIRM_OK 		= "OK";
-var DIALOG_CONFIRM_CANCEL 	= "Cancel";
-var DIALOG_CONFIRM_CLOSE 	= "Close";
-
 var beanDatagridId;
 var beanDialogId;
 var beanFormId;
@@ -23,6 +17,7 @@ var selectedBeans = [];
 var singleSelected = true;
 
 var mapInstance = null;
+var mapInfoWindow = null;
 var mapMarkerId = null;
 
 /***** PRIVATE FUNCTION ******/
@@ -167,24 +162,18 @@ function onResponseFail(jsonResponse) {
 		}
 	}
 	
-	showError(error, jsonResponse.error_description);
+	showError(jsonResponse.error_description, error);
 }
 
 /** On Javascript exception **/
 function onException(ex) {
-	showError(ex.name, ex.message);
+	showError(ex.message, ex.name);
 }
 
-function showError(title, message) {
-	bootstrap_alert({
+function showError(message, title) {
+	ui.dialog.alert(message, title, {
 		type: DIALOG_TYPE_ERROR,
-		title: title,
-		message: message,
-		icon: 'fa-exclamation-triangle',
-		closable: true,
-		okButton: DIALOG_CONFIRM_OK,
-		cancelButton: null,
-		callback: null
+		icon: 'fa-exclamation-triangle'
 	});
 }
 
@@ -261,17 +250,35 @@ function initFormData(callbackOption, callback) {
     if (bootstrapValidator)
     	bootstrapValidator.resetForm();
     
-	// chzn-select
-    $('#' + beanFormId + ' .chzn-select[ajaxUrl], #' + beanFormId + ' .chzn-select-deselect[ajaxUrl]').each(
+	var preloadedSize = $('#' + beanFormId + ' select[ajaxUrl][preloaded]').length;
+	if (preloadedSize > 0) {
+		$('#' + beanFormId + ' select[ajaxUrl][preloaded]').each(
+	    		function(index){
+	    			var ischosen = $(this).hasClass('chzn-select') || $(this).hasClass('chzn-select-deselect');
+	    			var ismultiselect = $(this).hasClass('multiselect');
+	    			
+	    			initOption($(this), ischosen, ismultiselect, function(jselect, success){
+	    				callbackOption(jselect, success);
+	    				preloadedSize--;
+	    				
+	    				if (preloadedSize <= 0) {
+	    					initNormalFormData(callbackOption, callback);
+	    				}
+	    			});
+	    		}
+	    );
+	} else {
+		initNormalFormData(callbackOption, callback);
+	}
+}
+
+function initNormalFormData(callbackOption, callback) {
+	$('#' + beanFormId + ' select[ajaxUrl]:not([preloaded])').each(
     		function(index){
-    			initOption($(this), true, false, callbackOption);
-    		}
-    );
-	
-	// multiselect
-    $('#' + beanFormId + ' .multiselect[ajaxUrl]').each(
-    		function(index){
-    			initOption($(this), false, true, callbackOption);
+    			var ischosen = $(this).hasClass('chzn-select') || $(this).hasClass('chzn-select-deselect');
+    			var ismultiselect = $(this).hasClass('multiselect');
+    			
+    			initOption($(this), ischosen, ismultiselect, callbackOption);
     		}
     );
     
@@ -399,6 +406,19 @@ function initOption(jselect, ischosen, ismultiselect, callbackOption) {
 }
 
 /******** BEAN FUNCTION ********/
+function resetForm() {
+	beanDatagridId = null;
+	beanDialogId = null;
+	beanFormId = null;
+	
+	beanRequestMappingUrl = null;
+	beanCurrentUrl = null;
+
+	selectedBeans = [];
+
+	mapInstance = null;
+	mapMarkerId = null;
+}
 
 /** Open dialog for new bean **/
 function newBean(){
@@ -407,6 +427,10 @@ function newBean(){
 	openBeanDialog(dialogNewTitle);
     
     initFormData();
+    
+    if (!mapInstance) {
+		setTimeout(loadBeanMap, 10);
+	}
     
     beanCurrentUrl = beanRequestMappingUrl + '/save/new';
 }
@@ -432,108 +456,107 @@ function editBean(selectedId){
 	    				openBeanDialog(dialogEditTitle);
 	        			
 	        			initFormData(function (jselect, success) {
-	        				if (success) {
-	        					var name = jselect.attr('name');
-	    	        			if (!name)
-	    	        				name = jselect.attr('id');
+	        					if (success) {
+	        						var name = jselect.attr('name');
+	        						if (!name)
+	        							name = jselect.attr('id');
+	        						
+	        						if (name) {
+	        							var value = response[name];
+	        							if (value) {
+	        								jselect.val(value);
+	        							}
+	        						}
+	        					}
+	        				},
+	        				function(){
+	        					$('#' + beanFormId).populate( response, false );
 	    	        			
-	    	        			if (name) {
-	    	        				var value = response[name];
-	    	        				if (value) {
-	    	        					jselect.val(value);
-	    	        				}
-	    	        			}
-	        				}
-	        			});
-	        			
-	        			$('#' + beanFormId).populate( response, false );
-	        			
-			            // date-picker
-			        	$('#' + beanFormId + ' input.date-picker').each(
-			            		function(index){
-			            			try {
-			    	        			var input = $(this);
-			    	        			var name = input.attr('name');
-			    	        			if (!name)
-			    	        				name = input.attr('id');
-			    	        			
-			    	        			if (name) {
-			    	        				var format = PERSONAL_DATE_FORMAT;
-			    	        				
-			    	        				var datatype = input.attr('datatype');
-			    	        				if ('datetime' == datatype)
-			    	        					format = PERSONAL_DATE_TIME_FORMAT;
-			    	        				else if ('time' == datatype)
-			    	        					format = PERSONAL_TIME_FORMAT;
-			    	        				
-			    		        			var value = formatDateTimeValue(response[name], format);
-			    		        			input.datepicker('setValue', value);
-			    	        			}
-			            			} catch (e) {
-			            			}
-			            		}
-			            );
-			            
-			            // date-format
-			            $('#' + beanFormId + ' input.date-format').each(
-			            		function(index){
-			            			try {
-			    	        			var input = $(this);
-			    	        			var name = input.attr('name');
-			    	        			if (!name)
-			    	        				name = input.attr('id');
-			    	        			
-			    	        			if (name) {
-			    	        				var format = PERSONAL_DATE_FORMAT;
-			    	        				
-			    	        				var datatype = input.attr('datatype');
-			    	        				if ('datetime' == datatype)
-			    	        					format = PERSONAL_DATE_TIME_FORMAT;
-			    	        				else if ('time' == datatype)
-			    	        					format = PERSONAL_TIME_FORMAT;
-			    	        				
-			    	        				var value = formatDateTimeValue(response[name], format);
-			    		        			input.val(value);
-			    	        			}
-			            			} catch (e) {
-			            			}
-			            		}
-			            );
-			            
-			           /* // chosen
-			            $('#' + beanFormId + ' .chzn-select, #' + beanFormId + ' .chzn-select-deselect').each(
-			            		function(index){
-			            			try {
-			            				var input = $(this);
-			    	        			var name = input.attr('name');
-			    	        			if (!name)
-			    	        				name = input.attr('id');
-			    	        			
-			    	        			if (name) {
-			    	        				
-			    	        				var value = response[name];
-			    	        				input.val('0d3992c2-e578-11e3-a5bf-19b777468313');
-			    	        				input.trigger("chosen:updated");
-			    	        				//$(this).trigger("chosen:updated");
-			    	        			}
-			            			} catch (e) {
-			            			}
-			            		}
-			            );
-			            
-			            // multiselect
-			            $('#' + beanFormId + ' .multiselect').each(
-			            		function(index){
-			            			try {
-			            				$(this).multiselect('rebuild');
-			            			} catch (e) {
-			            			}
-			            		}
-			            );*/
-			            
-			            progress(false);
-			            
-			            //loadMap();
+	    			            // date-picker
+	    			        	$('#' + beanFormId + ' input.date-picker').each(
+	    			            		function(index){
+	    			            			try {
+	    			    	        			var input = $(this);
+	    			    	        			var name = input.attr('name');
+	    			    	        			if (!name)
+	    			    	        				name = input.attr('id');
+	    			    	        			
+	    			    	        			if (name) {
+	    			    	        				var format = PERSONAL_DATE_FORMAT;
+	    			    	        				
+	    			    	        				var datatype = input.attr('datatype');
+	    			    	        				if ('datetime' == datatype)
+	    			    	        					format = PERSONAL_DATE_TIME_FORMAT;
+	    			    	        				else if ('time' == datatype)
+	    			    	        					format = PERSONAL_TIME_FORMAT;
+	    			    	        				
+	    			    		        			var value = formatDateTimeValue(response[name], format);
+	    			    		        			input.datepicker('setValue', value);
+	    			    	        			}
+	    			            			} catch (e) {
+	    			            			}
+	    			            		}
+	    			            );
+	    			            
+	    			            // date-format
+	    			            $('#' + beanFormId + ' input.date-format').each(
+	    			            		function(index){
+	    			            			try {
+	    			    	        			var input = $(this);
+	    			    	        			var name = input.attr('name');
+	    			    	        			if (!name)
+	    			    	        				name = input.attr('id');
+	    			    	        			
+	    			    	        			if (name) {
+	    			    	        				var format = PERSONAL_DATE_FORMAT;
+	    			    	        				
+	    			    	        				var datatype = input.attr('datatype');
+	    			    	        				if ('datetime' == datatype)
+	    			    	        					format = PERSONAL_DATE_TIME_FORMAT;
+	    			    	        				else if ('time' == datatype)
+	    			    	        					format = PERSONAL_TIME_FORMAT;
+	    			    	        				
+	    			    	        				var value = formatDateTimeValue(response[name], format);
+	    			    		        			input.val(value);
+	    			    	        			}
+	    			            			} catch (e) {
+	    			            			}
+	    			            		}
+	    			            );
+	    			            
+	    			           /* // chosen
+	    			            $('#' + beanFormId + ' .chzn-select, #' + beanFormId + ' .chzn-select-deselect').each(
+	    			            		function(index){
+	    			            			try {
+	    			            				var input = $(this);
+	    			    	        			var name = input.attr('name');
+	    			    	        			if (!name)
+	    			    	        				name = input.attr('id');
+	    			    	        			
+	    			    	        			if (name) {
+	    			    	        				
+	    			    	        				var value = response[name];
+	    			    	        				input.val('0d3992c2-e578-11e3-a5bf-19b777468313');
+	    			    	        				input.trigger("chosen:updated");
+	    			    	        				//$(this).trigger("chosen:updated");
+	    			    	        			}
+	    			            			} catch (e) {
+	    			            			}
+	    			            		}
+	    			            );
+	    			            
+	    			            // multiselect
+	    			            $('#' + beanFormId + ' .multiselect').each(
+	    			            		function(index){
+	    			            			try {
+	    			            				$(this).multiselect('rebuild');
+	    			            			} catch (e) {
+	    			            			}
+	    			            		}
+	    			            );*/
+	    			            
+	    			            progress(false);
+	        				});
 	    			} catch (e) {
 	    				progress(false);
 	    				onException(e);
@@ -598,14 +621,9 @@ function saveBean() {
 function destroyBean() {
 	var selectedId = getSelectedId();
 	if (selectedId != null && selectedId != '') {
-		bootstrap_alert({
+		ui.dialog.confirm(dialogDeleteMsg, dialogDeleteTitle, {
 			type: DIALOG_TYPE_WARNING,
-			title: dialogDeleteTitle,
-			message: dialogDeleteMsg,
 			icon: 'fa-question-circle',
-			closable: true,
-			okButton: DIALOG_CONFIRM_YES,
-			cancelButton: DIALOG_CONFIRM_NO,
 			callback: function(result) {
 				if (result) {
 					oauth2.del(beanRequestMappingUrl + '/destroy/' + selectedId, '', 
@@ -635,4 +653,210 @@ function progress(show) {
 	} else {
 		progressDialog.close();
 	}*/
+}
+
+function loadBeanMap() {
+	loadGoogleMap({
+		mapId: 'map',
+		latitudeId: 'latitude',
+		longitudeId: 'longitude',
+		zoom: 10,
+		addMarker: true,
+		draggableMarker: true,
+		pacInputId: 'pac-input',
+		typeSelectorId: 'type-selector',
+		showmapInfoWindow: true
+	});
+	
+	if (mapInstance) {
+		$('#' + beanDialogId).modal('layout');
+	}
+}
+
+function moveBeanMarker(coords) {
+	if (!mapInstance)
+		return;
+	
+	if (mapInfoWindow) {
+		mapInfoWindow.close();
+	}
+	
+	mapInstance.moveMarker(mapMarkerId, coords);
+}
+
+function loadGoogleMap(options) {
+	var defaultOptions = {
+			mapId: 'map',
+			latitudeId: 'latitude',
+			longitudeId: 'longitude',
+			zoom: 10,
+			addMarker: true,
+			draggableMarker: true,
+			pacInputId: null,
+			typeSelectorId: null,
+			showmapInfoWindow: false,
+			infoMakerFunc: function(place) {
+				if (!place)
+					return '';
+				
+				var address = '';
+				if (place.address_components) {
+					address = [
+					           (place.address_components[0] && place.address_components[0].short_name || ''),
+					           (place.address_components[1] && place.address_components[1].short_name || ''),
+					           (place.address_components[2] && place.address_components[2].short_name || '')
+					].join(' - ');
+				}
+				
+				return '<div>' + (typeof place.name === 'undefined' ? '' : '<strong>' + place.name + '</strong><br/>') + address + '</div>';
+			}, 
+			callback: null
+    };
+	options = $.extend(true, defaultOptions, options);
+	
+	mapInstance = $('#' + options.mapId);
+	if (!mapInstance || mapInstance.length === 0) {
+		mapInstance = null;
+		return;
+	}
+	
+	mapInstance.show();
+	
+	var coords = [21.02782551610964, 105.85232203459168];
+	if (options.latitudeId && options.latitudeId !== '')
+		coords[0] = $('#' + options.latitudeId).val() || '21.02782551610964';
+	if (options.longitudeId && options.longitudeId !== '')
+		coords[1] = $('#' + options.longitudeId).val() || '105.85232203459168';
+	
+	mapInstance.googleMap({
+		zoom: options.zoom, 	// Initial zoom level (optional)
+		coords: coords, 		// Map center (optional)
+		type: "ROADMAP" 		// Map type (optional)
+	});
+	
+	mapMarkerId = "marker_" + parseInt(Date.now());
+	if (options.addMarker) {
+		mapInfoWindow = new google.maps.InfoWindow();
+		
+		function geocodePosition(map, marker, coords) {
+			if (!map || !marker || !options.showmapInfoWindow || (typeof options.infoMakerFunc !== 'function'))
+				return;
+			
+			mapInstance.geocodePosition(coords, 
+				function(responses) {
+					if (responses && responses.length > 0) {
+						mapInfoWindow.setContent(options.infoMakerFunc(responses[0]));
+						mapInfoWindow.open(map, marker);
+					} else {
+						mapInfoWindow.setContent('Cannot determine address at this location.');
+						mapInfoWindow.open(map, marker);
+					}
+			});
+		}
+		
+		mapInstance.addMarker({
+			coords: coords, 	// GPS coords
+			id: mapMarkerId, 	// Unique ID for your marker
+			draggable: options.draggableMarker, 
+			success: function(map, marker, changed, e) {
+				if (options.latitudeId && options.latitudeId !== '')
+					$('#' + options.latitudeId).val(e.lat);
+				if (options.longitudeId && options.longitudeId !== '')
+					$('#' + options.longitudeId).val(e.lon);
+				
+				if (changed) {
+					geocodePosition(map, marker, [e.lat, e.lon]);
+				}
+			}
+		});
+		
+		if (options.pacInputId && options.pacInputId !== '') {
+			var pacInput = $('#' + options.pacInputId);
+			if (pacInput && pacInput.length === 1) {
+				var typeSelector = null;
+				
+				var map = mapInstance.getMap();
+				map.controls[google.maps.ControlPosition.TOP_LEFT].push(pacInput[0]);
+				
+				if (options.typeSelectorId && options.typeSelectorId !== '') {
+					typeSelector = $('#' + options.typeSelectorId);
+					if (typeSelector && typeSelector.length === 1)
+						map.controls[google.maps.ControlPosition.TOP_LEFT].push(typeSelector[0]);
+				}
+				
+				var autocomplete = new google.maps.places.Autocomplete(pacInput[0]);
+				autocomplete.bindTo('bounds', map);
+				
+				var marker = mapInstance.getMarker(mapMarkerId);
+				if (options.showmapInfoWindow && typeof options.infoMakerFunc === 'function') {
+					google.maps.event.addListener(marker, 'click', function() {
+						var location = marker.getPosition();
+						if(typeof location.d != "undefined") {
+							var coords = [location.d, location.e];
+							geocodePosition(map, marker, coords);
+						}
+					});
+				}
+				
+				google.maps.event.addListener(autocomplete, 'place_changed', function() {
+					mapInfoWindow.close();
+					//marker.setVisible(false);
+					
+					var place = autocomplete.getPlace();
+					if (!place.geometry) {
+						return;
+					}
+					
+					// If the place has a geometry, then present it on a map.
+					if (place.geometry.viewport) {
+						map.fitBounds(place.geometry.viewport);
+					} else {
+						map.setCenter(place.geometry.location);
+						map.setZoom(17);  // Why 17? Because it looks good.
+					}
+					
+					/*marker.setIcon(({
+						url: place.icon,
+						size: new google.maps.Size(71, 71),
+						origin: new google.maps.Point(0, 0),
+						anchor: new google.maps.Point(17, 34),
+						scaledSize: new google.maps.Size(35, 35)
+					}));*/
+					marker.setPosition(place.geometry.location);
+					marker.setVisible(true);
+				    
+					if (options.showmapInfoWindow && typeof options.infoMakerFunc === 'function') {
+						mapInfoWindow.setContent(options.infoMakerFunc(place));
+						mapInfoWindow.open(map, marker);
+					}
+				});
+				
+				pacInput.show();
+				if (typeSelector) {
+					typeSelector.show();
+				
+					// Sets a listener on a radio button to change the filter type on Places Autocomplete.
+					function setupClickListener(id, types) {
+						var radioButton = document.getElementById(id);
+						google.maps.event.addDomListener(radioButton, 'click', function() {
+							autocomplete.setTypes(types);
+						});
+					}
+					
+					setupClickListener('changetype-all', []);
+					setupClickListener('changetype-establishment', ['establishment']);
+					setupClickListener('changetype-geocode', ['geocode']);
+				}
+			}
+		}
+	} else {
+		if (options.pacInputId && options.pacInputId !== '')
+			$('#' + options.pacInputId).hide();
+		if (options.typeSelectorId && options.typeSelectorId !== '')
+			$('#' + options.typeSelectorId).hide();
+	}
+	
+	if (callback) {
+		callback(mapInstance);
+	}
 }

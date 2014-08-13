@@ -137,6 +137,17 @@
 	        				                newChild.find('input').each(function(){
 	        				                	$(this).val('');
 	        				                });
+	        				                /*newChild.find('select[ajaxUrl]').each(function(){
+	        				                	$(this).val('');
+	        				                	
+	        				                	var ischosen = $(this).hasClass('chzn-select') || $(this).hasClass('chzn-select-deselect');
+	        				        			var ismultiselect = $(this).hasClass('multiselect');
+	        				        			
+	        				        			if (ischosen)
+	        				        				$(this).trigger("chosen:updated");
+	        									else if (ismultiselect)
+	        										$(this).multiselect('rebuild');
+	        				                });*/
 	        				                lastChild.after(newChild);
 	        				                lastChild = newChild;
                                     	} else if (root && root.size() > 0) {
@@ -193,13 +204,12 @@
                 
                 if (coords != null) {
                 	if (mapInstance) {
-                		mapInstance.moveMarker(mapMarkerId, coords);
-                		
+                		moveBeanMarker(coords);
                 		/*var position = new google.maps.LatLng(coords[0], coords[1]);
                 		mapInstance.getMap().setCenter(position);
                 		mapInstance.getMarker(mapMarkerId).setPosition(position);*/
                 	} else {
-                		setTimeout(loadMap, 10);
+                		setTimeout(loadBeanMap, 10);
                 	}
                 }
             })(json);

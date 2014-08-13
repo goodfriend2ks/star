@@ -6,7 +6,7 @@
         <small>Control panel</small>
 	</h1>
     <ol class="breadcrumb">
-    	<li><a href="#"><i class="fa fa-user"></i> <spring:message code='label.home'/></a></li>
+    	<li><a href="#"><i class="fa fa-compass"></i> <spring:message code='label.home'/></a></li>
         <li class="active"><spring:message code='label.area.bean'/></li>
 	</ol>
 </section>

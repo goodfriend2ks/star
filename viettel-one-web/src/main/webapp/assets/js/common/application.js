@@ -192,6 +192,8 @@ function initFragment() {
 			// Show "loading" content while AJAX content loads.
 			$( '.bbq-loading' ).show();
 			
+			resetForm();
+			
 			// Create container for this url's content and store a reference to it in the cache.
 			//cache[ url ] = 
 			$( '<div class="bbq-item"/>' )
@@ -222,77 +224,4 @@ function initModal() {
 		// subtract the height of the modal header and footer
 		return $(window).height() - 165; 
 	};
-}
-
-var DIALOG_TYPE_DEFAULT = 'type-default';
-var DIALOG_TYPE_INFO = 'type-info';
-var DIALOG_TYPE_PRIMARY = 'type-primary';
-var DIALOG_TYPE_SUCCESS = 'type-success';
-var DIALOG_TYPE_WARNING = 'type-warning';
-var DIALOG_TYPE_DANGER = 'type-danger';
-var DIALOG_TYPE_ERROR = 'type-error';
-
-function bootstrap_alert(options) {
-	var defaultOptions = {
-			type: DIALOG_TYPE_PRIMARY,
-            title: null,
-            message: null,
-            icon: null,
-            closable: true,
-            okButton: 'OK',
-            cancelButton: 'Cancel',
-            callback: null
-    };
-	options = $.extend(true, defaultOptions, options);
-	
-	if (!options.title || options.title === '') {
-		if (options.type === DIALOG_TYPE_SUCCESS)
-			options.title = 'Success';
-		else if (options.type === DIALOG_TYPE_WARNING)
-			options.title = 'Warning';
-		else if (options.type === DIALOG_TYPE_DANGER)
-			options.title = 'Danger';
-		else if (options.type === DIALOG_TYPE_ERROR)
-			options.title = 'Error';
-		else 
-			options.title = 'Information';
-	}
-	
-	var tmpl = [
-	            '<div class="modal hide fade ', options.type, '" tabindex="-1" data-backdrop="static">',
-	              '<div class="modal-header">',
-	                '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>',
-	                '<div class="modal-title">',
-	                	'<i class="fa ', options.icon, '"></i> <span id="dlg-title">', options.title, '</span>',
-	                '</div>',
-	              '</div>',
-	              '<div class="modal-body">',
-	                '<p>', options.message, '</p>',
-	              '</div>',
-	              '<div class="modal-footer">',
-	              	'<button id="btn-cancel" data-dismiss="modal" class="btn">', options.cancelButton, '</button>',
-	              	'<button id="btn-ok" data-dismiss="ok" class="btn btn-primary">', options.okButton, '</button>',
-	              '</div>',
-	            '</div>'
-	          ].join('');
-	
-	var modal = $(tmpl);
-	
-	if (!options.cancelButton || options.cancelButton === '') {
-		modal.find('#btn-cancel').hide();
-	} else if (options.callback) {
-		modal.find('#btn-cancel').click(function(event) {
-			options.callback(false);
-			//confirmModal.modal('hide');
-		});
-	}
-	
-	modal.find('#btn-ok').click(function(event) {
-		if (options.callback) {
-			options.callback(true);
-		}
-		modal.modal('hide');
-	});
-	
-	modal.modal('show');
 }

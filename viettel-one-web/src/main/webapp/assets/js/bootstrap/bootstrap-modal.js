@@ -355,7 +355,6 @@
 
 	$.fn.modal.Constructor = Modal;
 
-
 	/* MODAL DATA-API
 	* ============== */
 
