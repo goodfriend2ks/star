@@ -16,9 +16,15 @@ var beanCurrentUrl;
 var selectedBeans = [];
 var singleSelected = true;
 
+var MAP_DEFAULT_LATITUDE = 21.02782551610964;
+var MAP_DEFAULT_LONGITUDE = 105.85232203459168;
+
 var mapInstance = null;
 var mapInfoWindow = null;
 var mapMarkerId = null;
+var geocodeNotAddress = 'Cannot determine address at this location.';
+
+var tableLanguage = {};
 
 /***** PRIVATE FUNCTION ******/
 
@@ -57,7 +63,7 @@ function initGrid() {
 	
 		$('#' + beanDatagridId +' tbody').on('click', 'tr', function () {
 			if (!$(this).hasClass('datagrid-row-selected')) {
-				$('#' + beanDatagridId +' tbody tr').each(function(index) {
+				$('#' + beanDatagridId +' tbody tr.datagrid-row-selected').each(function(index) {
 					$(this).removeClass('datagrid-row-selected');
 				});
 			}
@@ -232,13 +238,8 @@ function loadSuccess(response) {
 		'data' : response.rows,
 		//"dataSrc" : "rows",
 		'aoColumns' : aoColumns, 
-		"language": {
-            "lengthMenu": "Display _MENU_ records per page",
-            "zeroRecords": "Nothing found - sorry",
-            "info": "Showing page _PAGE_ of _PAGES_",
-            "infoEmpty": "No records available",
-            "infoFiltered": "(filtered from _MAX_ total records)"
-        }
+		'aaSorting': [[1, 'asc']],
+		'language': tableLanguage
 	});
 }
 
@@ -722,11 +723,11 @@ function loadGoogleMap(options) {
 	
 	mapInstance.show();
 	
-	var coords = [21.02782551610964, 105.85232203459168];
+	var coords = [MAP_DEFAULT_LATITUDE, MAP_DEFAULT_LONGITUDE];
 	if (options.latitudeId && options.latitudeId !== '')
-		coords[0] = $('#' + options.latitudeId).val() || '21.02782551610964';
+		coords[0] = $('#' + options.latitudeId).val() || MAP_DEFAULT_LATITUDE;
 	if (options.longitudeId && options.longitudeId !== '')
-		coords[1] = $('#' + options.longitudeId).val() || '105.85232203459168';
+		coords[1] = $('#' + options.longitudeId).val() || MAP_DEFAULT_LONGITUDE;
 	
 	mapInstance.googleMap({
 		zoom: options.zoom, 	// Initial zoom level (optional)
@@ -748,7 +749,7 @@ function loadGoogleMap(options) {
 						mapInfoWindow.setContent(options.infoMakerFunc(responses[0]));
 						mapInfoWindow.open(map, marker);
 					} else {
-						mapInfoWindow.setContent('Cannot determine address at this location.');
+						mapInfoWindow.setContent(geocodeNotAddress);
 						mapInfoWindow.open(map, marker);
 					}
 			});
@@ -822,6 +823,12 @@ function loadGoogleMap(options) {
 						anchor: new google.maps.Point(17, 34),
 						scaledSize: new google.maps.Size(35, 35)
 					}));*/
+					
+					if (options.latitudeId && options.latitudeId !== '')
+						$('#' + options.latitudeId).val(place.geometry.location.d);
+					if (options.longitudeId && options.longitudeId !== '')
+						$('#' + options.longitudeId).val(place.geometry.location.e);
+					
 					marker.setPosition(place.geometry.location);
 					marker.setVisible(true);
 				    

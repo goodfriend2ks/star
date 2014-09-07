@@ -41,7 +41,7 @@
 	<link href="${pageContext.request.contextPath}/styles/bootstrap/bootstrap.validator.css" rel="stylesheet" type="text/css" />
 	<%-- <link href="${pageContext.request.contextPath}/styles/bootstrap/bootstrap.dialog.css" rel="stylesheet" type="text/css" /> --%>
 	
-	<link href="${pageContext.request.contextPath}/styles/bootstrap/bootstrap-responsive-2.3.2.css" rel="stylesheet" type="text/css" />
+	<%-- <link href="${pageContext.request.contextPath}/styles/bootstrap/bootstrap-responsive-2.3.2.css" rel="stylesheet" type="text/css" /> --%>
 	<link href="${pageContext.request.contextPath}/styles/bootstrap/bootstrap-modal.css" rel="stylesheet" type="text/css" />
 	
 	<link href="${pageContext.request.contextPath}/styles/bootstrap/jquery.googlemap.css" rel="stylesheet" type="text/css" />
@@ -105,6 +105,30 @@
 			PERSONAL_TIME_FORMAT = cookieValue;
 		
 		PERSONAL_DATE_TIME_FORMAT = PERSONAL_DATE_FORMAT + ' ' + PERSONAL_TIME_FORMAT;
+
+		/*** DATA TABLE ***/
+		tableLanguage = {
+				"loadingRecords": 	"<spring:message code='label.table.loadingrecord' htmlEscape='false'/>",
+				"processing": 		"<spring:message code='label.table.processing' htmlEscape='false'/>",
+				"emptyTable": 		"<spring:message code='label.table.emptytable' htmlEscape='false'/>",
+				"lengthMenu": 		"<spring:message code='label.table.lengthmenu' htmlEscape='false'/>",
+				"info": 		"<spring:message code='label.table.info' htmlEscape='false'/>",
+				"infoEmpty": 		"<spring:message code='label.table.infoempty' htmlEscape='false'/>",
+				"infoFiltered": 	"<spring:message code='label.table.infofiltered' htmlEscape='false'/>",
+				"search": 		"<spring:message code='label.table.search' htmlEscape='false'/> ",
+				"zeroRecords": 		"<spring:message code='label.table.zerorecord' htmlEscape='false'/>",
+				"decimal": ",",
+				"thousands": ".",
+				"paginate": {
+					"first": 	"<spring:message code='label.table.paginate.first' htmlEscape='false'/>",
+					"last": 	"<spring:message code='label.table.paginate.last' htmlEscape='false'/>",
+					"next": 	"<spring:message code='label.table.paginate.next' htmlEscape='false'/>",
+					"previous": 	"<spring:message code='label.table.paginate.previous' htmlEscape='false'/>"
+				}
+		};
+
+		/*** GOOGLE MAP ***/
+		geocodeNotAddress = "<spring:message code='label.map.geocode.notaddress' htmlEscape='false'/>";
 	</script>
 </head>
 
@@ -235,6 +259,7 @@
 	<!-- Data grid table -->
 	<script src="${pageContext.request.contextPath}/js/bootstrap/datatables.jquery.js" type="text/javascript"></script>
 	<script src="${pageContext.request.contextPath}/js/bootstrap/datatables.jquery.bootstrap.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/js/bootstrap/datatables.jquery.datatype.js" type="text/javascript"></script>
 	
 	<!-- Select element -->
 	<script src="${pageContext.request.contextPath}/js/bootstrap/chosen.jquery.js" type="text/javascript"></script>

@@ -115,7 +115,7 @@
 		   							<td>
 		   								<select id="languages[][id]" name="languages[][id]" 
 				   								data-placeholder="<spring:message code='label.user.language' htmlEscape='false'/>" 
-				   								class="form-control multiselect xxchzn-select-deselect" required  
+				   								class="form-control multiselectxx xxxchzn-select-deselect" required  
 				   								ajaxUrl="${pageContext.request.contextPath}/api/lang/listpair"
 				   								preloaded localstoragex="language" timeout="0">
 			                            	<option value=""></option>

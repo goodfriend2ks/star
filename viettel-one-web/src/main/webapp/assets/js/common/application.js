@@ -129,6 +129,9 @@ $(function() {
     });
 	*/
     
+    initStringPrototype();
+    initNumberPrototype();
+    
     initFragment();
     
     initModal();
@@ -224,4 +227,30 @@ function initModal() {
 		// subtract the height of the modal header and footer
 		return $(window).height() - 165; 
 	};
+}
+
+/************ STRING PROTOTYPE FUNCTION ****************/
+function initStringPrototype() {
+	//format function => first, checks if it isn't implemented yet.
+	if (!String.prototype.format) {
+		String.prototype.format = function() {
+			var args = arguments;
+			return this.replace(/{(\d+)}/g, function(match, number) { 
+				return typeof args[number] != 'undefined'
+					? args[number]
+					: match;
+			});
+		};
+	}
+}
+
+/************ NUMBER PROTOTYPE FUNCTION ****************/
+function initNumberPrototype() {
+	//round function => first, checks if it isn't implemented yet.
+	if (!Number.prototype.round) {
+		Number.prototype.round = function() {
+			var places = arguments;
+			return +(Math.round(this + "e+" + places)  + "e-" + places);
+		};
+	}
 }

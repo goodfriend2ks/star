@@ -80,7 +80,6 @@
 	 */
 	var DataTable;
 
-	
 	/*
 	 * It is useful to have variables which are scoped locally so only the
 	 * DataTables functions can access them and they don't leak into global space.
@@ -89,7 +88,6 @@
 	 * by DataTables as private variables here. This also ensures that there is no
 	 * clashing of variable names and that they can easily referenced for reuse.
 	 */
-	
 	
 	// Defined else where
 	//  _selector_run
@@ -118,7 +116,6 @@
 		return !d || d === '-' ? true : false;
 	};
 	
-	
 	var _intVal = function ( s ) {
 		var integer = parseInt( s, 10 );
 		return !isNaN(integer) && isFinite(s) ? integer : null;
@@ -136,7 +133,6 @@
 			num;
 	};
 	
-	
 	var _isNumber = function ( d, decimalPoint, formatted ) {
 		var strType = typeof d === 'string';
 	
@@ -151,12 +147,10 @@
 		return !d || d==='-' || (!isNaN( parseFloat(d) ) && isFinite( d ));
 	};
 	
-	
 	// A string without HTML in it can be considered to be HTML still
 	var _isHtml = function ( d ) {
 		return !d || typeof d === 'string';
 	};
-	
 	
 	var _htmlNumeric = function ( d, decimalPoint, formatted ) {
 		if ( _empty( d ) ) {
@@ -170,7 +164,6 @@
 				true :
 				null;
 	};
-	
 	
 	var _pluck = function ( a, prop, prop2 ) {
 		var out = [];
@@ -196,7 +189,6 @@
 		return out;
 	};
 	
-	
 	// Basically the same as _pluck, but rather than looping over `a` we use `order`
 	// as the indexes to pick from `a`
 	var _pluck_order = function ( a, order, prop, prop2 )
@@ -220,7 +212,6 @@
 		return out;
 	};
 	
-	
 	var _range = function ( len, start )
 	{
 		var out = [];
@@ -242,11 +233,9 @@
 		return out;
 	};
 	
-	
 	var _stripHtml = function ( d ) {
 		return d.replace( _re_html, '' );
 	};
-	
 	
 	/**
 	 * Find the unique elements in a source array.
@@ -283,8 +272,6 @@
 		return out;
 	};
 	
-	
-	
 	/**
 	 * Create a mapping object that allows camel case parameters to be looked up
 	 * for their Hungarian counterparts. The mapping is stored in a private
@@ -318,7 +305,6 @@
 	
 		o._hungarianMap = map;
 	}
-	
 	
 	/**
 	 * Convert from camel case parameters to Hungarian, based on a Hungarian map
@@ -362,7 +348,6 @@
 		} );
 	}
 	
-	
 	/**
 	 * Language compatibility - when certain options are given, and others aren't, we
 	 * need to duplicate the values over, in order to provide backwards compatibility
@@ -402,7 +387,6 @@
 		}
 	}
 	
-	
 	/**
 	 * Map one parameter onto another
 	 *  @param {object} o Object to map
@@ -414,7 +398,6 @@
 			o[ old ] = o[ knew ];
 		}
 	};
-	
 	
 	/**
 	 * Provide backwards compatibility for the main DT options. Note that the new
@@ -436,7 +419,6 @@
 		_fnCompatMap( init, 'searching',     'bFilter' );
 	}
 	
-	
 	/**
 	 * Provide backwards compatibility for column options. Note that the new options
 	 * are mapped onto the old parameters, so this is an external interface change
@@ -450,7 +432,6 @@
 		_fnCompatMap( init, 'orderSequence', 'asSorting' );
 		_fnCompatMap( init, 'orderDataType', 'sortDataType' );
 	}
-	
 	
 	/**
 	 * Browser feature detection for capabilities, quirks
@@ -504,7 +485,6 @@
 		n.remove();
 	}
 	
-	
 	/**
 	 * Array.prototype reduce[Right] method, used for browsers which don't support
 	 * JS 1.6. Done this way to reduce code size, since we iterate either way
@@ -515,7 +495,7 @@
 	{
 		var
 			i = start,
-			value,
+			value = null,
 			isSet = false;
 	
 		if ( init !== undefined ) {
@@ -568,7 +548,6 @@
 		// Use the default column options function to initialise classes etc
 		_fnColumnOptions( oSettings, iCol, null );
 	}
-	
 	
 	/**
 	 * Apply options for a column

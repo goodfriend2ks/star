@@ -49,10 +49,10 @@
 				<thead>
 					<tr>
 						<th field="rownum" row-class="rownum" sort="false" class="center" style="width:10px;">&nbsp;</th>
-						<th field="code" row-class="center nowrap" class="center">
+						<th field="code" sType="numeric-comma" row-class="center nowrap" class="center">
 							<spring:message code='label.area.code'/>
 						</th>
-						<th field="name" row-class="center nowrap" class="center">
+						<th field="name" row-class="left nowrap" class="center">
 							<spring:message code='label.area.name'/>
 						</th>
 						<th field="parentCode" row-class="center nowrap" class="center">

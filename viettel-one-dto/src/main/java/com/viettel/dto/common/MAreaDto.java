@@ -1,5 +1,6 @@
 package com.viettel.dto.common;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -123,8 +124,8 @@ public class MAreaDto extends BaseDto<MArea, UUID> {
 		if (!StringUtils.isEmpty(this.name))
 			bean.setName(this.name);
 		
-		bean.setLatitude(this.latitude);
-		bean.setLongitude(this.longitude);
+		bean.setLatitude(new BigDecimal(this.latitude).setScale(7, BigDecimal.ROUND_HALF_UP).doubleValue());
+		bean.setLongitude(new BigDecimal(this.longitude).setScale(7, BigDecimal.ROUND_HALF_UP).doubleValue());
 		
 		bean.setParent_ID(this.parent_ID);
 	}

@@ -42,7 +42,7 @@
 }
 
 /* skin-black content header */
-.skin-black .right-side > .content-header {
+.skin-black .right-side .content-header {
   background: transparent;
   box-shadow: none;
 }
