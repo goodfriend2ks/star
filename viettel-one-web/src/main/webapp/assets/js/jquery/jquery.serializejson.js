@@ -16,10 +16,15 @@
     f = $.serializeJSON;
     formAsArray = this.serializeArray(); // array of objects {name, value}
     opts = f.optsWithDefaults(options); // calculate values for options {parseNumbers, parseBoolens, parseNulls}
-
+    
     serializedObject = {};
     $.each(formAsArray, function (i, input) {
-    	if (typeof $('[name=' + input.name + ']').attr('noserialize') === 'undefined') {
+    	var noserialize = null;
+	try {
+		noserialize = $('[name="' + input.name + '"]').attr('noserialize');
+	} catch (e) {}
+		
+	if (noserialize === null || typeof noserialize === 'undefined') {
     		keys = f.splitInputNameIntoKeysArray(input.name); // "some[deep][key]" => ['some', 'deep', 'key']
     		value = f.parseValue(input.value, opts); // string, number, boolean or null
     		if (opts.parseWithFunction)

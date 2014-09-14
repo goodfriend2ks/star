@@ -21,6 +21,11 @@ public abstract class BaseDto<T extends EO<PK>, PK extends Serializable> extends
 	public static final String YES = "Y";
 	public static final String NO = "N";
 	
+	public static final String ACTION_DEFAULT = "N";
+	public static final String ACTION_EDIT = "E";
+	public static final String ACTION_DELETE = "D";
+	public static final String ACTION_ADDNEW = "A";
+	
 	@Transient
 	public static String fromBoolean(boolean value) {
 		return (value ? YES : NO);
@@ -50,13 +55,17 @@ public abstract class BaseDto<T extends EO<PK>, PK extends Serializable> extends
 	
 	private long version;
 
+	private String action;
+	
 	protected BaseDto() {
+		this.action = ACTION_DEFAULT;
 	}
 	
 	protected BaseDto(T eo, MOrg org) {
 		if (eo == null)
 			return;
 		
+		this.action = ACTION_DEFAULT;
 		this.id = eo.getId();
 		this.org_ID = eo.getOrg_ID();
 		this.created = eo.getCreated();
@@ -147,6 +156,14 @@ public abstract class BaseDto<T extends EO<PK>, PK extends Serializable> extends
 	@Override
 	public void setVersion(long version) {
 		this.version = version;
+	}
+
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
 	}
 
 	@Override

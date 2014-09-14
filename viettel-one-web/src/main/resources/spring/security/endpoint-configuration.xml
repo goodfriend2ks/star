@@ -36,6 +36,15 @@
 	<http pattern="/lockscreen.jsp**" security="none" 
 		xmlns="http://www.springframework.org/schema/security" />
 	
+	<http pattern="/**.woff" security="none" 
+		xmlns="http://www.springframework.org/schema/security" />
+	
+	<http pattern="/**.eot" security="none" 
+		xmlns="http://www.springframework.org/schema/security" />
+	
+	<http pattern="/api/test/**" security="none" create-session="never" 
+		xmlns="http://www.springframework.org/schema/security" />
+	
 	<http pattern="/oauth/token" create-session="stateless"
 		authentication-manager-ref="clientAuthenticationManager"
 		xmlns="http://www.springframework.org/schema/security" > 

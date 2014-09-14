@@ -121,14 +121,14 @@
 				                var childTag = null;
 				                var lastChild = null;
 				                
-				                if (root && root.size() > 0) {
+				                /*if (root && root.size() > 0) {
 					                childTag = root.attr('childTag');
-					                var size = root.find(childTag).size(); 
-					                while (size > 1) {
-					                	root.find(childTag + ':last').remove();
-					                	size--;
-					                }
-				                }
+					                root.find(childTag).each(function(i){
+					                	if (i > 0) {
+					                		$(this).remove();
+					                	}
+					                });
+				                }*/
 				                
 				                for (var item in value) {
                                     if ('clean' != item && value[item]) {
@@ -136,22 +136,30 @@
 	        				                var newChild = lastChild.clone();
 	        				                newChild.find('input').each(function(){
 	        				                	$(this).val('');
+	        				                	/*if ($(this).hasClass('editable')) {
+	        				                		$(this).attr('readonly', true);
+	        				                	}*/
 	        				                });
-	        				                /*newChild.find('select[ajaxUrl]').each(function(){
+	        				                
+	        				                newChild.find('select').each(function(){
 	        				                	$(this).val('');
-	        				                	
-	        				                	var ischosen = $(this).hasClass('chzn-select') || $(this).hasClass('chzn-select-deselect');
-	        				        			var ismultiselect = $(this).hasClass('multiselect');
-	        				        			
-	        				        			if (ischosen)
-	        				        				$(this).trigger("chosen:updated");
-	        									else if (ismultiselect)
-	        										$(this).multiselect('rebuild');
-	        				                });*/
+	        				                	/*if ($(this).hasClass('editable')) {
+	        				                		$(this).attr('readonly', true);
+	        				                	}*/
+	        				                });
+	        				                
 	        				                lastChild.after(newChild);
 	        				                lastChild = newChild;
                                     	} else if (root && root.size() > 0) {
                                         	lastChild = root.find(childTag + ':last');
+                                        	
+                                        	/*lastChild.find('input.editable').each(function(i){
+	        				                	$(this).attr('readonly', true);
+	        				                });
+	        				                
+                                        	lastChild.find('select.editable').each(function(i){
+	        				                	$(this).attr('readonly', true);
+	        				                });*/
                                         }
                                     	
                                         var parent_arr = parent + "\\["+item+"\\]";

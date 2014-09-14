@@ -35,3 +35,32 @@
     font-family:sans-serif;
 } */
 
+tr.view-mode .btn-edit-inline, 
+tr.view-mode .btn-new-inline, 
+tr.view-mode .btn-del-inline {
+	display: inline-block;
+}
+tr.view-mode .btn-cancel-inline {
+	display: none;
+}
+
+tr.edit-mode .btn-cancel-inline, 
+tr.edit-mode .btn-new-inline, 
+tr.edit-mode .btn-del-inline {
+	display: inline-block;
+}
+tr.edit-mode .btn-edit-inline {
+	display: none;
+}
+
+tr.delete-mode .btn-cancel-inline, 
+tr.delete-mode .btn-new-inline, 
+tr.delete-mode .btn-edit-inline {
+	display: inline-block;
+}
+tr.delete-mode .btn-del-inline {
+	display: none;
+}
+tr.delete-mode input {
+	color: #ff0000;
+}

@@ -33,6 +33,10 @@
             	<a href="#area" hrefx="${pageContext.request.contextPath}/admin/area">
 					<i class="fa fa-angle-right"></i>&nbsp;&#272;&#7883;a b&#224;n</a>
 			</li>
+			<li class="">
+            	<a href="#maptype">
+					<i class="fa fa-angle-right"></i>&nbsp;API Map type</a>
+			</li>
 			<%-- <li class="">
 				<a href="${pageContext.request.contextPath}/admin/wapi">
 					<i class="fa fa-angle-right"></i>&nbsp;WSO2 App</a>

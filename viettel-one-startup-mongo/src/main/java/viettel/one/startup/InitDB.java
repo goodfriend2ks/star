@@ -152,7 +152,7 @@ public class InitDB {
 			systemUser.setAccountNonLocked(true);
 			systemUser.setCredentialsNonExpired(true);
 			systemUser.setLanguage_ID(systemLangID);
-			systemUser.setLocked(false);
+			//systemUser.setLocked(false);
 			systemUser.setLoginFail(0);
 			systemUser.setRandomToken(MUserTokenType.EMAIL_REGISTRATION, MUser.DEFAULT_TOKEN_EXPIRY_TIME_IN_MINS);
 			mongoOperation.save(systemUser);
@@ -169,7 +169,7 @@ public class InitDB {
 			systemUser.setAccountNonLocked(true);
 			systemUser.setCredentialsNonExpired(true);
 			systemUser.setLanguage_ID(systemLangID);
-			systemUser.setLocked(false);
+			//systemUser.setLocked(false);
 			systemUser.setLoginFail(0);
 			systemUser.setRandomToken(MUserTokenType.EMAIL_REGISTRATION, MUser.DEFAULT_TOKEN_EXPIRY_TIME_IN_MINS);
 			mongoOperation.save(systemUser);

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.persistence.criteria.GenericQuery;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +21,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.viettel.backend.common.IValuePair;
 import com.viettel.backend.common.ValuePair;
-import com.viettel.backend.domain.MLanguage;
 import com.viettel.backend.domain.MOrg;
+import com.viettel.backend.domain.api.MMapDetail;
+import com.viettel.backend.domain.api.MMapType;
 import com.viettel.backend.service.BaseService;
 import com.viettel.backend.service.CommonService;
 import com.viettel.backend.service.TenantService;
-import com.viettel.dto.MLanguageDto;
+import com.viettel.dto.BaseDto;
+import com.viettel.dto.api.MMapDetailDto;
+import com.viettel.dto.api.MMapTypeDto;
 import com.viettel.util.DataTypeUtil;
 import com.viettel.util.EntityUtil;
 import com.viettel.util.ValuePairUtil;
@@ -34,8 +39,8 @@ import com.viettel.web.api.util.EOUtil;
 import com.viettel.web.api.util.Env;
 
 @Controller
-@RequestMapping(value = "/api/lang")
-public class LanguageController extends BasicController<MLanguageDto, UUID> {
+@RequestMapping(value = "/api/maptype")
+public class MapTypeController extends BasicController<MMapTypeDto, UUID> {
 	
 	@Autowired
     private TenantService tenantService;
@@ -43,8 +48,8 @@ public class LanguageController extends BasicController<MLanguageDto, UUID> {
 	@Autowired
     private CommonService dataService;
 	
-	public LanguageController() {
-		super("lang");
+	public MapTypeController() {
+		super("maptype");
 	}
 
 	@Override
@@ -57,25 +62,25 @@ public class LanguageController extends BasicController<MLanguageDto, UUID> {
     public @ResponseBody ResponseEntity<?> list(@RequestParam MultiValueMap<String, String> params) {
 		try {
 			VOUser currentUser = Env.getCurrentUser();
-			UUID bean_Tenant_ID = EntityUtil.getTenant_ID(MLanguage.class, currentUser.getTenant_ID());
-			UUID bean_Org_ID = EntityUtil.getOrg_ID(MLanguage.class, currentUser.getOrg_ID());
-			UUID bean_App_ID = EntityUtil.getApp_ID(MLanguage.class, currentUser.getApp_ID());
+			UUID bean_Tenant_ID = EntityUtil.getTenant_ID(MMapType.class, currentUser.getTenant_ID());
+			UUID bean_Org_ID = EntityUtil.getOrg_ID(MMapType.class, currentUser.getOrg_ID());
+			UUID bean_App_ID = EntityUtil.getApp_ID(MMapType.class, currentUser.getApp_ID());
 			
-			List<MLanguage> beans = dataService.getList(MLanguage.class, UUID.class, 
+			List<MMapType> beans = dataService.getList(MMapType.class, UUID.class, 
 					bean_Tenant_ID, bean_Org_ID, bean_App_ID, null);
 			
 			// Init dto
-			List<MLanguageDto> beanDtos = new ArrayList<>();
-			for (MLanguage bean : beans) {
-				beanDtos.add(new MLanguageDto(bean, null));
+			List<MMapTypeDto> beanDtos = new ArrayList<>();
+			for (MMapType bean : beans) {
+				beanDtos.add(new MMapTypeDto(bean, null));
 			}
 			
-			ResultSet<MLanguageDto> results = new ResultSet<>();
+			ResultSet<MMapTypeDto> results = new ResultSet<>();
 			results.setRows(beanDtos);
 			
 			return new ResponseEntity<ResultSet<?>>(results, HttpStatus.OK);
 		} catch (Exception ex) {
-			Map<String, String> message = errorException(ex, "Cannot get languages");
+			Map<String, String> message = errorException(ex, "Cannot get map types");
 			return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 		}
     }
@@ -87,59 +92,68 @@ public class LanguageController extends BasicController<MLanguageDto, UUID> {
 		if (DataTypeUtil.isEmpty(UUID.class, beanId))
 		{
 			Map<String, String> message = error(TYPE_INVALID_DATA, CODE_INVALID_ID, 
-					"Cannot get language with id {" + id + "}", "Cannot get language");
+					"Cannot get map type with id {" + id + "}", "Cannot get map type");
 			return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 		}
 		
 		try {
 			VOUser currentUser = Env.getCurrentUser();
-			UUID bean_Tenant_ID = EntityUtil.getTenant_ID(MLanguage.class, currentUser.getTenant_ID());
+			UUID bean_Tenant_ID = EntityUtil.getTenant_ID(MMapType.class, currentUser.getTenant_ID());
 			
-			MLanguage bean = dataService.findById(MLanguage.class, UUID.class, bean_Tenant_ID, beanId);
+			MMapType bean = dataService.findById(MMapType.class, UUID.class, bean_Tenant_ID, beanId);
 			if (bean != null) {
 				MOrg org = tenantService.getOrg(bean.getTenant_ID(), bean.getOrg_ID());
 				
-				MLanguageDto beanDto = new MLanguageDto(bean, org);
-				return new ResponseEntity<MLanguageDto>(beanDto, HttpStatus.OK);
+				MMapTypeDto beanDto = new MMapTypeDto(bean, org);
+				
+				GenericQuery query = dataService.query(dataService.criteria("mapType_ID").is(bean.getId()));
+				List<MMapDetail> details = dataService.getList(MMapDetail.class, UUID.class, bean.getTenant_ID(), bean.getOrg_ID(), bean.getApp_ID(), query);
+				List<MMapDetailDto> dtoDetails = new ArrayList<>();
+				for (MMapDetail detail : details) {
+					dtoDetails.add(new MMapDetailDto(detail, org));
+				}
+				beanDto.setDetails(dtoDetails);
+				
+				return new ResponseEntity<MMapTypeDto>(beanDto, HttpStatus.OK);
 			}
 			
 			Map<String, String> message = error(TYPE_ERROR, CODE_NOT_FOUND, 
-					"Cannot get language with id {" + id + "}", "Cannot get language");
+					"Cannot get map type with id {" + id + "}", "Cannot get map type");
 			return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 		} catch (Exception ex) {
-			Map<String, String> message = errorException(ex, "Cannot get language");
+			Map<String, String> message = errorException(ex, "Cannot get map type");
 			return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 		}
     }
 	
 	@Override
 	@RequestMapping(value = "/save/{id}", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<?> save(@PathVariable String id, @RequestBody MLanguageDto bean) {
+    public @ResponseBody ResponseEntity<?> save(@PathVariable String id, @RequestBody MMapTypeDto bean) {
 		if (bean == null) {
 			Map<String, String> message = error(TYPE_INVALID_DATA, CODE_INVALID_DTO, 
-					"Cannot save language with id {" + id + "}", "Cannot save language");
+					"Cannot save map type with id {" + id + "}", "Cannot save map type");
 			return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 		}
 		
-		MLanguage updateItem = null;
+		MMapType updateItem = null;
 		if (!"new".equalsIgnoreCase(id)) {
 			UUID updateItemId = DataTypeUtil.fromObject(UUID.class, id);
 			if (DataTypeUtil.isEmpty(UUID.class, updateItemId)) {
 				Map<String, String> message = error(TYPE_INVALID_DATA, CODE_INVALID_ID, 
-						"Cannot get language with id {" + id + "}", "Cannot get language");
+						"Cannot get map type with id {" + id + "}", "Cannot get map type");
 				return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 			}
 			
 			try {
 				VOUser currentUser = Env.getCurrentUser();
-				UUID bean_Tenant_ID = EntityUtil.getTenant_ID(MLanguage.class, currentUser.getTenant_ID());
-				updateItem = dataService.findById(MLanguage.class, UUID.class, bean_Tenant_ID, updateItemId);
+				UUID bean_Tenant_ID = EntityUtil.getTenant_ID(MMapType.class, currentUser.getTenant_ID());
+				updateItem = dataService.findById(MMapType.class, UUID.class, bean_Tenant_ID, updateItemId);
 			} catch (Exception ex) {
-				Map<String, String> message = errorException(ex, "Cannot get language");
+				Map<String, String> message = errorException(ex, "Cannot get map type");
 				return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 			}
 		} else {
-			updateItem = new MLanguage();
+			updateItem = new MMapType();
 		}
 		
 		boolean isNew = EOUtil.initBaseEO(updateItem);
@@ -148,22 +162,49 @@ public class LanguageController extends BasicController<MLanguageDto, UUID> {
 			
 			UUID saveItemID = null;
 	        try {
-	        	saveItemID = dataService.save(MLanguage.class, UUID.class, updateItem, true);
+	        	saveItemID = dataService.save(MMapType.class, UUID.class, updateItem, true);
+	        	
+	        	if (saveItemID != null) {
+	        		List<MMapDetailDto> mapDetails = bean.getDetails();
+	        		if (mapDetails != null) {
+	        			for (MMapDetailDto mapDetailDto : mapDetails) {
+	        				UUID detailId = mapDetailDto.getId();
+	        				if (!DataTypeUtil.isEmpty(UUID.class, detailId)) {
+	        					if (BaseDto.ACTION_EDIT.equalsIgnoreCase(mapDetailDto.getAction())) {
+		        					MMapDetail mapDetail = dataService.findById(MMapDetail.class, UUID.class, updateItem.getTenant_ID(), detailId);
+			        				
+		        					EOUtil.initBaseEO(mapDetail);
+			        				mapDetailDto.toBean(mapDetail, false);
+			        				dataService.save(MMapDetail.class, UUID.class, mapDetail, true);
+	        					} else if (BaseDto.ACTION_DELETE.equalsIgnoreCase(mapDetailDto.getAction())) {
+		        					dataService.delete(MMapDetail.class, UUID.class, updateItem.getTenant_ID(), detailId, true);
+		        				}
+	        				} else if (BaseDto.ACTION_ADDNEW.equalsIgnoreCase(mapDetailDto.getAction())) {
+	        					MMapDetail mapDetail = new MMapDetail();
+	        					mapDetail.setMapType_ID(saveItemID);
+	        					
+	        					EOUtil.initBaseEO(mapDetail);
+		        				mapDetailDto.toBean(mapDetail, true);
+		        				dataService.save(MMapDetail.class, UUID.class, mapDetail, true);
+	        				}
+	        			}
+	        		}
+	        	}
 	        	
 	        	Map<String, String> message = success(true);
 	    		return new ResponseEntity<Map<String, String>>(message, HttpStatus.OK);
 	        } catch (Exception ex) {
-	        	Map<String, String> message = errorException(ex, "Cannot save language");
+	        	Map<String, String> message = errorException(ex, "Cannot save map type");
 				return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 	        } finally {
 	        	if (saveItemID == null) {
 	        		Map<String, String> message = error(TYPE_ERROR, CODE_NOT_SAVE, 
-							"Cannot save language with id {" + id + "}", "Cannot save language");
+							"Cannot save map type with id {" + id + "}", "Cannot save map type");
 					return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 	        	}
 	        }
 		} catch (Exception ex) {
-			Map<String, String> message = errorException(ex, "Error convert language bean properties");
+			Map<String, String> message = errorException(ex, "Error convert map type bean properties");
 			return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -182,23 +223,23 @@ public class LanguageController extends BasicController<MLanguageDto, UUID> {
 		if (DataTypeUtil.isEmpty(UUID.class, beanId))
 		{
 			Map<String, String> message = error(TYPE_INVALID_DATA, CODE_INVALID_ID, 
-					"Cannot get language pair value with id {" + id + "}", "Cannot get language pair value");
+					"Cannot get map type pair value with id {" + id + "}", "Cannot get map type pair value");
 			return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 		}
 		
 		try {
 			VOUser currentUser = Env.getCurrentUser();
-			UUID bean_Tenant_ID = EntityUtil.getTenant_ID(MLanguage.class, currentUser.getTenant_ID());
-			MLanguage bean = dataService.findById(MLanguage.class, UUID.class, bean_Tenant_ID, beanId);
+			UUID bean_Tenant_ID = EntityUtil.getTenant_ID(MMapType.class, currentUser.getTenant_ID());
+			MMapType bean = dataService.findById(MMapType.class, UUID.class, bean_Tenant_ID, beanId);
 			if (bean != null) {
 				return new ResponseEntity<IValuePair<UUID>>(new ValuePair<>(bean), HttpStatus.OK);
 			}
 			
 			Map<String, String> message = error(TYPE_ERROR, CODE_NOT_FOUND, 
-					"Cannot get language pair value with id {" + id + "}", "Cannot get language pair value");
+					"Cannot get map type pair value with id {" + id + "}", "Cannot get map type pair value");
 			return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 		} catch (Exception ex) {
-			Map<String, String> message = errorException(ex, "Cannot language get pair value");
+			Map<String, String> message = errorException(ex, "Cannot map type get pair value");
 			return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -208,11 +249,11 @@ public class LanguageController extends BasicController<MLanguageDto, UUID> {
 	public @ResponseBody ResponseEntity<?> listPair(@RequestParam MultiValueMap<String, String> params) {
 		try {
 			VOUser currentUser = Env.getCurrentUser();
-			UUID bean_Tenant_ID = EntityUtil.getTenant_ID(MLanguage.class, currentUser.getTenant_ID());
-			UUID bean_Org_ID = EntityUtil.getOrg_ID(MLanguage.class, currentUser.getOrg_ID());
-			UUID bean_App_ID = EntityUtil.getApp_ID(MLanguage.class, currentUser.getApp_ID());
+			UUID bean_Tenant_ID = EntityUtil.getTenant_ID(MMapType.class, currentUser.getTenant_ID());
+			UUID bean_Org_ID = EntityUtil.getOrg_ID(MMapType.class, currentUser.getOrg_ID());
+			UUID bean_App_ID = EntityUtil.getApp_ID(MMapType.class, currentUser.getApp_ID());
 			
-			List<MLanguage> beans = dataService.getList(MLanguage.class, UUID.class, 
+			List<MMapType> beans = dataService.getList(MMapType.class, UUID.class, 
 					bean_Tenant_ID, bean_Org_ID, bean_App_ID, null);
 			List<IValuePair<UUID>> pairs = ValuePairUtil.fromEOs(beans);
 			
@@ -221,7 +262,7 @@ public class LanguageController extends BasicController<MLanguageDto, UUID> {
 			
 			return new ResponseEntity<ResultSet<IValuePair<UUID>>>(results, HttpStatus.OK);
 		} catch (Exception ex) {
-			Map<String, String> message = errorException(ex, "Cannot get language pair values");
+			Map<String, String> message = errorException(ex, "Cannot get map type pair values");
 			return new ResponseEntity<Map<String, String>>(message, HttpStatus.BAD_REQUEST);
 		}
 	}

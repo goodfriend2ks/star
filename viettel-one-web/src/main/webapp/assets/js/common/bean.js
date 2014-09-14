@@ -247,6 +247,19 @@ function loadSuccess(response) {
 function initFormData(callbackOption, callback) {
 	$('#' + beanFormId).trigger('reset');
 	
+	$('#' + beanFormId).find('.inlineDetail').each(function (i) {
+		var childTag = $(this).attr('childTag');
+		$(this).find(childTag).each(function (i) {
+			if (i > 0) {
+				$(this).remove();
+			}
+		});
+		
+		$(this).find('.newlinewhenblur').bind( "blur", function() {
+			newInlineBean(this);
+		});
+	});
+	
 	var bootstrapValidator = $('#' + beanFormId).data('bootstrapValidator'); 
     if (bootstrapValidator)
     	bootstrapValidator.resetForm();
@@ -426,7 +439,7 @@ function newBean(){
     //$('#' + beanDialogId).dialog('open').dialog('setTitle', dialogNewTitle);
 	
 	openBeanDialog(dialogNewTitle);
-    
+	
     initFormData();
     
     if (!mapInstance) {
@@ -440,8 +453,6 @@ function newBean(){
 function editBean(selectedId){
 	if (!selectedId)
 		selectedId = getSelectedId();
-	
-	//alert(selectedId + "=" + beanRequestMappingUrl);
 	
 	if (selectedId != null && selectedId != '') {
 	    //$('#' + beanDialogId).dialog('open').dialog('setTitle', dialogEditTitle);
@@ -581,15 +592,16 @@ function saveBean() {
 			var json = $('#' + beanFormId).serializeJSON({
 				parseWithFunction : function (input, value) {
 					try {
-						var datatype = $('[name=' + input.name + ']').attr('datatype');
-						
+						var datatype = $('[name="' + input.name + '"]').attr('datatype');
 						if ('date' == datatype)
 							return moment(value, PERSONAL_DATE_FORMAT).toDate();
 						else if ('datetime' == datatype)
 							return moment(value, PERSONAL_DATE_TIME_FORMAT).toDate();
 						else if ('time' == datatype)
 							return moment(value, PERSONAL_TIME_FORMAT).toDate();
-					} catch (e) {}
+					} catch (e) {
+						//alert(e);
+					}
 					
 					return value;
 				}
